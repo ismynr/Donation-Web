@@ -128,7 +128,7 @@
       var nope = $(this).data('nope');
       var url = '{{ route("data.destroy", ":nope") }}';
       url = url.replace(':nope', nope);
-      $('.formHapusModal').attr('action' , url);
+      $('#hapusForm').attr('action' , url);
       $('#confirmHapusModal').modal("show");
     });
     
