@@ -31,33 +31,39 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="active-nav2" href="{{ url('data') }}">
-          <i class="fas fa-list-alt"></i>
-          <span>List Data</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active-nav3" id="active-nav3" href="{{ url('anggota') }}">
-          <i class="fas fa-list-alt"></i>
-          <span>Anggota</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active-nav4" href="{{ url('data') }}">
+        <a class="nav-link" id="active-nav4" href="">
           <i class="fas fa-list-alt"></i>
           <span>Penerima Bantuan</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="active-nav5" href="{{ url('data') }}">
+        <a class="nav-link" id="active-nav5" href="">
           <i class="fas fa-list-alt"></i>
-          <span>Pemberi Bantuan</span>
+          <span>Pengurus</span>
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="active-nav6" href="{{ url('data') }}">
+        <a class="nav-link" id="active-nav5" href="">
           <i class="fas fa-list-alt"></i>
-          <span>Kriteria Penerima Bantuan</span>
+          <span>Masyarakat</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="active-nav2" href="{{ url('donasi') }}">
+          <i class="fas fa-list-alt"></i>
+          <span>Donasi</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="active-nav6" href="{{ url('category') }}">
+          <i class="fas fa-list-alt"></i>
+          <span>Kategori Donasi</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="active-nav6" href="">
+          <i class="fas fa-list-alt"></i>
+          <span>Layanan Publik</span>
         </a>
       </li>
     </ul>

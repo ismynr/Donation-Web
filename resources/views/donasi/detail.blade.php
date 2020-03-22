@@ -6,7 +6,7 @@
             <div class="page-header row no-gutters py-4">
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                 {{-- <span class="text-uppercase page-subtitle">Overview</span> --}}
-                <h3 class="page-title">Detail Data</h3>
+                <h3 class="page-title">Detail Data (Donasi)</h3>
               </div>
             </div>
             <!-- End Page Header -->
@@ -19,26 +19,41 @@
                   </div>
                   <div class="card-body p-0 pb-3 text-center">
                     <table class="table">
-                      @forelse ($data as $d)
+                      @forelse ($dataDonasi as $d)
                         <tr>
-                          <th style="border:0">Nama</th>
+                          <th style="border:0">Id Kategori</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['nama'] }}</td>
+                          <td style="border:0">{{ $d['id_kategori'] }}</td>
                         </tr>
                         <tr>
-                          <th style="border:0">Kota</th>
+                          <th style="border:0">Jumlah Donasi</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['kota'] }}</td>
+                          <td style="border:0">{{ $d['jumlah_donasi'] }}</td>
                         </tr>
                         <tr>
-                          <th style="border:0">Telpon</th>
+                          <th style="border:0">Nama Penerima</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['nope'] }}</td>
+                          <td style="border:0">{{ $d['nama_penerima'] }}</td>
                         </tr>
                         <tr>
-                          <th style="border:0">Kelas</th>
+                          <th style="border:0">Nama User</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['kelas'] }}</td>
+                          <td style="border:0">{{ $d['nama_user'] }}</td>
+                        </tr>
+                        <tr>
+                          <th style="border:0">Tanggal Memberi</th>
+                          <td style="border:0">:</td>
+                          <td style="border:0">{{ $d['tanggal_memberi'] }}</td>
+                        </tr>
+                        <tr>
+                          <th style="border:0">Terkhir Ditambahkan</th>
+                          <td style="border:0">:</td>
+                          <td style="border:0">{{ $d['created_at'] }}</td>
+                        </tr>
+                        <tr>
+                          <th style="border:0">Terkhir Diubah</th>
+                          <td style="border:0">:</td>
+                          <td style="border:0">{{ $d['updated_at'] }}</td>
                         </tr>
                       @empty
                           <td colspan="3">Tidak dapat menampilkan detail data</td>

@@ -8,25 +8,17 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="tambahForm" action="{{ Route('anggota.store') }}" method="POST">
+          <form id="tambahForm" action="{{ Route('category.store') }}" method="POST">
             {{ csrf_field() }}
             <div class="form-group">
-                <label for="name" class="col-form-label">Name:</label>
-                <input type="text" class="form-control" name="nama" required>
-              </div>
-              <div class="form-group">
-                  <label for="country" class="col-form-label">Alamat:</label>
-                  <input type="text" class="form-control" name="alamat" required>
-                </div>
-                <div class="form-group">
-                  <label for="city" class="col-form-label">Jabatan:</label>
-                  <input type="text" class="form-control" name="jabatan" required>
-                </div>
+                <label for="name" class="col-form-label">Nama Kategori:</label>
+                <input type="text" class="form-control" name="nama_kategori" required>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Tambah Anggota</button>
-            </form>
+          <button type="submit" class="btn btn-primary">Tambah Kategori</button>
+          </form>
         </div>
       </div>
     </div>
@@ -46,21 +38,13 @@
             {{ csrf_field() }}
             {{ method_field('PUT') }}
             <div class="form-group">
-              <label for="name" class="col-form-label">Name:</label>
-              <input type="text" class="form-control" name="nama" required>
+                <label for="name" class="col-form-label">Nama Kategori:</label>
+                <input type="text" class="form-control" name="nama_kategori" required>
             </div>
-            <div class="form-group">
-                <label for="country" class="col-form-label">Alamat:</label>
-                <input type="text" class="form-control" name="alamat" required>
-              </div>
-              <div class="form-group">
-                <label for="city" class="col-form-label">Jabatan:</label>
-                <input type="text" class="form-control" name="jabatan" required>
-              </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-warning" data-id="">Ubah Anggota</button>
+          <button type="submit" class="btn btn-warning" data-id="">Ubah Kategori</button>
             </form>
         </div>
       </div>
@@ -84,7 +68,7 @@
             {{ csrf_field() }}
             {{ method_field('DELETE') }}
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-danger btnHapus" data-id="">Hapus Anggota</button>
+            <button type="submit" class="btn btn-danger btnHapus" data-id="">Hapus</button>
         </form>
         </div>
       </div>
@@ -92,34 +76,34 @@
   </div>
 
 <script>
-    $('.tambahModal').on('click', function(){
-        $('#tambahForm')[0].reset();
-    });
-
-    $('.table tbody').on('click', '.editModal', function(){
-        $('#editForm')[0].reset();
-        var currow = $(this).closest('tr');
-        var col2 = currow.find('td:eq(1)').text();
-        var col3 = currow.find('td:eq(2)').text();
-        var col4 = currow.find('td:eq(3)').text();
-        var id = $(this).data('id');
-        $('input[name$="nama"]').val(col2);
-        $('input[name$="alamat"]').val(col3);
-        $('input[name$="jabatan"]').val(col4);
-        
-        var url = '{{ route("anggota.update", ":id") }}';
-        url = url.replace(':id', id);
-        $('#editForm').attr('action' , url);
-        $('#editModal').modal();
-    });
-
-    $('.table tbody').on('click', '.hapusModal', function(){
-      var id = $(this).data('id');
-      var url = '{{ route("anggota.destroy", ":id") }}';
-      url = url.replace(':id', id);
-      $('#hapusForm').attr('action' , url);
-      $('#confirmHapusModal').modal("show");
-    });
-    
-    
+  $(".datepicker").datepicker({
+    format: "yyyy-mm-dd",
+    weekStart: 0,
+    calendarWeeks: true,
+    autoclose: true,
+    todayHighlight: true,
+    rtl: true,
+    orientation: "auto"
+  });
+  $('.tambahModal').on('click', function(){
+    $('#tambahForm')[0].reset();
+  });
+  $('.table tbody').on('click', '.editModal', function(){
+    $('#editForm')[0].reset();
+    var currow = $(this).closest('tr');
+    var col2 = currow.find('td:eq(1)').text();
+    var id = $(this).data('id');
+    $('input[name$="nama_kategori"]').val(col2);      
+    var url = '{{ route("category.update", ":id") }}';
+    url = url.replace(':id', id);
+    $('#editForm').attr('action' , url);
+    $('#editModal').modal();
+  });
+  $('.table tbody').on('click', '.hapusModal', function(){
+    var id = $(this).data('id');
+    var url = '{{ route("category.destroy", ":id") }}';
+    url = url.replace(':id', id);
+    $('#hapusForm').attr('action' , url);
+    $('#confirmHapusModal').modal("show");
+  });
 </script>

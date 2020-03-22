@@ -17,5 +17,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('data', 'MyController');
-Route::resource('anggota', 'AnggotaController');
+Route::resource('donasi', 'DonasiController');
+Route::resource('category', 'CategoryController');
