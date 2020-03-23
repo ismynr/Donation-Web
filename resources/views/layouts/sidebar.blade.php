@@ -31,7 +31,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" id="active-nav4" href="">
+        <a class="nav-link" id="active-nav4" href="{{ url('penerima') }}">
           <i class="fas fa-list-alt"></i>
           <span>Penerima Bantuan</span>
         </a>
