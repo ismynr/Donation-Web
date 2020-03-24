@@ -20,3 +20,4 @@ Route::get('/', function () {
 Route::resource('donasi', 'DonasiController');
 Route::resource('category', 'CategoryController');
 Route::resource('penerima', 'PenerimaController');
+Route::resource('pengurus', 'PengurusController');
