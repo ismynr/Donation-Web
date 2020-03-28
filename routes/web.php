@@ -21,3 +21,8 @@ Route::resource('donasi', 'DonasiController');
 Route::resource('category', 'CategoryController');
 Route::resource('penerima', 'PenerimaController');
 Route::resource('pengurus', 'PengurusController');
+Route::resource('donatur', 'DonaturController');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
