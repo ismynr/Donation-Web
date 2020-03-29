@@ -14,11 +14,11 @@ class CreateDonasisTable extends Migration
     public function up()
     {
         Schema::create('donasi', function (Blueprint $table) {
-            $table->increments('id_donasi');
-            $table->unsignedInteger('id_kategori');
+            $table->bigIncrements('id_donasi');
+            $table->unsignedBigInteger('id_kategori');
             $table->string('jumlah_donasi');
-            $table->string('nama_penerima');
-            $table->string('nama_user');
+            $table->unsignedBigInteger('id_penerima');
+            $table->unsignedBigInteger('id_donatur');
             $table->date('tanggal_memberi');
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateDonasisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('donasis');
+        Schema::dropIfExists('donasi');
     }
 }

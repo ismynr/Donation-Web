@@ -32,7 +32,7 @@
                           <th>Id Kategori</th>
                           <th>Jumlah Donasi</th>
                           <th>Nama Penerima</th>
-                          <th>Nama User</th>
+                          <th>Nama Donatur</th>
                           <th>Tanggal Memberi</th>
                           <th width="25%">Opsi</th>
                         </tr>
@@ -44,17 +44,25 @@
                           <td>{{ $i++ }}</td>
                           <td>{{ $d['id_kategori'] }}</td>
                           <td>{{ $d['jumlah_donasi'] }}</td>
-                          <td>{{ $d['nama_penerima'] }}</td>
-                          <td>{{ $d['nama_user'] }}</td>
+                          @foreach ($dataPenerima as $dp)
+                            @if ($dp['id_penerima'] == $d['id_penerima'])
+                                <td data-id="{{ $dp['id_penerima'] }}">{{ $dp['nama'] }}</td>
+                            @endif
+                          @endforeach
+                          @foreach ($dataDonatur as $dd)
+                            @if ($dd['id_donatur'] == $d['id_donatur'])
+                                <td data-id="{{ $dd['id_donatur'] }}">{{ $dd['nama_depan'].' '.$dd['nama_belakang'] }}</td>
+                            @endif
+                          @endforeach
                           <td>{{ $d['tanggal_memberi'] }}</td>
                           <td>
-                            <button type="button" class="btn ml-1 btn-info text-white" onclick="location.href ='{{ url('donasi/'.$d['id_donasi']) }}'">Detail</button>
+                            {{-- <button type="button" class="btn ml-1 btn-info text-white" onclick="location.href ='{{ url('donasi/'.$d['id_donasi']) }}'">Detail</button> --}}
                             <button type="button" class="btn ml-1 btn-warning editModal" data-id="{{ $d['id_donasi'] }}">Edit</button>
                             <button type="button" class="btn ml-1 btn-danger hapusModal" data-id="{{ $d['id_donasi'] }}">Hapus</button>
                           </td>
                         </tr>
                         @empty
-                            <td colspan="6">Tidak ada data</td>
+                            <td colspan="7">Tidak ada data</td>
                         @endforelse
                         
                       </tbody>
@@ -68,5 +76,5 @@
 @endsection
 
 @section('modals')
-  @include('donasi.modals')
+  @include('usr_pengurus.donasi.modals')
 @endsection

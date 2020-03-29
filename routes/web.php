@@ -17,12 +17,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('donasi', 'DonasiController');
-Route::resource('category', 'CategoryController');
-Route::resource('penerima', 'PenerimaController');
-Route::resource('pengurus', 'PengurusController');
-Route::resource('donatur', 'DonaturController');
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// pengurus protected routes
+Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus'], function () {
+    Route::get('/', 'UsrPengurusController@index')->name('pengurus_dashboard');
+    Route::resource('donasi', 'DonasiController');
+    Route::resource('category', 'CategoryController');
+    Route::resource('penerima', 'PenerimaController');
+    Route::resource('pengurus', 'PengurusController');
+    Route::resource('donatur', 'DonaturController');
+});
+
+// donatur protected routes
+Route::group(['middleware' => ['auth', 'donatur'], 'prefix' => 'donatur'], function () {
+    Route::get('/', 'UsrDonaturController@index')->name('donatur_dashboard');
+});

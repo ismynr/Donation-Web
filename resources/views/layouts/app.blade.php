@@ -21,7 +21,11 @@
     <div class="container-fluid">
       <div class="row">
         <!-- Main Sidebar -->
-        @include('layouts.sidebar')
+        @if(Auth::user()->isDonatur())
+          @include('usr_donatur.layouts.sidebar')
+        @elseif(Auth::user()->isPengurus())
+          @include('usr_pengurus.layouts.sidebar')
+        @endif
 
         <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
           <div class="main-navbar sticky-top bg-white">

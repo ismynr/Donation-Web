@@ -14,12 +14,11 @@ class CreatePengurusesTable extends Migration
     public function up()
     {
         Schema::create('pengurus', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id_pengurus');
+            $table->unsignedBigInteger('id_user')->unique();
             $table->integer('nip');
             $table->string('nama', 100);
             $table->string('jabatan', 20);
-            $table->string('email');
-            $table->string('password');
             $table->timestamps();
 
         });

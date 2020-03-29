@@ -6,7 +6,7 @@
             <div class="page-header row no-gutters py-4">
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                 {{-- <span class="text-uppercase page-subtitle">Overview</span> --}}
-                <h3 class="page-title">List Data Penerima</h3>
+                <h3 class="page-title">List Category</h3>
               </div>
             </div>
             <!-- End Page Header -->
@@ -16,10 +16,10 @@
                 <div class="card card-small mb-4">
                   <div class="card-header border-bottom">
                     
-                    @if(Session::has('alert-success'))
-                      <div class="alert alert-success float-left m-1">
-                        <strong>{{ Session::get('alert-success') }}</strong>
-                      </div>
+                    @if ($message = Session::get('message'))
+                        <div class="alert alert-success float-left m-1">
+                            <span>{{ $message }}</span>
+                        </div>
                     @endif
 
                     <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
@@ -29,32 +29,19 @@
                       <thead class="bg-light ">
                         <tr>
                           <th>#</th>
-                          <th>Nama</th>
-                          <th>Alamat</th>
-                          <th>Tgl Lahir</th>
-                          <th>JK</th>
-                          <th>Umur</th>
-                          <th>Jumlah Keluarga</th>
-                          <th>Penghasilan/bln</th>
-                          <th>Opsi</th>
+                          <th>Nama Kategori</th>
+                          <th width="25%">Opsi</th>
                         </tr>
                       </thead>
                       <tbody>
                         @php $i = 1 @endphp 
-                        @forelse ($data as $d)
+                        @forelse ($category as $d)
                         <tr>
                           <td>{{ $i++ }}</td>
-                          <td>{{ $d['nama'] }}</td>
-                          <td>{{ $d['alamat'] }}</td>
-                          <td>{{ $d['tgl_lahir'] }}</td>
-                          <td>{{ $d['jenkel'] }}</td>
-                          <td>{{ $d['umur'] }}</td>
-                          <td>{{ $d['jumkel'] }}</td>
-                          <td>{{ $d['penghasilan'] }}</td>
+                          <td>{{ $d['nama_kategori'] }}</td>
                           <td>
-                            <button type="button" class="btn ml-1 mr-1 btn-info text-white" onclick="location.href ='{{ url('penerima/'.$d['id']) }}'">Detail</button>
-                            <button type="button" class="btn ml-1 mr-1 btn-warning editModal" data-id="{{ $d['id'] }}">Edit</button>
-                            <button type="button" class="btn ml-1 mr-1 btn-danger hapusModal" data-id="{{ $d['id'] }}">Hapus</button>
+                            <button type="button" class="btn ml-1 btn-warning editModal" data-id="{{ $d['id_kategori'] }}">Edit</button>
+                            <button type="button" class="btn ml-1 btn-danger hapusModal" data-id="{{ $d['id_kategori'] }}">Hapus</button>
                           </td>
                         </tr>
                         @empty
@@ -72,5 +59,5 @@
 @endsection
 
 @section('modals')
-  @include('penerima.modals')
+  @include('usr_pengurus.category.modals')
 @endsection

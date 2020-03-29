@@ -27,43 +27,19 @@
       <li class="nav-item">
         <a class="nav-link" id="active-nav1" href="index.html">
           <i class="fas fa-tachometer-alt"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active-nav4" href="{{ url('penerima') }}">
-          <i class="fas fa-list-alt"></i>
-          <span>Penerima Bantuan</span>
+          <span>Dashboard</span>  
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="active-nav5" href="">
           <i class="fas fa-list-alt"></i>
-          <span>Pengurus</span>
+          <span>Donasi Anda</span>
         </a>
       </li>
       <li class="nav-item">
         <a class="nav-link" id="active-nav5" href="">
           <i class="fas fa-list-alt"></i>
-          <span>Masyarakat</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active-nav2" href="{{ url('donasi') }}">
-          <i class="fas fa-list-alt"></i>
-          <span>Donasi</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active-nav6" href="{{ url('category') }}">
-          <i class="fas fa-list-alt"></i>
-          <span>Kategori Donasi</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="active-nav6" href="">
-          <i class="fas fa-list-alt"></i>
-          <span>Layanan Publik</span>
+          <span>Profile </span>
         </a>
       </li>
     </ul>

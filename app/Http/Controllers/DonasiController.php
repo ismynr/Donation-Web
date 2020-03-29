@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Donasi;
 use App\Category;
+use App\Penerima;
+use App\Donatur;
 
 class DonasiController extends Controller
 {
     public function index(Request $request){
         $dataDonasi = Donasi::All();
         $catDonasi = Category::All();
-        return view('donasi.index', compact('dataDonasi', 'catDonasi'));
+        $dataPenerima = Penerima::All();
+        $dataDonatur = Donatur::All();
+        return view('usr_pengurus.donasi.index', compact('dataDonasi', 'catDonasi', 'dataPenerima', 'dataDonatur'));
     }
 
     public function create(){
@@ -21,9 +25,9 @@ class DonasiController extends Controller
     public function store(Request $request){
         $data = $request->validate([
             'id_kategori' => 'required|numeric',
+            'id_penerima' => 'required|numeric',
+            'id_donatur' => 'required|numeric',
             'jumlah_donasi' => 'required',
-            'nama_penerima' => 'required',
-            'nama_user' => 'required',
             'tanggal_memberi' => 'required',
         ]);
         Donasi::create($data);
@@ -32,7 +36,7 @@ class DonasiController extends Controller
 
     public function show($id){
         $dataDonasi = Donasi::where('id_donasi', $id)->get();
-        return view('donasi.detail', compact('dataDonasi'));
+        return view('usr_pengurus.donasi.detail', compact('dataDonasi'));
     }
 
     public function edit($id){
@@ -42,9 +46,9 @@ class DonasiController extends Controller
     public function update(Request $request, $id){
         $data = $request->validate([
             'id_kategori' => 'required|numeric',
+            'id_penerima' => 'required|numeric',
+            'id_donatur' => 'required|numeric',
             'jumlah_donasi' => 'required',
-            'nama_penerima' => 'required',
-            'nama_user' => 'required',
             'tanggal_memberi' => 'required',
         ]);
         Donasi::where('id_donasi', $id)->update($data);

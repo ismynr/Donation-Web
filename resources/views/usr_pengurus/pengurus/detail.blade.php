@@ -35,16 +35,16 @@
                           <td style="border:0">:</td>
                           <td style="border:0">{{ $d['jabatan'] }}</td>
                         </tr>
-                        <tr>
-                          <th style="border:0">Email</th>
-                          <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['email'] }}</td>
-                        </tr>
-                        <tr>
-                          <th style="border:0">Password</th>
-                          <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['password'] }}</td>
-                        </tr>
+                        @php 
+                          $user = App\User::where('id',$d->id_user)->get();
+                        @endphp 
+                        @foreach ($user as $u)
+                            <tr>
+                              <th style="border:0">Email</th>
+                              <td style="border:0">:</td>
+                              <td style="border:0">{{ $u->email }}</td>
+                            </tr>
+                        @endforeach
                       @empty
                           <td colspan="3">Tidak dapat menampilkan detail data</td>
                       @endforelse

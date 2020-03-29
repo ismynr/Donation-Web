@@ -6,7 +6,7 @@
             <div class="page-header row no-gutters py-4">
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                 {{-- <span class="text-uppercase page-subtitle">Overview</span> --}}
-                <h3 class="page-title">List Data Pengurus</h3>
+                <h3 class="page-title">List Data Penerima</h3>
               </div>
             </div>
             <!-- End Page Header -->
@@ -16,10 +16,10 @@
                 <div class="card card-small mb-4">
                   <div class="card-header border-bottom">
                     
-                    @if ($message = Session::get('message'))
-                        <div class="alert alert-success float-left m-1">
-                            <span>{{ $message }}</span>
-                        </div>
+                    @if(Session::has('alert-success'))
+                      <div class="alert alert-success float-left m-1">
+                        <strong>{{ Session::get('alert-success') }}</strong>
+                      </div>
                     @endif
 
                     <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
@@ -29,11 +29,13 @@
                       <thead class="bg-light ">
                         <tr>
                           <th>#</th>
-                          <th>NIP</th>
-                          <th>Nama Pengurus</th>
-                          <th>Jabatan</th>
-                          <th>Email</th>
-                          <th>Password</th>
+                          <th>Nama</th>
+                          <th>Alamat</th>
+                          <th>Tgl Lahir</th>
+                          <th>JK</th>
+                          <th>Umur</th>
+                          <th>Jumlah Keluarga</th>
+                          <th>Penghasilan/bln</th>
                           <th>Opsi</th>
                         </tr>
                       </thead>
@@ -42,19 +44,21 @@
                         @forelse ($data as $d)
                         <tr>
                           <td>{{ $i++ }}</td>
-                          <td>{{ $d['nip'] }}</td>
                           <td>{{ $d['nama'] }}</td>
-                          <td>{{ $d['jabatan'] }}</td>
-                          <td>{{ $d['email'] }}</td>
-                          <td>{{ $d['password'] }}</td>
+                          <td>{{ $d['alamat'] }}</td>
+                          <td>{{ $d['tgl_lahir'] }}</td>
+                          <td>{{ $d['jenkel'] }}</td>
+                          <td>{{ $d['umur'] }}</td>
+                          <td>{{ $d['jumkel'] }}</td>
+                          <td>{{ $d['penghasilan'] }}</td>
                           <td>
-                            <button type="button" class="btn ml-1 mr-1 btn-info text-white" onclick="location.href ='{{ url('pengurus/'.$d['id']) }}'">Detail</button>
-                            <button type="button" class="btn ml-1 mr-1 btn-warning editModal" data-id="{{ $d['id'] }}">Edit</button>
-                            <button type="button" class="btn ml-1 mr-1 btn-danger hapusModal" data-id="{{ $d['id'] }}">Hapus</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-info text-white" onclick="location.href ='{{ route('penerima.show', $d['id_penerima']) }}'">Detail</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-warning editModal" data-id="{{ $d['id_penerima'] }}">Edit</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-danger hapusModal" data-id="{{ $d['id_penerima'] }}">Hapus</button>
                           </td>
                         </tr>
                         @empty
-                            <td colspan="6">Tidak ada data</td>
+                            <td colspan="9">Tidak ada data</td>
                         @endforelse
                         
                       </tbody>
@@ -68,5 +72,5 @@
 @endsection
 
 @section('modals')
-  @include('pengurus.modals')
+  @include('usr_pengurus.penerima.modals')
 @endsection

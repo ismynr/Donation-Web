@@ -9,7 +9,7 @@ class CategoryController extends Controller
 {
     public function index(){
         $category = Category::All();
-        return view('category.index', compact('category'));
+        return view('usr_pengurus.category.index', compact('category'));
     }
 
     public function create(){

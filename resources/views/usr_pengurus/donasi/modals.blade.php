@@ -23,13 +23,23 @@
                 <label for="name" class="col-form-label">Jumlah Donasi:</label>
                 <input type="text" class="form-control" name="jumlah_donasi" required>
             </div>
-            <div class="form-group">
-                <label for="country" class="col-form-label">Nama Penerima:</label>
-                <input type="text" class="form-control" name="nama_penerima" required>
+             <div class="form-group">
+                <label for="name" class="col-form-label">Penerima:</label>
+                <select name="id_penerima" class="form-control" required>
+                  <option value="" selected disabled>Pilih Penerima</option>
+                    @foreach ($dataPenerima as $data)
+                    <option value="{{ $data['id_penerima'] }}" >{{ $data['nama'] }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
-                <label for="city" class="col-form-label">Nama User:</label>
-                <input type="text" class="form-control" name="nama_user" required>
+                <label for="name" class="col-form-label">Donatur:</label>
+                <select name="id_donatur" class="form-control" required>
+                  <option value="" selected disabled>Pilih Donatur</option>
+                    @foreach ($dataDonatur as $data)
+                    <option value="{{ $data['id_donatur'] }}" >{{ $data['nama_depan'].' ('.$data['nama_belakang'].')' }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <label for="city" class="col-form-label">Tanggal Pemberian:</label>
@@ -72,12 +82,22 @@
                 <input type="text" class="form-control" name="jumlah_donasi" required>
             </div>
             <div class="form-group">
-                <label for="country" class="col-form-label">Nama Penerima:</label>
-                <input type="text" class="form-control" name="nama_penerima" required>
+                <label for="name" class="col-form-label">Penerima:</label>
+                <select name="id_penerima" id="penerima-selectbox" class="form-control" required>
+                  <option value="" selected disabled>Pilih Penerima</option>
+                    @foreach ($dataPenerima as $data)
+                    <option value="{{ $data['id_penerima'] }}" >{{ $data['nama'] }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
-                <label for="city" class="col-form-label">Nama User:</label>
-                <input type="text" class="form-control" name="nama_user" required>
+                <label for="name" class="col-form-label">Donatur:</label>
+                <select name="id_donatur" id="donatur-selectbox" class="form-control" required>
+                  <option value="" selected disabled>Pilih Donatur</option>
+                    @foreach ($dataDonatur as $data)
+                    <option value="{{ $data['id_donatur'] }}" >{{ $data['nama_depan'].' ('.$data['nama_belakang'].')' }}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
                 <label for="city" class="col-form-label">Tanggal Pemberian:</label>
@@ -141,6 +161,18 @@
     var id = $(this).data('id');
     $('#kategori-selectbox option').each(function(){
         if (this.value == col2) {
+            $(this).attr("selected","selected");
+        }
+    });
+    
+    $('#penerima-selectbox option').each(function(){
+        if (this.value == currow.find('td:eq(3)').data('id')) {
+            $(this).attr("selected","selected");
+        }
+    });
+    
+    $('#donatur-selectbox option').each(function(){
+        if (this.value == currow.find('td:eq(4)').data('id')) {
             $(this).attr("selected","selected");
         }
     });
