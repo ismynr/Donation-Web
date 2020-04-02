@@ -1,109 +1,201 @@
-<div class="modal fade" id="tambahModal" tabindex="-1" data-backdrop="static"   role="dialog" aria-labelledby="tambahData" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-primary">
-          <h5 class="modal-title text-white" id="tambahData">Tambah Data</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="tambahForm" action="{{ Route('category.store') }}" method="POST">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <label for="name" class="col-form-label">Nama Kategori:</label>
-                <input type="text" class="form-control" name="nama_kategori" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Tambah Kategori</button>
-          </form>
-        </div>
+<!-- ADD ITEM MODAL -->
+<div class="modal fade" id="tambahModal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="tambahData" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="tambahData">Tambah Data</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="editModal" tabindex="-1" data-backdrop="static"   role="dialog" aria-labelledby="editData" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-warning">
-          <h5 class="modal-title" id="editData">Ubah Data</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="editForm" method="POST">
-            {{ csrf_field() }}
-            {{ method_field('PUT') }}
-            <div class="form-group">
-                <label for="name" class="col-form-label">Nama Kategori:</label>
-                <input type="text" class="form-control" name="nama_kategori" required>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-warning" data-id="">Ubah Kategori</button>
-            </form>
-        </div>
+      <div class="modal-body">
+          {{ csrf_field() }}
+        <form id="tambahForm">
+          <div class="form-group">
+              <label for="name" class="col-form-label">Nama Kategori:</label>
+              <input type="text" class="form-control" name="nama_kategori">
+              <small class="errorNama_kategori text-danger hidden"></small>
+          </div>
       </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="confirmHapusModal" tabindex="-1" data-backdrop="static"   role="dialog" aria-labelledby="hapusData" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-danger">
-          <h5 class="modal-title text-white" id="hapusData">Hapus Data</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Apakah anda yakin ingin menghapus data ini ?</p>
-        </div>
-        <div class="modal-footer">
-          <form id="hapusForm" method="POST">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-danger btnHapus" data-id="">Hapus</button>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" id="storeBtn" class="btn btn-primary">Tambah</button>
         </form>
-        </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- EDIT ITEM MODAL -->
+<div class="modal fade" id="editModal" tabindex="-1" data-backdrop="static"   role="dialog" aria-labelledby="editData" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="editData">Ubah Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm">
+          {{ csrf_field() }}
+          <input type="hidden" id="edit_id" name="id">
+          <div class="form-group">
+              <label for="name" class="col-form-label">Nama Kategori:</label>
+              <input type="text" id="edit_nama_kategori" class="form-control" name="nama_kategori">
+              <small class="edit_errorNama_kategori text-danger hidden"></small>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" id="updateBtn" class="btn btn-warning" >Ubah</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
-  $(".datepicker").datepicker({
-    format: "yyyy-mm-dd",
-    weekStart: 0,
-    calendarWeeks: true,
-    autoclose: true,
-    todayHighlight: true,
-    rtl: true,
-    orientation: "auto"
-  });
-  $('.tambahModal').on('click', function(){
-    $('#tambahForm')[0].reset();
-  });
-  $('.table tbody').on('click', '.editModal', function(){
-    $('#editForm')[0].reset();
-    var currow = $(this).closest('tr');
-    var col2 = currow.find('td:eq(1)').text();
-    var id = $(this).data('id');
-    $('input[name$="nama_kategori"]').val(col2);      
-    var url = '{{ route("category.update", ":id") }}';
-    url = url.replace(':id', id);
-    $('#editForm').attr('action' , url);
-    $('#editModal').modal();
-  });
-  $('.table tbody').on('click', '.hapusModal', function(){
-    var id = $(this).data('id');
-    var url = '{{ route("category.destroy", ":id") }}';
-    url = url.replace(':id', id);
-    $('#hapusForm').attr('action' , url);
-    $('#confirmHapusModal').modal("show");
+  $(function () {
+
+    $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+    });
+
+    // View data with yajra datatables 
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ route('category.index') }}",
+        columns: [
+            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'nama_kategori', name: 'nama_kategori'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+
+    // Add button to show modal dialog
+    $('.tambahModal').click(function(){
+      $('#storeBtn').html('Tambah');
+      $('#tambahForm').trigger("reset");
+    });
+
+    // Save Button in modal dialog
+    $('#storeBtn').click(function (e) {
+        e.preventDefault();
+        var frm = $('#tambahForm');
+        $('.errorNama_kategori').hide();
+        $(this).html('Sending..');
+    
+        $.ajax({
+          data: frm.serialize(),
+          url: "{{ route('category.store') }}",
+          type: "POST",
+          dataType: 'json',
+          success: function (data) {
+            if (data.errors) {
+                if (data.errors.nama_kategori) {
+                  $('.errorNama_kategori').show();
+                  $('.errorNama_kategori').text(data.errors.nama_kategori);
+                }
+            }else {
+              $('#tambahModal').modal('hide');
+              frm.trigger("reset");
+              table.draw();
+              swal('success!','Successfully Added','success');
+            }
+            $('#storeBtn').html('Tambah');
+          },
+          error: function (data) {
+              console.log('Error:', data);
+              $('#storeBtn').html('Tambah');
+          }
+      });
+    });
+
+    // Edit button to show modal dialog
+    $('#table').on('click','.editBtn[data-id]',function(e){
+        e.preventDefault();
+        var url = $(this).data('id');
+        $.ajax({
+            url : url,
+            type : 'GET',
+            datatype : 'json',
+            success:function(data){
+                $('#edit_id').val(data.id_kategori);
+                $('#edit_nama_kategori').val(data.nama_kategori);
+                $('.edit_errorNama_kategori').hide();
+                $('#editModal').modal('show');
+            }
+        });
+    });
+
+    // Update button in modal dialog
+    $('#updateBtn').click(function(e){
+        e.preventDefault();
+        $('.edit_errorNama_kategori').hide();
+        var url = "/pengurus/category/"+$('#edit_id').val();
+        var frm = $('#editForm');
+
+        $.ajax({
+            data : frm.serialize(),
+            type :'PUT',
+            url : url,
+            dataType : 'json',
+            success:function(data){
+              if (data.errors) {
+                if (data.errors.edit_name) {
+                    $('.edit_errorNama_kategori').show();
+                    $('.edit_errorNama_kategori').text(data.errors.edit_name);
+                }
+              }else {
+                $('.edit_errorNama_kategori').addClass('hidden');
+                frm.trigger('reset');
+                $('#editModal').modal('hide');
+                swal('Success!','Data Updated Successfully','success');
+                table.ajax.reload(null,false);
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              alert('Please Reload to read Ajax');
+            }
+        });
+    });
+
+    // Delete Or Destroy button to show sweetalert
+    $('#table').on('click','.deleteBtn[data-id]',function(e){
+        e.preventDefault();
+        var url = $(this).data('id');
+        swal({
+           title: "Are you sure want to remove this item?",
+           text: "Data will be Temporary Deleted!",
+           type: "warning",
+           showCancelButton: true,
+           confirmButtonClass: "btn-danger",
+           confirmButtonText: "Confirm",
+           cancelButtonText: "Cancel",
+           closeOnConfirm: false,
+           closeOnCancel: false,
+        },
+        function(isConfirm) {
+          if (isConfirm) {
+            $.ajax({
+                url : url,
+                type: 'DELETE',
+                dataType : 'json',
+                data : { method : '_DELETE' , submit : true},
+                success:function(data){
+                    if (data == 'Success') {
+                      swal("Deleted!", "Category has been deleted", "success");
+                      table.ajax.reload(null,false);
+                    }
+                }
+            });
+          }else { swal.close(); }
+        });
+    });
+
   });
 </script>

@@ -14,7 +14,7 @@
             <div class="row">
               <div class="col">
                 <div class="card card-small mb-4">
-                  <div class="card-header border-bottom">
+                  <div class="card-header">
                     
                     @if ($message = Session::get('message'))
                         <div class="alert alert-success float-left m-1">
@@ -24,8 +24,8 @@
 
                     <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
                   </div>
-                  <div class="card-body p-0 pb-3 text-center">
-                    <table class="table mb-0">
+                  <div class="card-body p-3 text-center table-responsive">
+                    <table class="table data-table" id="table">
                       <thead class="bg-light ">
                         <tr>
                           <th>#</th>
@@ -34,7 +34,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @php $i = 1 @endphp 
+                        {{-- @php $i = 1 @endphp 
                         @forelse ($category as $d)
                         <tr>
                           <td>{{ $i++ }}</td>
@@ -46,8 +46,7 @@
                         </tr>
                         @empty
                             <td colspan="6">Tidak ada data</td>
-                        @endforelse
-                        
+                        @endforelse --}}
                       </tbody>
                     </table>
                   </div>

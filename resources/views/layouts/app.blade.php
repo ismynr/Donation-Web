@@ -4,15 +4,20 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>MY CRUD | Design Crud Data</title>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/fontawesome.all.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('sweetalert/sweetalert.css')}}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/shards-dashboards.1.1.0.min.css') }}" id="main-stylesheet" data-version="1.1.0">
     <link rel="stylesheet" href="{{ asset('css/extras.1.1.0.min.css') }}">
-    <script src="{{ asset('js/buttons.js') }}" async defer></script>
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    
     <script src="{{ asset('js/fontawesome.kit.js') }}" crossorigin="anonymous"></script>
   </head>
 
@@ -45,12 +50,16 @@
 
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}" crossorigin="anonymous"></script>
     <script src="{{ asset('js/popper.min.js') }}" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="{{ asset('js/Chart.min.js') }}"></script>
     <script src="{{ asset('js/shards.min.js') }}"></script>
     <script src="{{ asset('js/jquery.sharrre.min.js') }}"></script>
     <script src="{{ asset('js/extras.1.1.0.min.js') }}"></script>
     <script src="{{ asset('js/shards-dashboards.1.1.0.min.js') }}"></script>
+    <script src="{{ asset('sweetalert/sweetalert.min.js')}}" type="text/javascript" charset="utf-8" async defer></script>
 
     {{-- @include('layouts.modals') --}}
     
