@@ -11,14 +11,14 @@ class Donasi extends Model
     protected $primaryKey = 'id_donasi';
     
     public function category() {
-        return $this->belongsTo('App\Category');
+        return $this->belongsTo('App\Category', 'id_kategori');
     }
 
     public function penerima() {
-        return $this->belongsToMany('App\Penerima');
+        return $this->belongsTo('App\Penerima', 'id_penerima');
     }
 
     public function donatur() {
-        return $this->belongsToMany('App\Donatur');
+        return $this->belongsTo('App\Donatur', 'id_donatur');
     }
 }

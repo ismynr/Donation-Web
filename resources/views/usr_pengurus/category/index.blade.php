@@ -15,13 +15,6 @@
               <div class="col">
                 <div class="card card-small mb-4">
                   <div class="card-header">
-                    
-                    @if ($message = Session::get('message'))
-                        <div class="alert alert-success float-left m-1">
-                            <span>{{ $message }}</span>
-                        </div>
-                    @endif
-
                     <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
                   </div>
                   <div class="card-body p-3 text-center table-responsive">
@@ -33,21 +26,7 @@
                           <th width="25%">Opsi</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        {{-- @php $i = 1 @endphp 
-                        @forelse ($category as $d)
-                        <tr>
-                          <td>{{ $i++ }}</td>
-                          <td>{{ $d['nama_kategori'] }}</td>
-                          <td>
-                            <button type="button" class="btn ml-1 btn-warning editModal" data-id="{{ $d['id_kategori'] }}">Edit</button>
-                            <button type="button" class="btn ml-1 btn-danger hapusModal" data-id="{{ $d['id_kategori'] }}">Hapus</button>
-                          </td>
-                        </tr>
-                        @empty
-                            <td colspan="6">Tidak ada data</td>
-                        @endforelse --}}
-                      </tbody>
+                      <tbody> </tbody>
                     </table>
                   </div>
                 </div>

@@ -19,45 +19,60 @@
                   </div>
                   <div class="card-body p-0 pb-3 text-center">
                     <table class="table">
-                      @forelse ($dataDonasi as $d)
+                      @if ($dataDonasi)
                         <tr>
                           <th style="border:0">Id Kategori</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['id_kategori'] }}</td>
+                          <td style="border:0">{{ $dataDonasi['id_kategori'] }}</td>
+                        </tr>
+                         <tr>
+                          <th style="border:0">Nama Kategori</th>
+                          <td style="border:0">:</td>
+                          <td style="border:0">{{ $dataDonasi->category->nama_kategori }}</td>
                         </tr>
                         <tr>
                           <th style="border:0">Jumlah Donasi</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['jumlah_donasi'] }}</td>
+                          <td style="border:0">{{ $dataDonasi['jumlah_donasi'] }}</td>
+                        </tr>
+                        <tr>
+                          <th style="border:0">Id Penerima</th>
+                          <td style="border:0">:</td>
+                          <td style="border:0">{{ $dataDonasi['id_penerima'] }}</td>
                         </tr>
                         <tr>
                           <th style="border:0">Nama Penerima</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['nama_penerima'] }}</td>
+                          <td style="border:0">{{ $dataDonasi->penerima->nama }}</td>
                         </tr>
                         <tr>
-                          <th style="border:0">Nama User</th>
+                          <th style="border:0">Id Donatur</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['nama_user'] }}</td>
+                          <td style="border:0">{{ $dataDonasi['id_donatur'] }}</td>
+                        </tr>
+                        <tr>
+                          <th style="border:0">Nama Donatur</th>
+                          <td style="border:0">:</td>
+                          <td style="border:0">{{ $dataDonasi->donatur->nama_depan.' '.$dataDonasi->donatur->nama_belakang }}</td>
                         </tr>
                         <tr>
                           <th style="border:0">Tanggal Memberi</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['tanggal_memberi'] }}</td>
+                          <td style="border:0">{{ $dataDonasi['tanggal_memberi'] }}</td>
                         </tr>
                         <tr>
                           <th style="border:0">Terkhir Ditambahkan</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['created_at'] }}</td>
+                          <td style="border:0">{{ $dataDonasi['created_at'] }}</td>
                         </tr>
                         <tr>
                           <th style="border:0">Terkhir Diubah</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['updated_at'] }}</td>
+                          <td style="border:0">{{ $dataDonasi['updated_at'] }}</td>
                         </tr>
-                      @empty
+                      @else
                           <td colspan="3">Tidak dapat menampilkan detail data</td>
-                      @endforelse
+                      @endif
                     </table>
                   </div>
                 </div>

@@ -15,7 +15,7 @@ class CategoryController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn = '<button type="button" data-id="/pengurus/category/'.$row->id_kategori.'/edit" class="edit btn btn-primary btn-sm mr-1 editBtn">Edit</button>';
+                    $btn = '<button type="button" data-id="/pengurus/category/'.$row->id_kategori.'/edit" class="edit btn btn-warning btn-sm mr-1 editBtn">Edit</button>';
                     $btn .= '<button type="submit" data-id="/pengurus/category/'.$row->id_kategori.'" class="btn btn-danger btn-sm deleteBtn">Delete</button>';
                     return $btn;
                 })
