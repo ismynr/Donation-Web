@@ -60,7 +60,7 @@ class DonasiController extends Controller
     }
 
     public function show($id){
-        $dataDonasi = Donasi::find($id)->first();
+        $dataDonasi = Donasi::find($id);
         return view('usr_pengurus.donasi.detail', compact('dataDonasi'));
     }
 
