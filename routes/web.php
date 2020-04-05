@@ -17,12 +17,43 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('donasi', 'DonasiController');
-Route::resource('category', 'CategoryController');
-Route::resource('penerima', 'PenerimaController');
-Route::resource('pengurus', 'PengurusController');
-Route::resource('donatur', 'DonaturController');
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+/**
+ * 
+ * Middleware Auth User Admin
+ */
+
+
+/**
+ * 
+ * Middleware Auth User Pengurus
+ */
+Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus'], function () {
+    Route::get('/', 'UsrPengurusController@index')->name('pengurus_dashboard');
+    Route::resource('donasi', 'DonasiController');
+    Route::resource('category', 'CategoryController');
+    Route::resource('penerima', 'PenerimaController');
+    Route::resource('pengurus', 'PengurusController');
+    Route::resource('donatur', 'DonaturController');
+
+    // JSON Route
+    Route::get('donasi/cari/category', 'DonasiController@loadDataCategory')->name('donasi.cari.category');
+    Route::get('donasi/cari/penerima', 'DonasiController@loadDataPenerima')->name('donasi.cari.penerima');
+    Route::get('donasi/cari/donatur', 'DonasiController@loadDataDonatur')->name('donasi.cari.donatur');
+    
+    // Hanya coba
+    Route::get('data', function() {
+        $model = App\Donasi::all();
+        return DataTables::of($model)->make();
+    });
+});
+
+
+/**
+ * 
+ * Middleware Auth User Donatur
+ */
+Route::group(['middleware' => ['auth', 'donatur'], 'prefix' => 'donatur'], function () {
+    Route::get('/', 'UsrDonaturController@index')->name('donatur_dashboard');
+});

@@ -6,7 +6,7 @@
             <div class="page-header row no-gutters py-4">
               <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
                 {{-- <span class="text-uppercase page-subtitle">Overview</span> --}}
-                <h3 class="page-title">List Donasi</h3>
+                <h3 class="page-title">List Data Penerima</h3>
               </div>
             </div>
             <!-- End Page Header -->
@@ -16,10 +16,10 @@
                 <div class="card card-small mb-4">
                   <div class="card-header border-bottom">
                     
-                    @if ($message = Session::get('message'))
-                        <div class="alert alert-success float-left m-1">
-                            <span>{{ $message }}</span>
-                        </div>
+                    @if(Session::has('alert-success'))
+                      <div class="alert alert-success float-left m-1">
+                        <strong>{{ Session::get('alert-success') }}</strong>
+                      </div>
                     @endif
 
                     <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
@@ -29,32 +29,36 @@
                       <thead class="bg-light ">
                         <tr>
                           <th>#</th>
-                          <th>Id Kategori</th>
-                          <th>Jumlah Donasi</th>
-                          <th>Nama Penerima</th>
-                          <th>Nama User</th>
-                          <th>Tanggal Memberi</th>
-                          <th width="25%">Opsi</th>
+                          <th>Nama</th>
+                          <th>Alamat</th>
+                          <th>Tgl Lahir</th>
+                          <th>JK</th>
+                          <th>Umur</th>
+                          <th>Jumlah Keluarga</th>
+                          <th>Penghasilan/bln</th>
+                          <th>Opsi</th>
                         </tr>
                       </thead>
                       <tbody>
                         @php $i = 1 @endphp 
-                        @forelse ($dataDonasi as $d)
+                        @forelse ($data as $d)
                         <tr>
                           <td>{{ $i++ }}</td>
-                          <td>{{ $d['id_kategori'] }}</td>
-                          <td>{{ $d['jumlah_donasi'] }}</td>
-                          <td>{{ $d['nama_penerima'] }}</td>
-                          <td>{{ $d['nama_user'] }}</td>
-                          <td>{{ $d['tanggal_memberi'] }}</td>
+                          <td>{{ $d['nama'] }}</td>
+                          <td>{{ $d['alamat'] }}</td>
+                          <td>{{ $d['tgl_lahir'] }}</td>
+                          <td>{{ $d['jenkel'] }}</td>
+                          <td>{{ $d['umur'] }}</td>
+                          <td>{{ $d['jumkel'] }}</td>
+                          <td>{{ $d['penghasilan'] }}</td>
                           <td>
-                            <button type="button" class="btn ml-1 btn-info text-white" onclick="location.href ='{{ url('donasi/'.$d['id_donasi']) }}'">Detail</button>
-                            <button type="button" class="btn ml-1 btn-warning editModal" data-id="{{ $d['id_donasi'] }}">Edit</button>
-                            <button type="button" class="btn ml-1 btn-danger hapusModal" data-id="{{ $d['id_donasi'] }}">Hapus</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-info text-white" onclick="location.href ='{{ route('penerima.show', $d['id_penerima']) }}'">Detail</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-warning editModal" data-id="{{ $d['id_penerima'] }}">Edit</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-danger hapusModal" data-id="{{ $d['id_penerima'] }}">Hapus</button>
                           </td>
                         </tr>
                         @empty
-                            <td colspan="6">Tidak ada data</td>
+                            <td colspan="9">Tidak ada data</td>
                         @endforelse
                         
                       </tbody>
@@ -68,5 +72,5 @@
 @endsection
 
 @section('modals')
-  @include('donasi.modals')
+  @include('usr_pengurus.penerima.modals')
 @endsection

@@ -9,4 +9,8 @@ class Category extends Model
     protected $table = 'category';
     protected $fillable = ['nama_kategori'];
     protected $primaryKey = 'id_kategori';
+
+    public function donasi() {
+        return $this->hasMany('App\Category');
+    }
 }

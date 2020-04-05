@@ -32,8 +32,6 @@
                           <th>NIP</th>
                           <th>Nama Pengurus</th>
                           <th>Jabatan</th>
-                          <th>Email</th>
-                          <th>Password</th>
                           <th>Opsi</th>
                         </tr>
                       </thead>
@@ -45,12 +43,10 @@
                           <td>{{ $d['nip'] }}</td>
                           <td>{{ $d['nama'] }}</td>
                           <td>{{ $d['jabatan'] }}</td>
-                          <td>{{ $d['email'] }}</td>
-                          <td>{{ $d['password'] }}</td>
                           <td>
-                            <button type="button" class="btn ml-1 mr-1 btn-info text-white" onclick="location.href ='{{ url('pengurus/'.$d['id']) }}'">Detail</button>
-                            <button type="button" class="btn ml-1 mr-1 btn-warning editModal" data-id="{{ $d['id'] }}">Edit</button>
-                            <button type="button" class="btn ml-1 mr-1 btn-danger hapusModal" data-id="{{ $d['id'] }}">Hapus</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-info text-white" onclick="location.href ='{{ route('pengurus.show', $d['id_pengurus']) }}'">Detail</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-warning editModal" data-id="{{ $d['id_pengurus'] }}">Edit</button>
+                            <button type="button" class="btn ml-1 mr-1 btn-danger hapusModal" data-id="{{ $d['id_pengurus'] }}">Hapus</button>
                           </td>
                         </tr>
                         @empty
@@ -68,5 +64,5 @@
 @endsection
 
 @section('modals')
-  @include('pengurus.modals')
+  @include('usr_pengurus.pengurus.modals')
 @endsection

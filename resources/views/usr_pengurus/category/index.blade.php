@@ -14,18 +14,11 @@
             <div class="row">
               <div class="col">
                 <div class="card card-small mb-4">
-                  <div class="card-header border-bottom">
-                    
-                    @if ($message = Session::get('message'))
-                        <div class="alert alert-success float-left m-1">
-                            <span>{{ $message }}</span>
-                        </div>
-                    @endif
-
+                  <div class="card-header">
                     <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
                   </div>
-                  <div class="card-body p-0 pb-3 text-center">
-                    <table class="table mb-0">
+                  <div class="card-body p-3 text-center table-responsive">
+                    <table class="table data-table" id="table">
                       <thead class="bg-light ">
                         <tr>
                           <th>#</th>
@@ -33,22 +26,7 @@
                           <th width="25%">Opsi</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        @php $i = 1 @endphp 
-                        @forelse ($category as $d)
-                        <tr>
-                          <td>{{ $i++ }}</td>
-                          <td>{{ $d['nama_kategori'] }}</td>
-                          <td>
-                            <button type="button" class="btn ml-1 btn-warning editModal" data-id="{{ $d['id_kategori'] }}">Edit</button>
-                            <button type="button" class="btn ml-1 btn-danger hapusModal" data-id="{{ $d['id_kategori'] }}">Hapus</button>
-                          </td>
-                        </tr>
-                        @empty
-                            <td colspan="6">Tidak ada data</td>
-                        @endforelse
-                        
-                      </tbody>
+                      <tbody> </tbody>
                     </table>
                   </div>
                 </div>
@@ -59,5 +37,5 @@
 @endsection
 
 @section('modals')
-  @include('category.modals')
+  @include('usr_pengurus.category.modals')
 @endsection

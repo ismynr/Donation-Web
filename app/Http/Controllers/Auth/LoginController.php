@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -36,5 +37,21 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+
+    protected function authenticated(Request $request, $user)
+    {
+        // to admin dashboard
+        if($user->isPengurus()) {
+            return redirect(route('pengurus_dashboard'));
+        }
+
+        // to user dashboard
+        else if($user->isDonatur()) {
+            return redirect(route('donatur_dashboard'));
+        }
+
+        abort(404);
     }
 }

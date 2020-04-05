@@ -16,15 +16,6 @@
                 <form action="{{ route('donatur.update', $donaturs->id_donatur) }}" method="post">
                     @csrf
                     <input type="hidden" name="_method" value="PUT">
-                    
-                    <div class="form-group">
-                        <label for="">Masukan Email</label>
-                        <input type="text" name="email" class="form-control" value="{{ $donaturs->email }}">
-                    </div>
-                    <div class="form-group">
-                        <label for="">Username</label>
-                        <input type="text" name="username" class="form-control" value="{{ $donaturs->username }}">
-                    </div>
                     <div class="form-group">
                         <label for="">Nama Depan</label>
                         <input type="text" name="nama_depan" class="form-control" value="{{ $donaturs->nama_depan }}">

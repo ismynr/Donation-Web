@@ -15,7 +15,7 @@ class PenerimaController extends Controller
     public function index(Request $request)
     {
         $data = Penerima::all();
-        return view('penerima.penerima', compact('data'));
+        return view('usr_pengurus.penerima.penerima', compact('data'));
     }
 
     /**
@@ -57,8 +57,8 @@ class PenerimaController extends Controller
      */
     public function show($id)
     {
-        $data = Penerima::where('id', $id)->get(); // Mengambil satu penerima.
-        return view('penerima.penerima-detail', compact('data'));
+        $data = Penerima::where('id_penerima', $id)->get(); // Mengambil satu penerima.
+        return view('usr_pengurus.penerima.penerima-detail', compact('data'));
     }
 
     /**
@@ -90,7 +90,7 @@ class PenerimaController extends Controller
             'jumkel' => 'required',
             'penghasilan' => 'required',
         ]);
-        Penerima::where('id', $id)->update($data);
+        Penerima::where('id_penerima', $id)->update($data);
         return redirect()->route('penerima.index')->with('message', 'Data anda telah diupdate!');
     }
 

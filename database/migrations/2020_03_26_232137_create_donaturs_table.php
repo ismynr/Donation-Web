@@ -13,10 +13,9 @@ class CreateDonatursTable extends Migration
      */
     public function up()
     {
-        Schema::create('donaturs', function (Blueprint $table) {
+        Schema::create('donatur', function (Blueprint $table) {
             $table->bigIncrements('id_donatur');
-            $table->string('email')->unique();
-            $table->string('username');
+            $table->unsignedBigInteger('id_user')->unique();
             $table->string('nama_depan');
             $table->string('nama_belakang');
             $table->string('no_hp');
@@ -33,6 +32,6 @@ class CreateDonatursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('donaturs');
+        Schema::dropIfExists('donatur');
     }
 }

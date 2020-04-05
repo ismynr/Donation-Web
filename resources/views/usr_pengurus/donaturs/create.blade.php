@@ -20,8 +20,8 @@
                         <input type="text" name="email" class="form-control" value="{{ old('email') }}">
                     </div>
                     <div class="form-group">
-                        <label for="">Username</label>
-                        <input type="text" name="username" class="form-control" value="{{ old('username') }}">
+                        <label for="">Password</label>
+                        <input type="password" name="password" class="form-control" value="{{ old('password') }}">
                     </div>
                     <div class="form-group">
                         <label for="">Nama Depan</label>

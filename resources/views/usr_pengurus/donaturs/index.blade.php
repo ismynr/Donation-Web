@@ -16,8 +16,6 @@
                     <table class="table table-hover table-bordered">
                         <thead style="background: #9e9e9e">
                             <tr>
-                                <th>Email</th>
-                                <th>Username</th>
                                 <th>Nama Depan</th>
                                 <th>Nama Belakang</th>
                                 <th>No HP</th>
@@ -29,8 +27,6 @@
                         <tbody>
                             @foreach ($donaturs as $donatur)
                                 <tr>
-                                    <td>{{ $donatur->email }}</td>
-                                    <td>{{ $donatur->username }}</td>
                                     <td>{{ $donatur->nama_depan}}</td>
                                     <td>{{ $donatur->nama_belakang }}</td>
                                     <td>{{ $donatur->no_hp }}</td>

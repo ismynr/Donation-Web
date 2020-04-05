@@ -4,19 +4,21 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Donatur;
+use App\User;
 
 class DonaturController extends Controller
 {
     public function index()
     {
         $donaturs = Donatur::all();
-        return view('donaturs.index', compact('donaturs'));
+        return view('usr_pengurus.donaturs.index', compact('donaturs'));
     }
 
     public function create()
     {
-        return view('donaturs.create');
+        return view('usr_pengurus.donaturs.create');
     }
 
 
@@ -24,7 +26,7 @@ class DonaturController extends Controller
     {
         $this->validate($request, [
             'email' => 'required',
-            'username' => 'required|min:3',
+            'password' => 'required',
             'nama_depan' => 'required',
             'nama_belakang' => 'required',
             'no_hp' => 'required|min:11',
@@ -32,9 +34,15 @@ class DonaturController extends Controller
             'umur' => 'required'
         ]);
 
-        $donaturs = Donatur::create([
+        $user = User::create([
+            'name' => $request->nama_depan,
             'email' => $request->email,
-            'username' => $request->username,
+            'role' => 'donatur',
+            'password' => Hash::make($request->password),
+        ]);
+
+        $donaturs = Donatur::create([
+            'id_user' => $user->id,
             'nama_depan' => $request->nama_depan,
             'nama_belakang' => $request->nama_belakang,
             'no_hp' => $request->no_hp,
@@ -48,13 +56,11 @@ class DonaturController extends Controller
 
     public function edit($donatur){
         $donaturs = Donatur::find($donatur);
-        return view('donaturs.edit', compact('donaturs'));
+        return view('usr_pengurus.donaturs.edit', compact('donaturs'));
     }
 
     public function update(Request $request, $donatur){
         $this->validate($request, [
-            'email' => 'required',
-            'username' => 'required|min:3',
             'nama_depan' => 'required',
             'nama_belakang' => 'required',
             'no_hp' => 'required',
@@ -64,8 +70,6 @@ class DonaturController extends Controller
 
         $donaturs = Donatur::findOrfail($donatur);
         $donaturs->update([
-            'email' => $request->email,
-            'username' => $request->username,
             'nama_depan' => $request->nama_depan,
             'nama_belakang' => $request->nama_belakang,
             'no_hp' => $request->no_hp,
@@ -78,7 +82,11 @@ class DonaturController extends Controller
 
        public function destroy($donatur){
         $donaturs = Donatur::findOrFail($donatur);
+        $id_user = $donaturs->id_user;
         $donaturs->delete();
+
+        $user = User::findOrFail($id_user);
+        $user->delete();
 
         return redirect()->route('donatur.index');
     }
