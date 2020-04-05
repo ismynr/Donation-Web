@@ -15,7 +15,7 @@ class CreatePenerimasTable extends Migration
     {
         Schema::create('penerima', function (Blueprint $table) {
             $table->bigIncrements('id_penerima');
-            $table->string('nama', 30);
+            $table->string('nama', 50);
             $table->string('alamat', 100);
             $table->date('tgl_lahir');
             $table->char('jenkel',1);

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Penerima;
+use DataTables;
+use Validator;
 
 class PenerimaController extends Controller
 {
@@ -14,8 +16,20 @@ class PenerimaController extends Controller
      */
     public function index(Request $request)
     {
-        $data = Penerima::all();
-        return view('usr_pengurus.penerima.penerima', compact('data'));
+        if ($request->ajax()) {
+            $data = Penerima::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn = '<button type="button" onclick="location.href =\''.route('penerima.show', $row->id_penerima).'\'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
+                    $btn .= '<button type="button" data-id="/pengurus/penerima/'.$row->id_penerima.'/edit" class="edit btn btn-warning btn-sm mr-1 editBtn">Edit</button>';
+                    $btn .= '<button type="submit" data-id="/pengurus/penerima/'.$row->id_penerima.'" class="btn btn-danger btn-sm deleteBtn">Delete</button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+        return view('usr_pengurus.penerima.penerima');
     }
 
     /**
@@ -36,17 +50,30 @@ class PenerimaController extends Controller
      */
     public function store(Request $request)
     {
-        $penerima = new Penerima;
-        $penerima->nama = $request->nama;
-        $penerima->alamat = $request->alamat;
-        $penerima->tgl_lahir = $request->tgl_lahir;
-        $penerima->jenkel = $request->jenkel;
-        $penerima->umur = $request->umur;
-        $penerima->jumkel = $request->jumkel;
-        $penerima->penghasilan = $request->penghasilan;
-        $penerima->save();
+        $validator = Validator::make($request->all(), [
+            'nama' => 'required',
+            'alamat' => 'required',
+            'tgl_lahir' => 'required',
+            'jenkel' => 'required',
+            'umur' => 'required|numeric',
+            'jumkel' => 'required|numeric',
+            'penghasilan' => 'required|numeric',
+        ]);
 
-        return redirect()->route('penerima.index');
+        if($validator->fails()) {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
+        }else {
+            $penerima = new Penerima;
+            $penerima->nama = $request->nama;
+            $penerima->alamat = $request->alamat;
+            $penerima->tgl_lahir = $request->tgl_lahir;
+            $penerima->jenkel = $request->jenkel;
+            $penerima->umur = $request->umur;
+            $penerima->jumkel = $request->jumkel;
+            $penerima->penghasilan = $request->penghasilan;
+            $penerima->save();
+            return response()->json(['success' => true]);
+        }
     }
 
     /**
@@ -69,7 +96,8 @@ class PenerimaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = Penerima::findOrFail($id);
+        return response()->json($data);
     }
 
     /**
@@ -81,17 +109,30 @@ class PenerimaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama' => 'required',
             'alamat' => 'required',
             'tgl_lahir' => 'required',
             'jenkel' => 'required',
-            'umur' => 'required',
-            'jumkel' => 'required',
-            'penghasilan' => 'required',
+            'umur' => 'required|numeric',
+            'jumkel' => 'required|numeric',
+            'penghasilan' => 'required|numeric',
         ]);
-        Penerima::where('id_penerima', $id)->update($data);
-        return redirect()->route('penerima.index')->with('message', 'Data anda telah diupdate!');
+
+        if($validator->fails()) {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
+        }else {
+            $penerima = Penerima::find($id);
+            $penerima->nama = $request->nama;
+            $penerima->alamat = $request->alamat;
+            $penerima->tgl_lahir = $request->tgl_lahir;
+            $penerima->jenkel = $request->jenkel;
+            $penerima->umur = $request->umur;
+            $penerima->jumkel = $request->jumkel;
+            $penerima->penghasilan = $request->penghasilan;
+            $penerima->save();
+            return response()->json(['success' => true]);
+        }
     }
 
     /**
@@ -102,8 +143,11 @@ class PenerimaController extends Controller
      */
     public function destroy($id)
     {
-        $data = Penerima::findOrFail($id);
-        $data->delete();
-        return redirect()->route('penerima.index')->with('message', 'Data anda telah dihapus!');
+        if (Penerima::destroy($id)) {
+            $data = 'Success';
+        }else {
+            $data = 'Failed';
+        }
+        return response()->json($data);
     }
 }

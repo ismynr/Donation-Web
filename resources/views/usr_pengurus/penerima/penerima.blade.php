@@ -14,18 +14,12 @@
             <div class="row">
               <div class="col">
                 <div class="card card-small mb-4">
-                  <div class="card-header border-bottom">
-                    
-                    @if(Session::has('alert-success'))
-                      <div class="alert alert-success float-left m-1">
-                        <strong>{{ Session::get('alert-success') }}</strong>
-                      </div>
-                    @endif
+                  <div class="card-header">
 
                     <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
                   </div>
-                  <div class="card-body p-0 pb-3 text-center">
-                    <table class="table mb-0">
+                  <div class="card-body p-3 text-center">
+                    <table class="table data-table" id="table">
                       <thead class="bg-light ">
                         <tr>
                           <th>#</th>
@@ -40,27 +34,6 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @php $i = 1 @endphp 
-                        @forelse ($data as $d)
-                        <tr>
-                          <td>{{ $i++ }}</td>
-                          <td>{{ $d['nama'] }}</td>
-                          <td>{{ $d['alamat'] }}</td>
-                          <td>{{ $d['tgl_lahir'] }}</td>
-                          <td>{{ $d['jenkel'] }}</td>
-                          <td>{{ $d['umur'] }}</td>
-                          <td>{{ $d['jumkel'] }}</td>
-                          <td>{{ $d['penghasilan'] }}</td>
-                          <td>
-                            <button type="button" class="btn ml-1 mr-1 btn-info text-white" onclick="location.href ='{{ route('penerima.show', $d['id_penerima']) }}'">Detail</button>
-                            <button type="button" class="btn ml-1 mr-1 btn-warning editModal" data-id="{{ $d['id_penerima'] }}">Edit</button>
-                            <button type="button" class="btn ml-1 mr-1 btn-danger hapusModal" data-id="{{ $d['id_penerima'] }}">Hapus</button>
-                          </td>
-                        </tr>
-                        @empty
-                            <td colspan="9">Tidak ada data</td>
-                        @endforelse
-                        
                       </tbody>
                     </table>
                   </div>
