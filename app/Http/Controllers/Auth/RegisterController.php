@@ -75,6 +75,8 @@ class RegisterController extends Controller
             'id_user' => $userCreate->id,
             'nama_depan' => $userCreate->name,
             'nama_belakang' => "-",
+            'email' => $userCreate->email,
+            'password' => $userCreate->password,
             'no_hp' => "-",
             'alamat' => "-",
             'umur' => "-",

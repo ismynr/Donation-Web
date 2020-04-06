@@ -11,6 +11,10 @@ class Donatur extends Model
     protected $fillable = ['id_user', 'nama_depan', 'nama_belakang', 'no_hp', 'alamat', 'umur'];
     protected $primaryKey = 'id_donatur';
 
+    public function getData(){
+        return static::orderBy('created_at','DESC')->get();
+    }
+
     public function user() {
         return $this->hasOne('App\User');
     }
