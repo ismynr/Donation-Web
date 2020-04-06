@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('css/extras.1.1.0.min.css') }}">
     <link href="{{ asset('dataTables/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('dataTables/dataTables.bootstrap4.min.css') }} " rel="stylesheet">
-    
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}" crossorigin="anonymous"></script>
     <script src="{{ asset('js/fontawesome.kit.js') }}" crossorigin="anonymous"></script>
   </head>
 
@@ -50,7 +50,7 @@
       </div>
     </div>
 
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}" crossorigin="anonymous"></script>
+    
     <script src="{{ asset('js/popper.min.js') }}" crossorigin="anonymous"></script>
     <script src="{{ asset('dataTables/jquery-validate/1.19.0/jquery.validate.js') }} "></script>
     <script src="{{ asset('dataTables/jquery.dataTables.min.js') }} "></script>

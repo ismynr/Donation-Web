@@ -13,36 +13,15 @@
                 </div>
                 <hr>
                 <div class="body">
-                    <table class="table table-hover table-bordered">
+                    <table class="table table-hover table-bordered data-table">
                         <thead style="background: #9e9e9e">
                             <tr>
+                                <th>No</th>
                                 <th>Nama Depan</th>
-                                <th>Nama Belakang</th>
-                                <th>No HP</th>
-                                <th>Alamat</th>
-                                <th>Umur</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach ($donaturs as $donatur)
-                                <tr>
-                                    <td>{{ $donatur->nama_depan}}</td>
-                                    <td>{{ $donatur->nama_belakang }}</td>
-                                    <td>{{ $donatur->no_hp }}</td>
-                                    <td>{{ $donatur->alamat }}</td>
-                                    <td>{{ $donatur->umur }}</td>
-                                    <td>
-                                        <form action="{{ route('donatur.destroy', $donatur->id_donatur) }}" method="POST">
-                                            @csrf
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <a href="{{ route('donatur.edit', $donatur->id_donatur) }}" class="btn btn-warning btn-sm">Edit</a>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                        
                     </table>
                 </div>
             </div>
@@ -50,5 +29,35 @@
     
     </div>
 </section>
+<script>
+$(document).ready(function () {
+        var table = $('.data-table').DataTable({
+            processing: true,
+            serverSide: true,
+            autoWidth: false,
+            pageLength: 3,
+            "order": [
+                [0, "desc"]
+            ],
+            ajax: "{{ route('donatur.list') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'nama_depan',
+                    name: 'nama_depan'
+                },
+                {
+                    data: 'Actions',
+                    name: 'Actions',
+                    orderable: false,
+                    searchable: false,
+                    sClass: 'text-center'
+                },
+            ]
+        });
+    });
+</script>
 
 @endsection

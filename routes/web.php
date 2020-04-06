@@ -36,6 +36,7 @@ Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus'], fun
     Route::resource('penerima', 'PenerimaController');
     Route::resource('pengurus', 'PengurusController');
     Route::resource('donatur', 'DonaturController');
+    Route::get('donatur-lis', 'DonaturController@getDonatur')->name('donatur.list');
 
     // JSON Route
     Route::get('donasi/cari/category', 'DonasiController@loadDataCategory')->name('donasi.cari.category');
