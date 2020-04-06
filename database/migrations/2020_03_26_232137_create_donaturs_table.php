@@ -18,6 +18,8 @@ class CreateDonatursTable extends Migration
             $table->unsignedBigInteger('id_user')->unique();
             $table->string('nama_depan');
             $table->string('nama_belakang');
+            $table->string('email');
+            $table->string('password');
             $table->string('no_hp');
             $table->string('alamat');
             $table->string('umur');
