@@ -22,7 +22,7 @@ class PengurusSeeder extends Seeder
     		DB::table('pengurus')->insert([
                 'nip' => $faker->numberBetween(100000,1200000),
     			'nama' => $faker->name,
-                'jabatan' => $faker->name
+                'jabatan' => $faker->JobTitle
                 ]);
     	}
     }

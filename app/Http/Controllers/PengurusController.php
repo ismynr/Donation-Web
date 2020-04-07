@@ -6,14 +6,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Pengurus;
 use App\User;
+use DataTables;
+use Validator;
+
 
 class PengurusController extends Controller
 {
-    public function index()
-    {
-        $data = Pengurus::all();
-        return view('usr_pengurus.pengurus.pengurus', compact('data'));
+
+    public function index(Request $request)
+{
+    if ($request->ajax()) {
+        $data = Pengurus::latest()->get();
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function($row){
+                $btn = '<button type="button" onclick="location.href =\''.route('pengurus.show', $row->id_pengurus).'\'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
+                $btn .= '<button type="button" data-id="/pengurus/pengurus/'.$row->id_pengurus.'/edit" class="edit btn btn-warning btn-sm mr-1 editBtn">Edit</button>';
+                $btn .= '<button type="submit" data-id="/pengurus/peengurus/'.$row->id_pengurus.'" class="btn btn-danger btn-sm deleteBtn">Delete</button>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
+    return view('usr_pengurus.pengurus.pengurus');
+        
+ }
 
     public function create()
     {
@@ -28,6 +45,9 @@ class PengurusController extends Controller
             'role' => 'pengurus',
             'password' => Hash::make($request->password),
         ]);
+        if($validator->fails()) {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
+        }else {
 
         $pengurus = new Pengurus;
         $pengurus->id_user = $pengurusCreate->id;
@@ -36,9 +56,9 @@ class PengurusController extends Controller
         $pengurus->jabatan = $request->jabatan;
         $pengurus->save();
 
-        return redirect()->route('pengurus.index')->with('message', 'Data anda telah diupdate!');;
+        return response()->json(['success' => true]);
+        }
     }
-
     public function show($id)
     {
         $data = Pengurus::find($id)->get(); // Mengambil satu Pengurus
@@ -52,23 +72,30 @@ class PengurusController extends Controller
 
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'nip' => 'required',
             'nama' => 'required',
             'jabatan' => 'required',
         ]);
-        Pengurus::where('id_pengurus', $id)->update($data);
-        return redirect()->route('pengurus.index')->with('message', 'Data anda telah diupdate!');
+        if($validator->fails()) {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
+        }else {
+            $pengurus = Pengurus::find($id);
+            $pengurus->nip = $request->nip;
+            $pengurus->nama = $request->nama;
+            $pengurus->jabatan = $request->jabatan;
+            $pengurus->save();
+            return response()->json(['success' => true]);
+        }
     }
 
     public function destroy($id)
     {
-        $pengurus = Pengurus::findOrFail($id);
-        $id_user = $pengurus->id_user;
-        $pengurus->delete();
-
-        $user = User::findOrFail($id_user);
-        $user->delete();
-        return redirect()->route('pengurus.index')->with('message', 'Data anda telah dihapus!');
+        if (Pengurus::destroy($id)) {
+            $data = 'Success';
+        }else {
+            $data = 'Failed';
+        }
+        return response()->json($data);
     }
 }
