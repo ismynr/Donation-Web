@@ -25,16 +25,20 @@
                         <input type="text" name="nama_belakang" class="form-control" value="{{ $donaturs->nama_belakang }}">
                     </div>
                     <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="text" name="email" class="form-control" value="{{ $donaturs->email }}">
+                    </div>
+                    <div class="form-group">
                         <label for="">Nomor Handphone</label>
                         <input type="text" name="no_hp" class="form-control" value="{{ $donaturs->no_hp }}">
                     </div>
                     <div class="form-group">
-                        <label for="">Alamat</label>
-                        <textarea name="alamat" id_user="" cols="30" rows="10" class="form-control"> {{ $donaturs->alamat }} </textarea>
-                    </div>
-                    <div class="form-group">
                         <label for="">Umur</label>
                         <input type="text" name="umur" class="form-control" value="{{ $donaturs->umur }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Alamat</label>
+                        <textarea name="alamat" id_user="" cols="30" rows="10" class="form-control"> {{ $donaturs->alamat }} </textarea>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Update" class="btn btn-primary float-right">

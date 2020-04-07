@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Donatur extends Model
 {
     protected $table = 'donatur';
-    protected $fillable = ['id_user', 'nama_depan', 'nama_belakang', 'no_hp', 'alamat', 'umur'];
+    protected $fillable = ['nama_depan', 'email', 'nama_belakang', 'no_hp', 'alamat', 'umur'];
     protected $primaryKey = 'id_donatur';
 
     public function getData(){
