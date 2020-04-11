@@ -44,12 +44,12 @@ class LoginController extends Controller
     {
         // to admin dashboard
         if($user->isPengurus()) {
-            return redirect(route('pengurus_dashboard'));
+            return redirect(route('pengurus.dashboard'));
         }
 
         // to user dashboard
         else if($user->isDonatur()) {
-            return redirect(route('donatur_dashboard'));
+            return redirect(route('donatur.dashboard'));
         }
 
         abort(404);
