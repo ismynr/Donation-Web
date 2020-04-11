@@ -19,9 +19,9 @@ class PengurusController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn = '<button type="button" onclick="location.href =\''.route('pengurus.show', $row->id_pengurus).'\'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
+                    $btn = '<button type="button" onclick="location.href =\' '.route('pengurus.show', $row->id_pengurus).' \'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
                     $btn .= '<button type="button" data-id="/pengurus/pengurus/'.$row->id_pengurus.'/edit" class="edit btn btn-warning btn-sm mr-1 editBtn">Edit</button>';
-                    $btn .= '<button type="submit" data-id="/pengurus/peengurus/'.$row->id_pengurus.'" class="btn btn-danger btn-sm deleteBtn">Delete</button>';
+                    $btn .= '<button type="submit" data-id="/pengurus/pengurus/'.$row->id_pengurus.'" class="btn btn-danger btn-sm deleteBtn">Delete</button>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -38,24 +38,35 @@ class PengurusController extends Controller
 
     public function store(Request $request)
     {
-        $pengurusCreate = User::create([
-            'name' => $request->nama,
-            'email' => $request->email,
-            'role' => 'pengurus',
-            'password' => Hash::make($request->password),
+        // Validate for form create
+        $validator = Validator::make($request->all(), [
+            'nip'       => 'required|numeric',
+            'nama'      => 'required|min:2',
+            'jabatan'   => 'required',
+            'email'     => 'required|email|unique:users',
+            'password'  => 'required|min:3',
         ]);
+
         if($validator->fails()) {
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }else {
+            // Make User Login
+            $users = new User;
+            $users->name = $request->nama;
+            $users->email = $request->email;
+            $users->role = 'pengurus';
+            $users->password = Hash::make($request->password);
+            $users->save();
 
-        $pengurus = new Pengurus;
-        $pengurus->id_user = $pengurusCreate->id;
-        $pengurus->nip = $request->nip;
-        $pengurus->nama = $request->nama;
-        $pengurus->jabatan = $request->jabatan;
-        $pengurus->save();
+            // Make Data Pengurus
+            $pengurus = new Pengurus;
+            $pengurus->id_user = $users->id;
+            $pengurus->nip = $request->nip;
+            $pengurus->nama = $request->nama;
+            $pengurus->jabatan = $request->jabatan;
+            $pengurus->save();
 
-        return response()->json(['success' => true]);
+            return response()->json(['success' => true]);
         }
     }
     public function show($id)
@@ -66,7 +77,8 @@ class PengurusController extends Controller
 
     public function edit($id)
     {
-        //
+        $data = Pengurus::findOrFail($id);
+        return response()->json($data);
     }
 
     public function update(Request $request, $id)
@@ -76,6 +88,7 @@ class PengurusController extends Controller
             'nama' => 'required',
             'jabatan' => 'required',
         ]);
+        
         if($validator->fails()) {
             return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
         }else {
@@ -84,13 +97,19 @@ class PengurusController extends Controller
             $pengurus->nama = $request->nama;
             $pengurus->jabatan = $request->jabatan;
             $pengurus->save();
+            
+            // Update juga nama pada tabel users
+            $users = User::find($pengurus->id_user);
+            $users->name = $request->nama;
+            $users->save();
             return response()->json(['success' => true]);
         }
     }
 
     public function destroy($id)
     {
-        if (Pengurus::destroy($id)) {
+        $pengurus = Pengurus::find($id);
+        if (Pengurus::destroy($id) && User::destroy($pengurus->id_user)) {
             $data = 'Success';
         }else {
             $data = 'Failed';

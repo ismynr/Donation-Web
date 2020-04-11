@@ -35,7 +35,7 @@
                 </ul>
               </li> --}}
               
-              <li class="probootstra-cta-button last"><a href="donate.html" class="btn btn-primary">Donate</a></li>
+              <li class="probootstra-cta-button last"><a href="{{ url('login') }}" class="btn btn-primary">Login</a></li>
             </ul>
           </div>
         </div>

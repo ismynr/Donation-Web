@@ -23,7 +23,7 @@ class PengurusSeeder extends Seeder
                 'nip' => $faker->numberBetween(100000,1200000),
     			'nama' => $faker->name,
                 'jabatan' => $faker->JobTitle
-                ]);
+            ]);
     	}
     }
 }

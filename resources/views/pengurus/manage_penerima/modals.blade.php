@@ -28,9 +28,9 @@
               <div class="form-group">
                   <label for="jenkel" class="col-form-label">Jenis Kelamin:</label>
                   <select class="form-control" name="jenkel">
-                    <option value="">Pilih Jenis Kelamin</option>
-                    <option value="L">Laki-Laki</option>
-                    <option value="P">Perempuan</option>
+                    <option value="" disabled>Pilih Jenis Kelamin</option>
+                    <option value="l">Laki-Laki</option>
+                    <option value="p">Perempuan</option>
                   </select>
                   <small class="errorJenkel text-danger hidden"></small>
               </div>
@@ -88,12 +88,12 @@
                 <input type="date" class="form-control" name="tgl_lahir" id="edit_tgl_lahir">
                 <small class="edit_errorTglLahir text-danger hidden"></small>
               </div>
-              <div class="form-group">
+              <div class="form-group" id="select_jenkel">
                   <label for="jenkel" class="col-form-label">Jenis Kelamin:</label>
-                  <select class="form-control" name="jenkel">
-                    <option value="">Pilih Jenis Kelamin</option>
-                    <option value="L">Laki-Laki</option>
-                    <option value="P">Perempuan</option>
+                  <select class="form-control" name="jenkel" id="edit_jenkel">
+                    <option value="" disabled>Pilih Jenis Kelamin</option>
+                    <option value="l">Laki-Laki</option>
+                    <option value="p">Perempuan</option>
                   </select>
               </div>
               <div class="form-group">
@@ -116,30 +116,6 @@
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-warning" id="updateBtn">Ubah Anggota</button>
             </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="confirmHapusModal" tabindex="-1" data-backdrop="static"   role="dialog" aria-labelledby="hapusData" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-danger">
-          <h5 class="modal-title text-white" id="hapusData">Hapus Data</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Apakah anda yakin ingin menghapus data ini ?</p>
-        </div>
-        <div class="modal-footer">
-          <form id="hapusForm" method="POST">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-danger btnHapus" data-id="">Hapus Anggota</button>
-        </form>
         </div>
       </div>
     </div>
@@ -248,6 +224,7 @@ $('#storeBtn').click(function (e) {
                 $('#edit_nama').val(data.nama);
                 $('#edit_alamat').val(data.alamat);
                 $('#edit_tgl_lahir').val(data.tgl_lahir);
+                $("#edit_jenkel").val(data.jenkel);
                 $('#edit_umur').val(data.umur);
                 $('#edit_jumkel').val(data.jumkel);
                 $('#edit_penghasilan').val(data.penghasilan);
@@ -266,15 +243,14 @@ $('#storeBtn').click(function (e) {
     // Update button in modal dialog
     $('#updateBtn').click(function(e){
         e.preventDefault();
-        $('.errorNama').hide();
-        $('.errorAlamat').hide();
-        $('.errorTglLahir').hide();
-        $('.errorJenkel').hide();
-        $('.errorUmur').hide();
-        $('.errorJumkel').hide();
-        $('.errorPenghasilan').hide();
+        $('.edit_errorNama').hide();
+        $('.edit_errorAlamat').hide();
+        $('.edit_errorTglLahir').hide();
+        $('.edit_errorJenkel').hide();
+        $('.edit_errorUmur').hide();
+        $('.edit_errorJumkel').hide();
+        $('.edit_errorPenghasilan').hide();
         var url = "/pengurus/penerima/"+$('#edit_id').val();
-        console.log(url);
         var frm = $('#editForm');
 
         $.ajax({
@@ -285,33 +261,34 @@ $('#storeBtn').click(function (e) {
             success:function(data){
               if (data.errors) {
                 if (data.errors.nama) {
-                  $('.errorNama').show();
-                  $('.errorNama').text(data.errors.nama);
+                  $('.edit_errorNama').show();
+                  $('.edit_errorNama').text(data.errors.nama);
                 }
                 if (data.errors.alamat) {
-                  $('.errorAlamat').show();
-                  $('.errorAlamat').text(data.errors.alamat);
+                  $('.edit_errorAlamat').show();
+                  $('.edit_errorAlamat').text(data.errors.alamat);
                 }
                 if (data.errors.tgl_lahir) {
-                  $('.errorTglLahir').show();
-                  $('.errorTglLahir').text(data.errors.tgl_lahir);
+                  $('.edit_errorTglLahir').show();
+                  $('.edit_errorTglLahir').text(data.errors.tgl_lahir);
                 }
                 if (data.errors.jenkel) {
-                  $('.errorJenkel').show();
-                  $('.errorJenkel').text(data.errors.jenkel);
+                  $('.edit_errorJenkel').show();
+                  $('.edit_errorJenkel').text(data.errors.jenkel);
                 }
                 if (data.errors.umur) {
-                  $('.errorUmur').show();
-                  $('.errorUmur').text(data.errors.umur);
+                  $('.edit_errorUmur').show();
+                  $('.edit_errorUmur').text(data.errors.umur);
                 }
                 if (data.errors.jumkel) {
-                  $('.errorJumkel').show();
-                  $('.errorJumkel').text(data.errors.jumkel);
+                  $('.edit_errorJumkel').show();
+                  $('.edit_errorJumkel').text(data.errors.jumkel);
                 }
                 if (data.errors.penghasilan) {
-                  $('.errorPenghasilan').show();
-                  $('.errorPenghasilan').text(data.errors.penghasilan);
+                  $('.edit_errorPenghasilan').show();
+                  $('.edit_errorPenghasilan').text(data.errors.penghasilan);
                 }
+                console.log(data.errors);
               }else {
                 $('#editModal').modal('hide');
                 frm.trigger('reset');

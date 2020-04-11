@@ -8,32 +8,37 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="tambahForm" action="{{ Route('pengurus.store') }}" method="POST">
+          <form id="tambahForm">
             {{ csrf_field() }}
             <div class="form-group">
               <label for="name" class="col-form-label">NIP:</label>
-              <input type="number" class="form-control" name="nip" required>
+              <input type="number" class="form-control" name="nip">
+              <small class="errorNip text-danger hidden"></small>
             </div>
             <div class="form-group">
               <label for="name" class="col-form-label">Nama:</label>
-              <input type="text" class="form-control" name="nama" required>
+              <input type="text" class="form-control" name="nama">
+              <small class="errorNama text-danger hidden"></small>
             </div>
             <div class="form-group">
                 <label for="country" class="col-form-label">Jabatan:</label>
-                <input type="text" class="form-control" name="jabatan" required>
+                <input type="text" class="form-control" name="jabatan">
+                <small class="errorJabatan text-danger hidden"></small>
             </div>
             <div class="form-group">
               <label for="name" class="col-form-label">Email:</label>
-              <input type="email" class="form-control" name="email" required>
+              <input type="email" class="form-control" name="email">
+              <small class="errorEmail text-danger hidden"></small>
             </div>
             <div class="form-group">
               <label for="name" class="col-form-label">Password:</label>
-              <input type="password" class="form-control" name="password" required>
+              <input type="password" class="form-control" name="password">
+              <small class="errorPassword text-danger hidden"></small>
             </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Tambah Anggota</button>
+          <button type="submit" class="btn btn-primary" id="storeBtn">Tambah Anggota</button>
             </form>
         </div>
       </div>
@@ -50,50 +55,29 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="editForm" method="POST">
+          <form id="editForm">
             {{ csrf_field() }}
-            {{ method_field('PUT') }}
+            <input type="hidden" id="edit_id" name="id">
             <div class="form-group">
               <label for="name" class="col-form-label">NIP:</label>
-              <input type="number" class="form-control" name="nip" required>
+              <input type="number" id="edit_nip"  class="form-control" name="nip">
+              <small class="edit_errorNip text-danger hidden"></small>
             </div>
               <div class="form-group">
                 <label for="name" class="col-form-label">Nama:</label>
-                <input type="text" class="form-control" name="nama" required>
+                <input type="text" id="edit_nama"  class="form-control" name="nama">
+                <small class="edit_errorNama text-danger hidden"></small>
               </div>
               <div class="form-group">
                   <label for="country" class="col-form-label">Jabatan:</label>
-                  <input type="text" class="form-control" name="jabatan" required>
+                  <input type="text" id="edit_jabatan"  class="form-control" name="jabatan">
+                  <small class="edit_errorJabatan text-danger hidden"></small>
               </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-warning" data-id="">Ubah Anggota</button>
+          <button type="submit" class="btn btn-warning" id="updateBtn">Ubah Anggota</button>
             </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="confirmHapusModal" tabindex="-1" data-backdrop="static"   role="dialog" aria-labelledby="hapusData" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-danger">
-          <h5 class="modal-title text-white" id="hapusData">Hapus Data</h5>
-          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p>Apakah anda yakin ingin menghapus data ini ?</p>
-        </div>
-        <div class="modal-footer">
-          <form id="hapusForm" method="POST">
-            {{ csrf_field() }}
-            {{ method_field('DELETE') }}
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-danger btnHapus" data-id="">Hapus</button>
-        </form>
         </div>
       </div>
     </div>
@@ -129,6 +113,8 @@ $('#storeBtn').click(function (e) {
         $('.errorNip').hide();
         $('.errorNama').hide();
         $('.errorJabatan').hide();
+        $('.errorEmail').hide();
+        $('.errorPassword').hide();
         $(this).html('Sending..');
     
         $.ajax({
@@ -147,8 +133,16 @@ $('#storeBtn').click(function (e) {
                   $('.errorNama').text(data.errors.nama);
                 }
                 if (data.errors.jabatan) {
-                  $('.errorTglLahir').show();
-                  $('.errorTglLahir').text(data.errors.jabatan);
+                  $('.errorJabatan').show();
+                  $('.errorJabatan').text(data.errors.jabatan);
+                }
+                if (data.errors.email) {
+                  $('.errorEmail').show();
+                  $('.errorEmail').text(data.errors.email);
+                }
+                if (data.errors.password) {
+                  $('.errorPassword').show();
+                  $('.errorPassword').text(data.errors.jabatan);
                 }
             }else {
               $('#tambahModal').modal('hide');
@@ -212,8 +206,8 @@ $('#storeBtn').click(function (e) {
                   $('.errorNama').text(data.errors.nama);
                 }
                 if (data.errors.jabatan) {
-                  $('.errorTglLahir').show();
-                  $('.errorTglLahir').text(data.errors.jabatan);
+                  $('.errorJabatan').show();
+                  $('.errorJabatan').text(data.errors.jabatan);
                 }
               }else {
                 $('#editModal').modal('hide');
