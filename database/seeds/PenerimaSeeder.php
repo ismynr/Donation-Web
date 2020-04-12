@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use App\Penerima;
 
 class PenerimaSeeder extends Seeder
 {
@@ -18,8 +19,8 @@ class PenerimaSeeder extends Seeder
     	for($i = 1; $i <= 100; $i++){
  
     	      // insert data ke table pegawai menggunakan Faker
-    		DB::table('penerima')->insert([
-    			'nama' => $faker->name,
+    		Penerima::create([
+    			'nama' => $faker->name(50),
     			'alamat' => $faker->address,
     			'tgl_lahir' => $faker->date($format = 'Y-m-d'),
     			'jenkel' => $faker->randomElement($array = array ('p','l')),

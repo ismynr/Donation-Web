@@ -11,6 +11,6 @@ class Category extends Model
     protected $primaryKey = 'id_kategori';
 
     public function donasi() {
-        return $this->hasMany('App\Category');
+        return $this->hasMany('App\Donasi');
     }
 }
