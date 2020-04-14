@@ -143,7 +143,7 @@ var table = $('.data-table').DataTable({
         {data: 'jenkel', name: 'jenkel'},
         {data: 'umur', name: 'umur'},
         {data: 'jumkel', name: 'jumkel'},
-        {data: 'penghasilan', name: 'penghasilan'},
+        {data: 'penghasilan', name: 'penghasilan', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )},
         {data: 'action', name: 'action', orderable: false, searchable: false},
     ]
 });

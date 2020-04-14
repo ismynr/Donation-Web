@@ -53,7 +53,7 @@
                         <tr>
                           <th style="border:0">penghasilan</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['penghasilan'] }}</td>
+                          <td style="border:0">{{ "Rp. ". number_format($d['penghasilan'], 2, ",", ".") }}</td>
                         </tr>
                       @empty
                           <td colspan="3">Tidak dapat menampilkan detail data</td>

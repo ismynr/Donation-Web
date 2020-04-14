@@ -33,7 +33,7 @@
                         <tr>
                           <th style="border:0">Jumlah Donasi</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $dataDonasi['jumlah_donasi'] }}</td>
+                          <td style="border:0">{{"Rp. ". number_format($dataDonasi['jumlah_donasi'], 2, ",", ".") }}</td>
                         </tr>
                         <tr>
                           <th style="border:0">Id Penerima</th>

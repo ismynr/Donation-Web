@@ -112,7 +112,7 @@
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'category', name: 'category'},
-            {data: 'jumlah_donasi', name: 'jumlah_donasi'},
+            {data: 'jumlah_donasi', name: 'jumlah_donasi', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )},
             {data: 'penerima', name: 'penerima'},
             {data: 'donatur', name: 'donatur'},
             {data: 'tanggal_memberi', name: 'tanggal_memberi'},
