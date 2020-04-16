@@ -13,6 +13,6 @@ class HomeDonaturController extends Controller
     }
 
     public function index(){
-        return view('usr_donatur/index');
+        return view('pengurus.index');
     }
 }
