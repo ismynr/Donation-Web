@@ -18,7 +18,7 @@ class PengurusSeeder extends Seeder
  
     	for($i = 1; $i <= 100; $i++){
  
-    	      // insert data ke table pegawai menggunakan Faker
+            //inser data pengurus tanpa id_user
     		DB::table('pengurus')->insert([
                 'nip' => $faker->numberBetween(100000,1200000),
     			'nama' => $faker->name,

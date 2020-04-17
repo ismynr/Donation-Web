@@ -13,6 +13,6 @@ class HomeDonaturController extends Controller
     }
 
     public function index(){
-        return view('pengurus.index');
+        // return view('pengurus.index');
     }
 }
