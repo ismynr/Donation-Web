@@ -22,12 +22,7 @@
 -   php artisan key:generate
 -   php artisan migrate
 -   composer dump-autoload
--   php artisan db:seed --class=CategorySeeder
--   php artisan db:seed --class=PenerimaSeeder
--   php artisan db:seed --class=DonaturSeeder
--   php artisan db:seed --class=PengurusSeeder
--   php artisan db:seed --class=UserSeeder
--   php artisan db:seed --class=DonasiSeeder
+-   php artisan db:seed --class=DatabaseSeeder
 
 ## Perbaharui Repo Lokal Dr Remote
 -   git Pull [nama_remote] [nama_branch]
