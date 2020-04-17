@@ -61,7 +61,7 @@ class DonasiController extends Controller
     }
 
     public function show($id){
-        $dataDonasi = Donasi::find($id);
+        $dataDonasi = Donasi::findOrFail($id);
         return view('pengurus.manage_donasi.detail', compact('dataDonasi'));
     }
 

@@ -47,6 +47,10 @@ class User extends Authenticatable
        return $this->role === 'donatur';
     }
 
+    public function isUser() {
+       return $this->role === NULL;
+    }
+
     public function role(){
         return $this->role;
     }

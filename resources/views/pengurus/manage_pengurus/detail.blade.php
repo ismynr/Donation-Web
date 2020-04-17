@@ -19,35 +19,30 @@
                   </div>
                   <div class="card-body p-0 pb-3 text-center">
                     <table class="table">
-                      @forelse ($data as $d)
+                      @if ($data)
                         <tr>
                           <th style="border:0">NIP</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['nip'] }}</td>
+                          <td style="border:0">{{ $data->nip }}</td>
                         </tr>
                         <tr>
                           <th style="border:0">Nama</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['nama'] }}</td>
+                          <td style="border:0">{{ $data->nama }}</td>
                         </tr>
                         <tr>
                           <th style="border:0">Jabatan</th>
                           <td style="border:0">:</td>
-                          <td style="border:0">{{ $d['jabatan'] }}</td>
+                          <td style="border:0">{{ $data->jabatan }}</td>
                         </tr>
-                        @php 
-                          $user = App\User::where('id',$d->id_user)->get();
-                        @endphp 
-                        @foreach ($user as $u)
-                            <tr>
-                              <th style="border:0">Email</th>
-                              <td style="border:0">:</td>
-                              <td style="border:0">{{ $u->email }}</td>
-                            </tr>
-                        @endforeach
-                      @empty
+                        <tr>
+                          <th style="border:0">Email</th>
+                          <td style="border:0">:</td>
+                          <td style="border:0">{{ $data->user->email }}</td>
+                        </tr>
+                      @else
                           <td colspan="3">Tidak dapat menampilkan detail data</td>
-                      @endforelse
+                      @endif
                     </table>
                   </div>
                 </div>

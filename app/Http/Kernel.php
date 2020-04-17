@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         // some other middlewares
         'pengurus' => \App\Http\Middleware\PengurusAuthenticated::class,
         'donatur'  => \App\Http\Middleware\DonaturAuthenticated::class,
+        'user'  => \App\Http\Middleware\UserAuthenticated::class,
     ];
 }

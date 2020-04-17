@@ -52,6 +52,11 @@ class LoginController extends Controller
             return redirect(route('donatur.dashboard'));
         }
 
+        // user yang belum punya role
+        else if($user->isUser()) {
+            return redirect(route('user.dashboard'));
+        }
+
         abort(404);
     }
 }

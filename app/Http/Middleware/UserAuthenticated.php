@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Auth;
 use Closure;
 
-class PengurusAuthenticated
+class UserAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -16,11 +16,11 @@ class PengurusAuthenticated
      */
     public function handle($request, Closure $next)
     {
-        // return $next($request);
         if( Auth::check() )
         {
+            // if user admin take him to his dashboard
             if ( Auth::user()->isPengurus() ) {
-                return $next($request);
+                return redirect('/pengurus');
             }
 
             // allow admin to proceed with request
@@ -29,7 +29,7 @@ class PengurusAuthenticated
             }
 
             else if ( Auth::user()->isUser() ) {
-                 return redirect('/user');
+                 return $next($request);
             }
         }
 

@@ -71,7 +71,7 @@ class PengurusController extends Controller
     }
     public function show($id)
     {
-        $data = Pengurus::find($id)->get(); // Mengambil satu Pengurus
+        $data = Pengurus::findOrFail($id); // Mengambil satu Pengurus
         return view('pengurus.manage_pengurus.detail', compact('data'));
     }
 

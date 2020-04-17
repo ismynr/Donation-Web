@@ -23,12 +23,14 @@ Route::get('/home', function () {
                 return redirect('/pengurus');
         }  else if ( Auth::user()->isDonatur() ) {
                 return redirect('/donatur');
+        }  else if ( Auth::user()->isUser() ){
+                return redirect('/user');
         }
     }
     return view('welcome');
 });
 Route::get('/contact', 'HomeController@contact');
-Route::get('/guest', 'GuestController@index');
+// Route::get('/guest', 'GuestController@index');
 
 Auth::routes();
 
@@ -36,6 +38,16 @@ Auth::routes();
  * 
  * Middleware Auth User Admin
  */
+
+
+/**
+ * 
+ * Middleware Auth User Yang Belum Punya Role
+ */
+Route::group(['middleware' => ['auth', 'user'], 'prefix' => 'user'], function () {
+    Route::get('/', 'UserController@index')->name('user.dashboard');
+    Route::post('/store', 'UserController@store')->name('user.store');
+});
 
  
 /**
@@ -54,13 +66,8 @@ Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus'], fun
     // JSON Route
     Route::get('donasi/cari/category', 'Pengurus\DonasiController@loadDataCategory')->name('donasi.cari.category');
     Route::get('donasi/cari/penerima', 'Pengurus\DonasiController@loadDataPenerima')->name('donasi.cari.penerima');
-    Route::get('donasi/cari/donatur', 'Pengurus\DonasiController@loadDataDonatur')->name('donasi.cari.donatur');
+    Route::get('donasi/cari/donatur', 'Pengurus\DonasiController@loadDataDonatur')->name('donasi.cari.donatur');   
     
-    // Hanya coba
-    Route::get('data', function() {
-        $model = App\Donasi::all();
-        return DataTables::of($model)->make();
-    });
 });
 
 
