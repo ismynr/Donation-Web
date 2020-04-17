@@ -109,7 +109,7 @@ class PengurusController extends Controller
     public function destroy($id)
     {
         $pengurus = Pengurus::find($id);
-        if (Pengurus::destroy($id) && User::destroy($pengurus->id_user)) {
+        if (Pengurus::destroy($id)) {
             $data = 'Success';
         }else {
             $data = 'Failed';
