@@ -21,6 +21,7 @@
 -   cp .env.example .env
 -   php artisan key:generate
 -   php artisan migrate
+-   composer dump-autoload
 -   php artisan db:seed --class=CategorySeeder
 -   php artisan db:seed --class=PenerimaSeeder
 -   php artisan db:seed --class=DonaturSeeder
