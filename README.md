@@ -26,3 +26,7 @@
 
 ## Perbaharui Repo Lokal Dr Remote
 -   git Pull [nama_remote] [nama_branch]
+
+# DEMO
+http://laravel-b2.tegalian.com/
+tester1@mailinator.com : 123
