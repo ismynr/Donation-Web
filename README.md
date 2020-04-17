@@ -20,7 +20,13 @@
 -   composer install
 -   cp .env.example .env
 -   php artisan key:generate
--   php artisan migrate --seed
+-   php artisan migrate
+-   php artisan db:seed --class=CategorySeeder
+-   php artisan db:seed --class=PenerimaSeeder
+-   php artisan db:seed --class=DonaturSeeder
+-   php artisan db:seed --class=PengurusSeeder
+-   php artisan db:seed --class=UserSeeder
+-   php artisan db:seed --class=DonasiSeeder
 
 ## Perbaharui Repo Lokal Dr Remote
 -   git Pull [nama_remote] [nama_branch]
