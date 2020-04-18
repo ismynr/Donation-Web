@@ -29,4 +29,5 @@
 
 # DEMO
 http://laravel-b2.tegalian.com/
+
 tester1@mailinator.com : 123
