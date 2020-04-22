@@ -7,43 +7,29 @@
     
     <div class="m-3">
         <table>
-            <tr>
-                <td>ID</td>
+        @foreach($donaturs->donasi as $donation)
+            <tr> 
+                <td>Kategori</td>
                 <td>:</td>
-                <td>{{ $donaturs->id_donatur }}</td>
+                <td>{{ $donation->id_kategori}}</td>
             </tr>
             <tr>
-                <td>Nama Depan</td>
+                <td>Nama Penerima</td>
                 <td>:</td>
-                <td>{{ $donaturs->nama_depan }}</td>
+                <td>{{ $donation->id_penerima }}</td>
             </tr>
             <tr>
-                <td>Nama Belakang</td>
+                <td>Jumlah Donasi</td>
                 <td>:</td>
-                <td>{{ $donaturs->nama_belakang }}</td>
+                <td>{{ $donation->jumlah_donasi }}</td>
             </tr>
             <tr>
-                <td>Email</td>
+                <td>Tanggal Donasi</td>
                 <td>:</td>
-                <td>{{ $donaturs->email }}</td>
+                <td>{{ $donation->tanggal_memberi }}</td>
             </tr>
-            <tr>
-                <td>No Handphone</td>
-                <td>:</td>
-                <td>{{ $donaturs->no_hp }}</td>
-            </tr>
-            <tr>
-                <td>Umur</td>
-                <td>:</td>
-                <td>{{ $donaturs->umur }}</td>
-            </tr>
-            <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>{{ $donaturs->alamat }}</td>
-            </tr>
+            @endforeach
         </table>
     </div>
 </div>
-
 @endsection

@@ -58,6 +58,10 @@ $(document).ready(function () {
             ]
         });
     });
+
+    function konfirmasiDelete(){
+        confirm("Apakah anda yakin?");
+    }
 </script>
 
 @endsection

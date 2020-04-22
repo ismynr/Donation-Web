@@ -33,7 +33,7 @@ class DonaturController extends Controller
                     <input type="hidden" name="_method" value="DELETE">
                     <a href="' . route('donatur.show', $data->id_donatur) .'" class="btn btn-light btn-sm"><i class="fa fa-eye"></i><span>&nbsp;Show</span></a>
                     <a href="'.route('donatur.edit', $data->id_donatur).'" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i><span>&nbsp;Edit</span></a>
-                    <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>&nbsp;Delete</button>
+                    <button class="btn btn-danger btn-sm" onclick="konfirmasiDelete()" ><i class="fa fa-trash"></i>&nbsp;Delete</button>
                 </form>
                     ';
             })
@@ -77,7 +77,8 @@ class DonaturController extends Controller
     }
 
     public function show($donatur){
-        $donaturs = Donatur::find($donatur);
+        $donaturs = Donatur::with('donasi')->find($donatur);
+        // dd($donaturs);
         return view('pengurus.manage_donaturs.detail', compact('donaturs'));
     }
 

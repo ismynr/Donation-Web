@@ -20,6 +20,6 @@ class Donatur extends Model
     }
 
     public function donasi() {
-        return $this->hasMany('App\Donasi');
+        return $this->hasMany('App\Donasi', 'id_donatur');
     }
 }
