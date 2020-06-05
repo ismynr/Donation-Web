@@ -56,6 +56,7 @@
 -   cd [nama_repo]
 -   composer install
 -   cp .env.example .env
+-   setting email konfigurasi di .env
 -   php artisan key:generate
 -   php artisan migrate:fresh --seed
 
