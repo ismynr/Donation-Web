@@ -29,10 +29,11 @@ Route::get('/home', function () {
     }
     return view('welcome');
 });
+
 Route::get('/contact', 'HomeController@contact');
 // Route::get('/guest', 'GuestController@index');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 /**
  * 
@@ -44,7 +45,7 @@ Auth::routes();
  * 
  * Middleware Auth User Yang Belum Punya Role
  */
-Route::group(['middleware' => ['auth', 'user'], 'prefix' => 'user'], function () {
+Route::group(['middleware' => ['auth', 'user', 'verified'], 'prefix' => 'user'], function () {
     Route::get('/', 'UserController@index')->name('user.dashboard');
     Route::post('/store', 'UserController@store')->name('user.store');
 });

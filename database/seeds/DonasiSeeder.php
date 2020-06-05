@@ -22,7 +22,7 @@ class DonasiSeeder extends Seeder
         $id_penerima = Penerima::all()->pluck('id_penerima')->toArray();
         $id_donatur = Donatur::all()->pluck('id_donatur')->toArray();
 
-        for ($i=0; $i < 100; $i++) { 
+        for ($i=0; $i < 25; $i++) { 
             Donasi::create([
                 'id_kategori' => $faker->randomElement($id_kategori),
                 'id_penerima' => $faker->randomElement($id_penerima),

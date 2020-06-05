@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Quixlab - Bootstrap Admin Dashboard Template by Themefisher.com</title>
+    <title>Admin</title>
     <!-- Favicon icon -->
     <link href="{{ asset('quixlab') }}/images/favicon.png" rel="icon" type="image/png" sizes="16x16">
     <!-- Custom Stylesheet -->
@@ -64,7 +64,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        @include('layouts.user.sidebar')
+        {{-- @include('layouts.user.sidebar') --}}
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -72,7 +72,7 @@
         <!--**********************************
             Content body start
         ***********************************-->
-        <div class="content-body">
+        <div class="content-body" style="margin: 30px 10px 10px 10px !important;">
 
             @yield('content')
             
