@@ -15,17 +15,17 @@
     -   Donasi, Category ***[Uwis]***
     -   Donatur
     -   Penerima   
-    -   Pengurus
+    -   Pengurus ***[Uwis]***
 2. Seeding for ALL TABLES.
     -   Donasi, Category ***[Uwis]***
     -   Donatur
     -   Penerima   
-    -   Pengurus
+    -   Pengurus ***[Uwis]***
 3. Seeding at least 25 rows per Tables.
     -   Donasi, Category ***[Uwis]***
     -   Donatur
     -   Penerima   
-    -   Pengurus
+    -   Pengurus ***[Uwis]***
 
 ### 9th
 1. Registration ***[Uwis]***

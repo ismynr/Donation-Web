@@ -16,7 +16,7 @@ class PengurusSeeder extends Seeder
         //insert data pengurus
         $faker = Faker::create('id_ID');
  
-    	for($i = 1; $i <= 100; $i++){
+    	for($i = 1; $i <= 25; $i++){
  
             //inser data pengurus tanpa id_user
     		DB::table('pengurus')->insert([

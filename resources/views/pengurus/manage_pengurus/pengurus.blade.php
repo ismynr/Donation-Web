@@ -26,7 +26,7 @@
                           <th>NIP</th>
                           <th>Nama Pengurus</th>
                           <th>Jabatan</th>
-                          <th>Opsi</th>
+                          <th width="25%">Opsi</th>
                         </tr>
                         </tr>
                       </thead>
