@@ -14,17 +14,17 @@
 1. Migration for ALL TABLES.
     -   Donasi, Category ***[Uwis]***
     -   Donatur
-    -   Penerima   
+    -   Penerima ***[Uwis]*** 
     -   Pengurus ***[Uwis]***
 2. Seeding for ALL TABLES.
     -   Donasi, Category ***[Uwis]***
     -   Donatur
-    -   Penerima   
+    -   Penerima ***[Uwis]***  
     -   Pengurus ***[Uwis]***
 3. Seeding at least 25 rows per Tables.
     -   Donasi, Category ***[Uwis]***
     -   Donatur
-    -   Penerima   
+    -   Penerima ***[Uwis]***
     -   Pengurus ***[Uwis]***
 
 ### 9th
