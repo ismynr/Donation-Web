@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengurus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Penerima;
+use App\Donasi;
 use DataTables;
 use Validator;
 
@@ -85,8 +86,9 @@ class PenerimaController extends Controller
      */
     public function show($id)
     {
-        $data = Penerima::where('id_penerima', $id)->get(); // Mengambil satu penerima.
-        return view('pengurus.manage_penerima.penerima-detail', compact('data'));
+        $penerima = Penerima::where('id_penerima', $id)->get(); // Mengambil satu penerima.
+        $donasi = Donasi::where('id_penerima', $id)->get();
+        return view('pengurus.manage_penerima.penerima-detail', compact('penerima', 'donasi'));
     }
 
     /**

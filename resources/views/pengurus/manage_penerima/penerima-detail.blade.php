@@ -19,7 +19,7 @@
                   </div>
                   <div class="card-body p-0 pb-3 text-center">
                     <table class="table">
-                      @forelse ($data as $d)
+                      @forelse ($penerima as $d)
                         <tr>
                           <th style="border:0">Nama</th>
                           <td style="border:0">:</td>
@@ -57,7 +57,7 @@
                         </tr>
                       @empty
                           <td colspan="3">Tidak dapat menampilkan detail data</td>
-                      @endforelse
+                      @endforelse 
                     </table>
                   </div>
                 </div>

@@ -11,6 +11,6 @@ class Penerima extends Model
     protected $fillable = ['nama', 'alamat', 'tgl_lahir', 'jenkel', 'umur', 'jumkel', 'penghasilan'];
 
     public function donasi() {
-        return $this->hasMany('App\Donasi');
+        return $this->hasMany('App\Donasi', 'id_penerima');
     }
 }
