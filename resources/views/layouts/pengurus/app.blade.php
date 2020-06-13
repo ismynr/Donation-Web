@@ -1,68 +1,125 @@
-<!doctype html>
-<html class="no-js h-100" lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>MY CRUD | Design Crud Data</title>
-
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    {{-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> --}}
-    <link rel="stylesheet" href="{{ asset('css/fontawesome.all.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <title>Admin</title>
+    <!-- Favicon icon -->
+    <link href="{{ asset('quixlab') }}/images/favicon.png" rel="icon" type="image/png" sizes="16x16">
+    <!-- Custom Stylesheet -->
+    <link href="{{ asset('quixlab') }}/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('sweetalert/sweetalert.css')}}" type="text/css">
     <link rel="stylesheet" href="{{ asset('select2/select2.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{ asset('select2/bootstrap.select2.min.css')}}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/shards-dashboards.1.1.0.min.css') }}" id="main-stylesheet" data-version="1.1.0">
-    <link rel="stylesheet" href="{{ asset('css/extras.1.1.0.min.css') }}">
-    <link href="{{ asset('dataTables/jquery.dataTables.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('dataTables/dataTables.bootstrap4.min.css') }} " rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('quixlab') }}/plugins/tables/css/datatable/dataTables.bootstrap4.min.css">
+    
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/fontawesome.kit.js') }}" crossorigin="anonymous"></script>
-  </head>
+</head>
 
-  <body class="h-100">
-    
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Main Sidebar -->
-        @include('layouts.pengurus.sidebar')
+<body>
 
-        <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
-          <div class="main-navbar sticky-top bg-white">
-            <!-- Main Navbar -->
-            @include('layouts.pengurus.header')
-
-          </div>
-          <!-- / .main-navbar -->
-          
-          @yield('content')
-
-          <!-- Main Footer -->
-          @include('layouts.pengurus.footer')
-        </main>
-      </div>
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
     </div>
+    <!--*******************
+        Preloader end
+    ********************-->
 
     
-    <script src="{{ asset('js/popper.min.js') }}" crossorigin="anonymous"></script>
-    <script src="{{ asset('dataTables/jquery-validate/1.19.0/jquery.validate.js') }} "></script>
-    <script src="{{ asset('dataTables/jquery.dataTables.min.js') }} "></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}" crossorigin="anonymous"></script>
-    <script src="{{ asset('dataTables/dataTables.bootstrap4.min.js')}} "></script>
-    <script src="{{ asset('js/Chart.min.js') }}"></script>
-    <script src="{{ asset('js/shards.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.sharrre.min.js') }}"></script>
-    <script src="{{ asset('js/extras.1.1.0.min.js') }}"></script>
-    <script src="{{ asset('js/shards-dashboards.1.1.0.min.js') }}"></script>
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="index.html">
+                    <b class="logo-abbr"><img src="{{ asset('quixlab') }}/images/logo.png" alt=""> </b>
+                    <span class="logo-compact"><img src="{{ asset('quixlab') }}/images/logo-compact.png" alt=""></span>
+                    <span class="brand-title">
+                        <img src="{{ asset('quixlab') }}/images/logo-text.png" alt="">
+                    </span>
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        @include('layouts.pengurus.header')
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        @include('layouts.pengurus.sidebar')
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            @yield('content')
+            
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        @include('layouts.pengurus.footer')
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="{{ asset('quixlab') }}/plugins/common/common.min.js"></script>
+    <script src="{{ asset('quixlab') }}/js/custom.min.js"></script>
+    <script src="{{ asset('quixlab') }}/js/settings.js"></script>
+    <script src="{{ asset('quixlab') }}/js/gleek.js"></script>
+    <script src="{{ asset('quixlab') }}/js/styleSwitcher.js"></script>
+
+    <script src="{{ asset('dataTables/jquery.validate.js') }}"></script>
     <script src="{{ asset('sweetalert/sweetalert.min.js')}}" type="text/javascript" charset="utf-8" async defer></script>
     <script src="{{ asset('select2/select2.full.min.js')}}" type="text/javascript"></script>
 
-    {{-- @layouts.pengurus.modals') --}}
-    
+    <script src="{{ asset('quixlab') }}/plugins/tables/js/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('quixlab') }}/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ asset('quixlab') }}/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
     @yield('modals')
-    
-  </body>
+
+
+</body>
+
 </html>

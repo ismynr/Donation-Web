@@ -1,67 +1,44 @@
 @extends('layouts.pengurus.app')
 @section('content')
 
-<section class="mr-3 ml-3">
-    <div class="header">
-        <h1>Daftar Donatur</h1>
-    </div>
-    <div class="body">
-        <div class="card rounded" style="background: #eee">
-            <div class="container">
-                <div class="header">
-                    <div class="mb-2"><a href="{{route('donatur.create')}}" class="btn btn-primary btn-sm mt-2">Create User</a></div>
-                </div>
-                <hr>
-                <div class="body">
-                    <table class="table table-hover table-bordered data-table">
-                        <thead style="background: #9e9e9e">
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Depan</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        
-                    </table>
-                </div>
-            </div>
-        </div>
-    
-    </div>
-</section>
-<script>
-$(document).ready(function () {
-        var table = $('.data-table').DataTable({
-            processing: true,
-            serverSide: true,
-            autoWidth: false,
-            pageLength: 3,
-            "order": [
-                [0, "desc"]
-            ],
-            ajax: "{{ route('donatur.list') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'nama_depan',
-                    name: 'nama_depan'
-                },
-                {
-                    data: 'Actions',
-                    name: 'Actions',
-                    orderable: false,
-                    searchable: false,
-                    sClass: 'text-center'
-                },
-            ]
-        });
-    });
+ <div class="row page-titles mx-0">
+      <div class="col p-md-0">
+          <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="javascript:void(0)">Management</a></li>
+              <li class="breadcrumb-item active"><a href="javascript:void(0)">Donatur</a></li>
+          </ol>
+      </div>
+  </div>
+  <!-- row -->
 
-    function konfirmasiDelete(){
-        confirm("Apakah anda yakin?");
-    }
-</script>
+<div class="container-fluid">
+      <div class="row">
+          <div class="col-12">
+              <div class="card">
+                  <div class="card-body">
+                      <h4 class="card-title float-left">List Data Donatur (Pendonasi)</h4>
+                      <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
+                      <div class="table-responsive">
+                          <table class="table data-table table-striped table-bordered" id="table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Depan</th>
+                                    <th>Nama Belakang</th>
+                                    <th>No HP</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody> </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+@endsection
 
+@section('modals')
+  @include('pengurus.manage_donaturs.modals')
 @endsection

@@ -1,9 +1,5 @@
-<footer class="main-footer d-flex p-2 px-3 bg-white border-top">
-  <ul class="nav">
-    {{-- <li class="nav-item">
-      <a class="nav-link" href="#">Home</a>
-    </li> --}}
-  </ul>
-  <span class="copyright ml-auto my-auto mr-2">Copyright © 2020
-  </span>
-</footer>
+<div class="footer" >
+    <div class="copyright">
+        <p>Copyright &copy; Designed & Developed by <a href="https://themeforest.net/user/quixlab">Quixlab</a> 2018</p>
+    </div>
+</div>

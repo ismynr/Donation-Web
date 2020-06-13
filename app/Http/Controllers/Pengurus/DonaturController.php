@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Donatur;
 use App\User;
 use DataTables;
+use Validator;
 
 class DonaturController extends Controller
 {
@@ -17,99 +18,109 @@ class DonaturController extends Controller
         $this->pasth = 'donatur';
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // $data = $this->Donatur->getData();
-        // dd(DataTables::of($data)->make());
+        if ($request->ajax()) {
+            $data = Donatur::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $btn = '<button type="button" onclick="location.href =\''.route('donatur.show', $row->id_donatur).'\'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
+                    $btn .= '<button type="button" data-id="/pengurus/donatur/'.$row->id_donatur.'/edit" class="edit btn btn-warning btn-sm mr-1 editBtn">Edit</button>';
+                    $btn .= '<button type="submit" data-id="/pengurus/donatur/'.$row->id_donatur.'" class="btn btn-danger btn-sm deleteBtn">Delete</button>';
+                    return $btn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
         return view('pengurus.manage_donaturs.index');
-    }
-
-    public function getDonatur(Request $request){
-        $data = $this->Donatur->getData();
-        return DataTables::of($data)->addIndexColumn()
-            ->addColumn('Actions', function($data){
-                return '
-                <form action="'. route('donatur.destroy', $data->id_donatur).'" method="post" class="sa-remove">
-                    <input type="hidden" name="_method" value="DELETE">
-                    <a href="' . route('donatur.show', $data->id_donatur) .'" class="btn btn-light btn-sm"><i class="fa fa-eye"></i><span>&nbsp;Show</span></a>
-                    <a href="'.route('donatur.edit', $data->id_donatur).'" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i><span>&nbsp;Edit</span></a>
-                    <button class="btn btn-danger btn-sm" onclick="konfirmasiDelete()" ><i class="fa fa-trash"></i>&nbsp;Delete</button>
-                </form>
-                    ';
-            })
-            ->rawColumns(['Actions'])
-            ->make(true);
     }
 
     public function create()
     {
-        return view('pengurus.manage_donaturs.create');
+        // pake modal dialog
     }
 
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'nama_depan' => 'required',
             'nama_belakang' => 'required',
-            'email' => 'required',
-            'no_hp' => 'required|min:11',
+            'no_hp' => 'required|min:9',
             'alamat' => 'required',
-            'umur' => 'required'
+            'umur' => 'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
-        $donaturs = Donatur::create([
-            'nama_depan' => $request->nama_depan,
-            'nama_belakang' => $request->nama_belakang,
-            'email' => $request->email,
-            'no_hp' => $request->no_hp,
-            'alamat' => $request->alamat,
-            'umur' => $request->umur
-        ]);
+        if($validator->fails()) {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
+        }else {
+            $user = new User;
+            $user->name = $request->nama_depan . ' ' . $request->nama_belakang;
+            $user->email = $request->email;
+            $user->role = "donatur";
+            $user->password = Hash::make($request->email);
+            $user->save();
 
-        return redirect()->route('donatur.index');
+            $donatur = new Donatur;
+            $donatur->nama_depan = $request->nama_depan;
+            $donatur->nama_belakang = $request->nama_belakang;
+            $donatur->no_hp = $request->no_hp;
+            $donatur->alamat = $request->alamat;
+            $donatur->umur = $request->umur;
+            $donatur->email = $request->email;
+            $donatur->save();
+
+            return response()->json(['success' => true]);
+        }
     }
 
-
-    public function edit($donatur){
-        $donaturs = Donatur::find($donatur);
-        return view('pengurus.manage_donaturs.edit', compact('donaturs'));
-    }
-
-    public function show($donatur){
-        $donaturs = Donatur::with('donasi')->find($donatur);
-        // dd($donaturs);
+    public function show($id){
+        $donaturs = Donatur::with('donasi')->find($id);
         return view('pengurus.manage_donaturs.detail', compact('donaturs'));
     }
 
-    public function update(Request $request, $donatur){
-        $this->validate($request, [
-            'nama_depan' => 'required',
-            'nama_belakang' => 'required',
-            'email' => 'required',
-            'no_hp' => 'required|min:11',
-            'alamat' => 'required',
-            'umur' => 'required'
-        
-        ]);
-
-        $donaturs = Donatur::findOrfail($donatur);
-        $donaturs->update([
-            'nama_depan' => $request->nama_depan,
-            'nama_belakang' => $request->nama_belakang,
-            'email' => $request->email, 
-            'no_hp' => $request->no_hp,
-            'alamat' => $request->alamat,
-            'umur' => $request->umur
-        ]);
-
-        return redirect()->route('donatur.index');
+    public function edit($id){
+        $data = Donatur::findOrFail($id);
+        return response()->json($data);
     }
 
-       public function destroy($donatur){
-        $donaturs = Donatur::findOrFail($donatur);
-        $donaturs->delete();
+    public function update(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'nama_depan' => 'required',
+            'nama_belakang' => 'required',
+            'no_hp' => 'required|min:9',
+            'alamat' => 'required',
+            'umur' => 'required',
+            'email' => 'required'
+        ]);
 
-        return redirect()->route('donatur.index');
+        if($validator->fails()) {
+            return response()->json(['errors' => $validator->getMessageBag()->toArray()]);
+        }else {
+            $donatur = Donatur::find($id);
+            $donatur->nama_depan = $request->nama_depan;
+            $donatur->nama_belakang = $request->nama_belakang;
+            $donatur->no_hp = $request->no_hp;
+            $donatur->alamat = $request->alamat;
+            $donatur->umur = $request->umur;
+            $donatur->email = $request->email;
+            if($request->password == "Reset Password"){
+                $donatur->password = Hash::make($request->email);
+            }
+            $donatur->save();
+            return response()->json(['success' => true]);
+        }
+    }
+
+    public function destroy($id){
+        if (Donatur::destroy($id)) {
+            $data = 'Success';
+        }else {
+            $data = 'Failed';
+        }
+        return response()->json($data);
     }
 }

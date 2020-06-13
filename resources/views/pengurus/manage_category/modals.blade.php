@@ -9,8 +9,8 @@
         </button>
       </div>
       <div class="modal-body">
-          {{ csrf_field() }}
         <form id="tambahForm">
+          {{ csrf_field() }}
           <div class="form-group">
               <label for="name" class="col-form-label">Nama Kategori:</label>
               <input type="text" class="form-control" name="nama_kategori">
@@ -125,6 +125,7 @@
             datatype : 'json',
             success:function(data){
                 $('#edit_id').val(data.id_kategori);
+                console.log(data)
                 $('#edit_nama_kategori').val(data.nama_kategori);
                 $('.edit_errorNama_kategori').hide();
                 $('#editModal').modal('show');

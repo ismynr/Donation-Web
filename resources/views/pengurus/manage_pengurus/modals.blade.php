@@ -172,9 +172,9 @@ $('#storeBtn').click(function (e) {
                 $('#edit_nip').val(data.nip);
                 $('#edit_nama').val(data.nama);
                 $('#edit_jabatan').val(data.jabatan);
-                $('.errorNip').hide();
-                $('.errorNama').hide();
-                $('.errorJabatan').hide();
+                $('.edit_errorNip').hide();
+                $('.edit_errorNama').hide();
+                $('.edit_errorJabatan').hide();
                 $('#editModal').modal('show');
             }
         });
@@ -183,9 +183,9 @@ $('#storeBtn').click(function (e) {
     // Update button in modal dialog
     $('#updateBtn').click(function(e){
         e.preventDefault();
-        $('.errorNip').hide();
-        $('.errorNama').hide();
-        $('.errorJabatan').hide();
+        $('.edit_errorNip').hide();
+        $('.edit_errorNama').hide();
+        $('.edit_errorJabatan').hide();
         var url = "/pengurus/pengurus/"+$('#edit_id').val();
         console.log(url);
         var frm = $('#editForm');
@@ -198,16 +198,16 @@ $('#storeBtn').click(function (e) {
             success:function(data){
               if (data.errors) {
                 if (data.errors.nip) {
-                  $('.errorNip').show();
-                  $('.errorNip').text(data.errors.nip);
+                  $('.edit_errorNip').show();
+                  $('.edit_errorNip').text(data.errors.nip);
                 }
                 if (data.errors.nama) {
-                  $('.errorNama').show();
-                  $('.errorNama').text(data.errors.nama);
+                  $('.edit_errorNama').show();
+                  $('.edit_errorNama').text(data.errors.nama);
                 }
                 if (data.errors.jabatan) {
-                  $('.errorJabatan').show();
-                  $('.errorJabatan').text(data.errors.jabatan);
+                  $('.edit_errorJabatan').show();
+                  $('.edit_errorJabatan').text(data.errors.jabatan);
                 }
               }else {
                 $('#editModal').modal('hide');

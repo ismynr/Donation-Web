@@ -8029,7 +8029,7 @@ svg.pulse-svg {
       top: 2px; }
     .header-right .icons .user-img {
       position: relative;
-      top: -7px; }
+      top: 0; }
       .header-right .icons .user-img img {
         height: 40px;
         width: 40px;

@@ -33,7 +33,7 @@
           </div>
           <div class="form-group">
               <label for="city" class="col-form-label">Tanggal Pemberian:</label>
-              <input type="text" class="form-control datepicker" name="tanggal_memberi" placeholder="ex: 2020-03-28" autocomplete="off">
+              <input type="date" class="form-control datepicker" name="tanggal_memberi" placeholder="ex: 2020-03-28" autocomplete="off">
               <small class="errorTanggal_memberi text-danger hidden"></small>
           </div>
       </div>
@@ -82,7 +82,7 @@
           </div>
           <div class="form-group">
               <label for="city" class="col-form-label">Tanggal Pemberian:</label>
-              <input type="text" class="form-control datepicker" id="edit_tanggal_memberi" name="tanggal_memberi" placeholder="ex: 2020-03-28" autocomplete="off">
+              <input type="date" class="form-control datepicker" id="edit_tanggal_memberi" name="tanggal_memberi" placeholder="ex: 2020-03-28" autocomplete="off">
               <small class="edit_errorTanggal_memberi text-danger hidden"></small>
           </div>
       </div>
