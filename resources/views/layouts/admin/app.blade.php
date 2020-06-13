@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>Pengurus</title>
+    <title>Admin</title>
     <!-- Favicon icon -->
     <link href="{{ asset('quixlab') }}/images/favicon.png" rel="icon" type="image/png" sizes="16x16">
     <!-- Custom Stylesheet -->
@@ -62,7 +62,7 @@
         <!--**********************************
             Header start
         ***********************************-->
-        @include('layouts.pengurus.header')
+        @include('layouts.admin.header')
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
@@ -70,7 +70,7 @@
         <!--**********************************
             Sidebar start
         ***********************************-->
-        @include('layouts.pengurus.sidebar')
+        @include('layouts.admin.sidebar')
         <!--**********************************
             Sidebar end
         ***********************************-->
@@ -91,7 +91,7 @@
         <!--**********************************
             Footer start
         ***********************************-->
-        @include('layouts.pengurus.footer')
+        @include('layouts.admin.footer')
         <!--**********************************
             Footer end
         ***********************************-->

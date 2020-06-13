@@ -32,6 +32,10 @@ class DonaturAuthenticated
             else if ( Auth::user()->isUser() ) {
                  return redirect('/user');
             }
+
+            else if ( Auth::user()->isAdmin() ) {
+                 return redirect('/admin');
+            }
         }
 
         abort(404);  // for other user throw 404 error

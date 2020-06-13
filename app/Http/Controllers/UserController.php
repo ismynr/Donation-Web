@@ -27,7 +27,6 @@ class UserController extends Controller
         $user->role = "pengurus";
         $user->save();
         
-
         // Make Data Pengurus
         $pengurus = new Pengurus;
         $pengurus->id_user = Auth::user()->id;

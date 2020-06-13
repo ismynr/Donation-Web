@@ -31,6 +31,10 @@ class UserAuthenticated
             else if ( Auth::user()->isUser() ) {
                  return $next($request);
             }
+
+            else if ( Auth::user()->isAdmin() ) {
+                 return redirect('/admin');
+            }
         }
 
         abort(404);  // for other user throw 404 error

@@ -39,12 +39,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    
+    // ROLE DEFINITION
     public function isPengurus() {
        return $this->role === 'pengurus';
     }
 
     public function isDonatur() {
        return $this->role === 'donatur';
+    }
+
+    public function isAdmin() {
+       return $this->role === 'admin';
     }
 
     public function isUser() {

@@ -57,6 +57,11 @@ class LoginController extends Controller
             return redirect(route('user.dashboard'));
         }
 
+        // user yang belum punya role
+        else if($user->isAdmin()) {
+            return redirect(route('admin.dashboard'));
+        }
+
         abort(404);
     }
 }

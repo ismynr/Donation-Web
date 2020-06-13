@@ -23,6 +23,8 @@ Route::get('/home', function () {
                 return redirect('/pengurus');
         }  else if ( Auth::user()->isDonatur() ) {
                 return redirect('/donatur');
+        }  else if ( Auth::user()->isAdmin() ) {
+                return redirect('/admin');
         }  else if ( Auth::user()->isUser() ){
                 return redirect('/user');
         }
@@ -37,17 +39,20 @@ Auth::routes(['verify' => true]);
 
 /**
  * 
- * Middleware Auth User Admin
- */
-
-
-/**
- * 
- * Middleware Auth User Yang Belum Punya Role
+ * Middleware Auth User Yang Belum Punya Role SETELAH REGISTRASI
  */
 Route::group(['middleware' => ['auth', 'user', 'verified'], 'prefix' => 'user'], function () {
     Route::get('/', 'UserController@index')->name('user.dashboard');
     Route::post('/store', 'UserController@store')->name('user.store');
+});
+
+
+/**
+ * 
+ * Middleware Auth User Admin
+ */
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
+    Route::get('/', 'Admin\HomeAdminController@index')->name('admin.dashboard');
 });
 
  
