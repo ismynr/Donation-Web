@@ -36,7 +36,7 @@ class DonaturSeeder extends Seeder
             // dan menyertakan data donatur yang terhubung dengan akun user diatas
     		Donatur::create([
                 'id_user' => $user->id,
-    			'nama_depan' => $ambilEmailFaker,
+    			'nama_depan' => $ambilnamaDepanFaker,
                 'nama_belakang' => $ambilnamaBlkgFaker,
                 'email' => $user->email,
                 'no_hp' => $faker->numberBetween(25,40),

@@ -14,11 +14,11 @@
                     <i class="icon-envelope menu-icon"></i> <span class="nav-text">Penerima</span>
                 </a>
             </li> 
-            <li>
+            {{-- <li>
                 <a href="{{ route('pengurus.index') }}" aria-expanded="false">
                     <i class="icon-envelope menu-icon"></i> <span class="nav-text">Pengurus</span>
                 </a>
-            </li> 
+            </li>  --}}
             <li>
                 <a href="{{ route('donatur.index') }}" aria-expanded="false">
                     <i class="icon-envelope menu-icon"></i> <span class="nav-text">Donatur</span>
@@ -37,7 +37,7 @@
 
             <li class="nav-label mt-3">Public</li>
             <li>
-                <a href="#" aria-expanded="false">
+                <a href="{{ route('layanan_public.index') }}" aria-expanded="false">
                     <i class="icon-envelope menu-icon"></i> <span class="nav-text">Layanan</span>
                 </a>
             </li>                   

@@ -1,4 +1,4 @@
-@extends('layouts.pengurus.app')
+@extends('layouts.admin.app')
 
 @section('content')
           <div class="main-content-container container-fluid px-4">

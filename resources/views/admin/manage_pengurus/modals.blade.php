@@ -186,7 +186,7 @@ $('#storeBtn').click(function (e) {
         $('.edit_errorNip').hide();
         $('.edit_errorNama').hide();
         $('.edit_errorJabatan').hide();
-        var url = "/pengurus/pengurus/"+$('#edit_id').val();
+        var url = "/admin/pengurus/"+$('#edit_id').val();
         console.log(url);
         var frm = $('#editForm');
 

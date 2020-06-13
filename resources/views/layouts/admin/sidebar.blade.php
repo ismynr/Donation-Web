@@ -13,7 +13,24 @@
                 <a href="{{ route('pengurus.index') }}" aria-expanded="false">
                     <i class="icon-envelope menu-icon"></i> <span class="nav-text">Pengurus</span>
                 </a>
-            </li>                 
+            </li> 
+            <li>
+                <a href="{{ route('donatur.index') }}" aria-expanded="false">
+                    <i class="icon-envelope menu-icon"></i> <span class="nav-text">Donatur</span>
+                </a>
+            </li>    
+            <li>
+                <a href="{{ route('user.index') }}" aria-expanded="false">
+                    <i class="icon-envelope menu-icon"></i> <span class="nav-text">User</span>
+                </a>
+            </li>   
+            
+            <li class="nav-label mt-3">Log</li>
+            <li>
+                <a href="{{ route('pengurus.index') }}" aria-expanded="false">
+                    <i class="icon-envelope menu-icon"></i> <span class="nav-text">Activity</span>
+                </a>
+            </li> 
         </ul>
     </div>
 </div>

@@ -27,9 +27,6 @@
                                 <li>
                                     <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
                                 </li>
-                                <li>
-                                    <a href="app-profile.html"><i class="icon-lock"></i> <span>Ubah Password</span></a>
-                                </li>
                                 <hr class="my-2">
                                 <li>
                                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="icon-key"></i> 
