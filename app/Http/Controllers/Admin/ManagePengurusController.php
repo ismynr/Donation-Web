@@ -19,7 +19,7 @@ class ManagePengurusController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn = '<button type="button" onclick="location.href =\' '.route('pengurus.show', $row->id_pengurus).' \'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
+                    $btn = '<button type="button" onclick="location.href =\' '.route('admin.pengurus.show', $row->id_pengurus).' \'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
                     $btn .= '<button type="button" data-id="/admin/pengurus/'.$row->id_pengurus.'/edit" class="edit btn btn-warning btn-sm mr-1 editBtn">Edit</button>';
                     $btn .= '<button type="submit" data-id="/admin/pengurus/'.$row->id_pengurus.'" class="btn btn-danger btn-sm deleteBtn">Delete</button>';
                     return $btn;

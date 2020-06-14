@@ -10,7 +10,7 @@
             
             <li class="nav-label mt-3">Data</li>
             <li>
-                <a href="{{ route('penerima.index') }}" aria-expanded="false">
+                <a href="#" aria-expanded="false">
                     <i class="icon-envelope menu-icon"></i> <span class="nav-text">Donasi Anda</span>
                 </a>
             </li>                

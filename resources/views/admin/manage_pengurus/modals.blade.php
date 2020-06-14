@@ -96,7 +96,7 @@ $.ajaxSetup({
 var table = $('.data-table').DataTable({
     processing: true,
     serverSide: true,
-    ajax: "{{ route('pengurus.index') }}",
+    ajax: "{{ route('admin.pengurus.index') }}",
     columns: [
         {data: 'DT_RowIndex', name: 'DT_RowIndex'},
         {data: 'nip', name: 'nip'},
@@ -119,7 +119,7 @@ $('#storeBtn').click(function (e) {
     
         $.ajax({
           data: frm.serialize(),
-          url: "{{ route('pengurus.store') }}",
+          url: "{{ route('admin.pengurus.store') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {

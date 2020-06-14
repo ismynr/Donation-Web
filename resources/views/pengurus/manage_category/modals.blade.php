@@ -68,7 +68,7 @@
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('category.index') }}",
+        ajax: "{{ route('pengurus.category.index') }}",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'nama_kategori', name: 'nama_kategori'},
@@ -91,7 +91,7 @@
     
         $.ajax({
           data: frm.serialize(),
-          url: "{{ route('category.store') }}",
+          url: "{{ route('pengurus.category.store') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {

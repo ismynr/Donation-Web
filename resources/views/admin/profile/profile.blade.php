@@ -51,7 +51,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4>Change Profile</h4>
-                        <form class="form-valide" action="{{ route('profile.update', Auth::user()->id) }}" method="post">
+                        <form class="form-valide" action="{{ route('admin.profile.update', Auth::user()->id) }}" method="post">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
                             <input type="hidden" name="type_change_profile" value="profile">
@@ -84,7 +84,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4>Change Password</h4>
-                        <form class="form-valide" action="{{ route('profile.update', Auth::user()->id) }}" method="post">
+                        <form class="form-valide" action="{{ route('admin.profile.update', Auth::user()->id) }}" method="post">
                             {{ csrf_field() }}
                             {{ method_field('PUT') }}
                             <input type="hidden" name="type_change_profile" value="password">

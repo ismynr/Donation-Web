@@ -48,7 +48,7 @@ class ProfileAdminController extends Controller
             $user->name = $request->nama;
             $user->email = $request->email;
             $user->save();
-            return redirect()->route('profile.index')->withSuccess('Berhasil ubah profile!');
+            return redirect()->route('admin.profile.index')->withSuccess('Berhasil ubah profile!');
 
         } else{
             $this->validate($request, [
@@ -61,9 +61,9 @@ class ProfileAdminController extends Controller
                 $user = User::findOrfail($id);
                 $user->password = Hash::make($request->password);
                 $user->save();
-                return redirect()->route('profile.index')->withSuccess('Berhasil ubah password!');
+                return redirect()->route('admin.profile.index')->withSuccess('Berhasil ubah password!');
             } else{
-                return redirect()->route('profile.index')->withErrors('Password lama tidak sama!');
+                return redirect()->route('admin.profile.index')->withErrors('Password lama tidak sama!');
             }
         }
     }

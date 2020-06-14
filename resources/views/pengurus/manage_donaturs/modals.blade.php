@@ -133,7 +133,7 @@
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('donatur.index') }}",
+        ajax: "{{ route('pengurus.donatur.index') }}",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'nama_depan', name: 'nama_depan'},
@@ -163,7 +163,7 @@
     
         $.ajax({
           data: frm.serialize(),
-          url: "{{ route('donatur.store') }}",
+          url: "{{ route('pengurus.donatur.store') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {

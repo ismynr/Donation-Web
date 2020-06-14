@@ -33,17 +33,16 @@ Route::get('/home', function () {
 });
 
 Route::get('/contact', 'HomeController@contact');
-// Route::get('/guest', 'GuestController@index');
-
 Auth::routes(['verify' => true]);
 
 /**
  * 
  * Middleware Auth User Yang Belum Punya Role SETELAH REGISTRASI
  */
-Route::group(['middleware' => ['auth', 'user', 'verified'], 'prefix' => 'user'], function () {
-    Route::get('/', 'UserController@index')->name('user.dashboard');
-    Route::post('/store', 'UserController@store')->name('user.store');
+Route::group(['middleware' => ['auth', 'user', 'verified'], 'prefix' => 'user', 'as' => 'user.'], 
+    function () {
+        Route::get('/', 'UserController@index')->name('dashboard');
+        Route::post('/store', 'UserController@store')->name('store');
 });
 
 
@@ -51,13 +50,14 @@ Route::group(['middleware' => ['auth', 'user', 'verified'], 'prefix' => 'user'],
  * 
  * Middleware Auth User Admin
  */
-Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
-    Route::get('/', 'Admin\HomeAdminController@index')->name('admin.dashboard');
-    Route::resource('pengurus', 'Admin\ManagePengurusController');
-    Route::resource('donatur', 'Admin\ManageDonaturController');
-    Route::resource('profile', 'Admin\ProfileAdminController');
-    Route::resource('user', 'Admin\ManageUserController');
-    // Route::get('huhu', 'Admin\ManageUserController@huhu');
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'admin.'], 
+    function () {
+        Route::get('/', 'Admin\HomeAdminController@index')->name('dashboard');
+        Route::resource('pengurus', 'Admin\ManagePengurusController');
+        Route::resource('donatur', 'Admin\ManageDonaturController');
+        Route::resource('profile', 'Admin\ProfileAdminController');
+        Route::resource('user', 'Admin\ManageUserController');
+        // Route::get('huhu', 'Admin\ManageUserController@huhu');
 });
 
  
@@ -65,21 +65,21 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
  * 
  * Middleware Auth User Pengurus
  */
-Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus'], function () {
-    Route::get('/', 'Pengurus\HomePengurusController@index')->name('pengurus.dashboard');
-    Route::resource('donasi', 'Pengurus\DonasiController');
-    Route::resource('category', 'Pengurus\CategoryController');
-    Route::resource('penerima', 'Pengurus\PenerimaController');
-    Route::resource('layanan_public', 'Pengurus\LayananPublicController');
-    // Route::resource('pengurus', 'Pengurus\PengurusController');
-    Route::resource('donatur', 'Pengurus\DonaturController');
-    // Route::get('donatur-lis', 'Pengurus\DonaturController@getDonatur')->name('donatur.list');
+Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus', 'as' => 'pengurus.'], 
+    function () {
+        Route::get('/', 'Pengurus\HomePengurusController@index')->name('dashboard');
+        Route::resource('donasi', 'Pengurus\DonasiController');
+        Route::resource('category', 'Pengurus\CategoryController');
+        Route::resource('penerima', 'Pengurus\PenerimaController');
+        Route::resource('layanan_public', 'Pengurus\LayananPublicController');
+        // Route::resource('pengurus', 'Pengurus\PengurusController');
+        Route::resource('donatur', 'Pengurus\DonaturController');
+        // Route::get('donatur-lis', 'Pengurus\DonaturController@getDonatur')->name('donatur.list');
 
-    // JSON Route
-    Route::get('donasi/cari/category', 'Pengurus\DonasiController@loadDataCategory')->name('donasi.cari.category');
-    Route::get('donasi/cari/penerima', 'Pengurus\DonasiController@loadDataPenerima')->name('donasi.cari.penerima');
-    Route::get('donasi/cari/donatur', 'Pengurus\DonasiController@loadDataDonatur')->name('donasi.cari.donatur');   
-    
+        // JSON Route
+        Route::get('donasi/cari/category', 'Pengurus\DonasiController@loadDataCategory')->name('donasi.cari.category');
+        Route::get('donasi/cari/penerima', 'Pengurus\DonasiController@loadDataPenerima')->name('donasi.cari.penerima');
+        Route::get('donasi/cari/donatur', 'Pengurus\DonasiController@loadDataDonatur')->name('donasi.cari.donatur');   
 });
 
 
@@ -87,7 +87,8 @@ Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus'], fun
  * 
  * Middleware Auth User Donatur
  */
-Route::group(['middleware' => ['auth', 'donatur'], 'prefix' => 'donatur'], function () {
-    Route::get('/', 'Donatur\HomeDonaturController@index')->name('donatur.dashboard');
+Route::group(['middleware' => ['auth', 'donatur'], 'prefix' => 'donatur', 'as' => 'donatur.'], 
+    function () {
+        Route::get('/', 'Donatur\HomeDonaturController@index')->name('dashboard');
 });
 

@@ -108,7 +108,7 @@
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('donasi.index') }}",
+        ajax: "{{ route('pengurus.donasi.index') }}",
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'category', name: 'category'},
@@ -133,7 +133,7 @@
     
         $.ajax({
           data: frm.serialize(),
-          url: "{{ route('donasi.store') }}",
+          url: "{{ route('pengurus.donasi.store') }}",
           type: "POST",
           dataType: 'json',
           success: function (data) {
@@ -305,7 +305,7 @@
       theme: "bootstrap",
       placeholder: 'Pilih Kategori',
       ajax: {
-          url: "<?=route('donasi.cari.category');?>",
+          url: "<?=route('pengurus.donasi.cari.category');?>",
           dataType: 'json',
           delay: 250,
           data: function (params) {
@@ -333,7 +333,7 @@
         theme: "bootstrap",
         placeholder: 'Pilih Penerima',
         ajax: {
-            url: "<?=route('donasi.cari.penerima');?>",
+            url: "<?=route('pengurus.donasi.cari.penerima');?>",
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -361,7 +361,7 @@
         theme: "bootstrap",
         placeholder: 'Pilih Donautur',
         ajax: {
-            url: "<?=route('donasi.cari.donatur');?>",
+            url: "<?=route('pengurus.donasi.cari.donatur');?>",
             dataType: 'json',
             delay: 250,
             data: function (params) {

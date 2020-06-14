@@ -25,7 +25,7 @@ class ManageDonaturController extends Controller
             return Datatables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
-                    $btn = '<button type="button" onclick="location.href =\''.route('donatur.show', $row->id_donatur).'\'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
+                    $btn = '<button type="button" onclick="location.href =\''.route('admin.donatur.show', $row->id_donatur).'\'" class="detail btn btn-info btn-sm mr-1 detailBtn">Detail</button>';
                     $btn .= '<button type="button" data-id="/admin/donatur/'.$row->id_donatur.'/edit" class="edit btn btn-warning btn-sm mr-1 editBtn">Edit</button>';
                     $btn .= '<button type="submit" data-id="/admin/donatur/'.$row->id_donatur.'" class="btn btn-danger btn-sm deleteBtn">Delete</button>';
                     return $btn;
