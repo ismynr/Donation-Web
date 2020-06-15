@@ -36,6 +36,11 @@
               <input type="date" class="form-control datepicker" name="tanggal_memberi" placeholder="ex: 2020-03-28" autocomplete="off">
               <small class="errorTanggal_memberi text-danger hidden"></small>
           </div>
+          <div class="form-group">
+            <label for="pdf" class="col-form-label">PDF:</label> <br/>
+            <input type="file" id="pdf" name="pdf" />
+            <small class="errorPdf text-danger hidden"></small>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -85,6 +90,18 @@
               <input type="date" class="form-control datepicker" id="edit_tanggal_memberi" name="tanggal_memberi" placeholder="ex: 2020-03-28" autocomplete="off">
               <small class="edit_errorTanggal_memberi text-danger hidden"></small>
           </div>
+          <div class="form-group">
+            <label for="pdf" class="col-form-label">PDF <small class="text-muted">*kosongkan kalo gak mau diganti</small>:</label> <br/>
+            <input type="file" id="edit_pdf" name="pdf" />
+            <small class="edit_errorPdf text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col s6">
+                  <a href="" class="btn btn-success btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -113,11 +130,24 @@
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'category', name: 'category'},
             {data: 'jumlah_donasi', name: 'jumlah_donasi', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )},
+            {data: 'pdf', name: 'pdf', 
+              render: function( data, type, full, meta ) {
+                        if(data == null){
+                          return '<small class="text-muted">Belum upload</small>';
+                        }else{
+                          return "<a class='btn btn-rounded btn-success btn-sm' href=\"/uploads/donasi/pdf/" + data + "\" target='_blank'>pdf</a>"; 
+                        }
+                      }},
             {data: 'penerima', name: 'penerima'},
             {data: 'donatur', name: 'donatur'},
-            {data: 'tanggal_memberi', name: 'tanggal_memberi'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
+    });
+
+    // Add button to show modal dialog
+    $('.tambahModal').click(function(){
+      $('#storeBtn').html('Tambah');
+      $('#tambahForm').trigger("reset");
     });
 
     // Save Button in modal dialog
@@ -129,13 +159,17 @@
         $('.errorId_donatur').hide();
         $('.errorJumlah_donasi').hide();
         $('.errorTanggal_memberi').hide();
+        $('.errorPdf').hide();
         $(this).html('Sending..');
     
         $.ajax({
-          data: frm.serialize(),
+          // data: frm.serialize(),
+          data: new FormData($("#tambahForm")[0]),
           url: "{{ route('pengurus.donasi.store') }}",
           type: "POST",
           dataType: 'json',
+          processData: false,
+          contentType: false,
           success: function (data) {
             if (data.errors) {
                 if (data.errors.id_kategori) {
@@ -157,6 +191,10 @@
                 if (data.errors.tanggal_memberi) {
                   $('.errorTanggal_memberi').show();
                   $('.errorTanggal_memberi').text(data.errors.tanggal_memberi);
+                }
+                if (data.errors.pdf) {
+                  $('.errorPdf').show();
+                  $('.errorPdf').text(data.errors.pdf);
                 }
             }else {
               $('#tambahModal').modal('hide');
@@ -197,6 +235,7 @@
                 $("#edit_id_donatur").select2("trigger", "select", {
                     data: { id: data.id_donatur, text:row4 }
                 });
+                $('#edit_showpdf').attr('href', '/uploads/donasi/pdf/'+data.pdf);
                 $('.errorId_kategori').hide();
                 $('.errorId_penerima').hide();
                 $('.errorId_donatur').hide();
@@ -215,14 +254,20 @@
         $('.errorId_donatur').hide();
         $('.errorJumlah_donasi').hide();
         $('.errorTanggal_memberi').hide();
+        $('.errorPdf').hide();
         var url = "/pengurus/donasi/"+$('#edit_id').val();
         var frm = $('#editForm');
+        var formdata = new FormData($("#editForm")[0]);
+        formdata.append('_method', 'PUT');
 
         $.ajax({
-            data : frm.serialize(),
-            type :'PUT',
+            // data : frm.serialize(),
+            data : formdata,
+            method :'POST',
             url : url,
             dataType : 'json',
+            processData: false,
+            contentType: false,
             success:function(data){
               if (data.errors) {
                 if (data.errors.id_kategori) {
@@ -244,6 +289,10 @@
                 if (data.errors.tanggal_memberi) {
                   $('.edit_errorTanggal_memberi').show();
                   $('.edit_errorTanggal_memberi').text(data.errors.tanggal_memberi);
+                }
+                if (data.errors.pdf) {
+                  $('.edit_errorPdf').show();
+                  $('.edit_errorPdf').text(data.errors.pdf);
                 }
               }else {
                 $('#editModal').modal('hide');

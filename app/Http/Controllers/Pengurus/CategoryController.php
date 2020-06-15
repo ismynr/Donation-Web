@@ -81,6 +81,10 @@ class CategoryController extends Controller
                 $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('/uploads/category/photos/'), $new_name);
 
+                if($data->gambar != NULL){
+                    unlink(public_path('/uploads/category/photos/'.$data->gambar));
+                }
+
                 $category->gambar = $new_name;
             }
             

@@ -44,6 +44,7 @@ class DonasiController extends Controller
             'id_donatur' => 'required',
             'jumlah_donasi' => 'required|numeric',
             'tanggal_memberi' => 'required|date',
+            'pdf' => 'max:2048|mimes:pdf'
         ]);
 
         if($validator->fails()) {
@@ -55,6 +56,15 @@ class DonasiController extends Controller
             $donasi->id_donatur = $request->id_donatur;
             $donasi->jumlah_donasi = $request->jumlah_donasi;
             $donasi->tanggal_memberi = $request->tanggal_memberi;
+
+            if($request->file('pdf')){
+                $pdf = $request->file('pdf');
+                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $pdf->getClientOriginalExtension();
+                $pdf->move(public_path('/uploads/donasi/pdf/'), $new_name);
+
+                $donasi->pdf = $new_name;
+            }
+
             $donasi->save();
             return response()->json(['success' => true]);
         }
@@ -77,6 +87,7 @@ class DonasiController extends Controller
             'id_donatur' => 'required',
             'jumlah_donasi' => 'required|numeric',
             'tanggal_memberi' => 'required|date',
+            'pdf' => 'max:2048|mimes:pdf'
         ]);
 
         if($validator->fails()) {
@@ -88,12 +99,31 @@ class DonasiController extends Controller
             $donasi->id_donatur = $request->id_donatur;
             $donasi->jumlah_donasi = $request->jumlah_donasi;
             $donasi->tanggal_memberi = $request->tanggal_memberi;
+
+            if($request->file('pdf')){
+                // KALO UPLOAD PDF LAGI
+                $pdf = $request->file('pdf');
+                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $pdf->getClientOriginalExtension();
+                $pdf->move(public_path('/uploads/donasi/pdf/'), $new_name);
+
+                // FILE PDF SEBELUMNYA DI HAPUS
+                if($donasi->pdf != NULL){
+                    unlink(public_path('/uploads/donasi/pdf/'.$donasi->pdf));
+                }
+
+                $donasi->pdf = $new_name;
+            }
+
             $donasi->save();
             return response()->json(['success' => true]);
         }
     }
 
     public function destroy($id){
+        $data = Donasi::findOrFail($id);
+        if($data->pdf != NULL){
+            unlink(public_path('/uploads/donasi/pdf/'.$data->pdf));
+        }
         if (Donasi::destroy($id)) {
             $data = 'Success';
         }else {
