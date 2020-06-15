@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Donasi extends Model
 {
     protected $table = 'donasi';
-    protected $fillable = ['id_kategori', 'jumlah_donasi', 'id_penerima', 'id_donatur', 'tanggal_memberi'];
+    protected $fillable = ['id_kategori', 'jumlah_donasi', 'id_penerima', 'id_donatur', 'tanggal_memberi', 'pdf', 'gambar'];
     protected $primaryKey = 'id_donasi';
     
     public function category() {

@@ -41,6 +41,18 @@
             <input type="file" id="pdf" name="pdf" />
             <small class="errorPdf text-danger hidden"></small>
           </div>
+          <div class="form-group">
+            <label for="gambar" class="col-form-label">Upload Photo:</label> <br/>
+            <input type="file" id="gambar" name="gambar" />
+            <small class="errorGambar text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col s6">
+                  <img src="http://placehold.it/100x100" class="showgambar" style="max-width:200px;max-height:200px;float:left;" />
+              </div>
+            </div>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -102,6 +114,18 @@
               </div>
             </div>
           </div>
+          <div class="form-group">
+            <label for="gambar" class="col-form-label">Upload Bentuk Kategori <small class="text-muted">*kosongkan kalo nggak mau diganti</small>:</label> <br/>
+            <input type="file" id="edit_gambar" name="gambar" />
+            <small class="edit_errorGambar text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col s6">
+                  <img src="http://placehold.it/100x100" class="showgambar" id="edit_showgambar" style="max-width:200px;max-height:200px;float:left;" />
+              </div>
+            </div>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -138,6 +162,14 @@
                           return "<a class='btn btn-rounded btn-success btn-sm' href=\"/uploads/donasi/pdf/" + data + "\" target='_blank'>pdf</a>"; 
                         }
                       }},
+            {data: 'gambar', name: 'gambar', 
+              render: function( data, type, full, meta ) {
+                        if(data == null){
+                          return '<small class="text-muted">Belum upload</small>';
+                        }else{
+                          return "<img src=\"/uploads/donasi/photos/" + data + "\" width=\"50\" height=\"50\"/>"; 
+                        }
+                      }},
             {data: 'penerima', name: 'penerima'},
             {data: 'donatur', name: 'donatur'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
@@ -146,6 +178,7 @@
 
     // Add button to show modal dialog
     $('.tambahModal').click(function(){
+      $('.showgambar').attr('src', 'http://placehold.it/100x100');
       $('#storeBtn').html('Tambah');
       $('#tambahForm').trigger("reset");
     });
@@ -160,6 +193,7 @@
         $('.errorJumlah_donasi').hide();
         $('.errorTanggal_memberi').hide();
         $('.errorPdf').hide();
+        $('.errorGambar').hide();
         $(this).html('Sending..');
     
         $.ajax({
@@ -195,6 +229,10 @@
                 if (data.errors.pdf) {
                   $('.errorPdf').show();
                   $('.errorPdf').text(data.errors.pdf);
+                }
+                if (data.errors.gambar) {
+                  $('.errorGambar').show();
+                  $('.errorGambar').text(data.errors.gambar);
                 }
             }else {
               $('#tambahModal').modal('hide');
@@ -236,6 +274,7 @@
                     data: { id: data.id_donatur, text:row4 }
                 });
                 $('#edit_showpdf').attr('href', '/uploads/donasi/pdf/'+data.pdf);
+                $('#edit_showgambar').attr('src', '/uploads/donasi/photos/'+data.gambar);
                 $('.errorId_kategori').hide();
                 $('.errorId_penerima').hide();
                 $('.errorId_donatur').hide();
@@ -255,6 +294,7 @@
         $('.errorJumlah_donasi').hide();
         $('.errorTanggal_memberi').hide();
         $('.errorPdf').hide();
+        $('.edit_errorGambar').hide();
         var url = "/pengurus/donasi/"+$('#edit_id').val();
         var frm = $('#editForm');
         var formdata = new FormData($("#editForm")[0]);
@@ -294,6 +334,10 @@
                   $('.edit_errorPdf').show();
                   $('.edit_errorPdf').text(data.errors.pdf);
                 }
+                if (data.errors.gambar){
+                  $('.edit_errorGambar').show();
+                  $('.edit_errorGambar').text(data.errors.gambar);
+                }
               }else {
                 $('#editModal').modal('hide');
                 frm.trigger('reset');
@@ -331,14 +375,35 @@
                 data : { method : '_DELETE' , submit : true},
                 success:function(data){
                     if (data == 'Success') {
-                      swal("Deleted!", "Category has been deleted", "success");
+                      swal("Deleted!", "Donasi has been deleted", "success");
                       table.ajax.reload(null,false);
                     }
                 }
             });
           }else { swal.close(); }
         });
+      });
+
+        // SHOW IMAGE
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.showgambar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#edit_gambar").change(function () {
+        readURL(this);
     });
+    $("#gambar").change(function () {
+        readURL(this);
+    });
+    
 
 
 
@@ -431,17 +496,6 @@
             var result = selection.text.split('-');
             return result[0];
         }
-    });
-
-    // Datepicker style for date input
-    $(".datepicker").datepicker({
-      format: "yyyy-mm-dd",
-      weekStart: 0,
-      calendarWeeks: true,
-      autoclose: true,
-      todayHighlight: true,
-      rtl: true,
-      orientation: "auto"
     });
 
   });

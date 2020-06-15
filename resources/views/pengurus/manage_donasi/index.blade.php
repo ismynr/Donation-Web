@@ -26,6 +26,7 @@
                                 <th>Id Kategori</th>
                                 <th>Jumlah Donasi</th>
                                 <th>Link</th>
+                                <th>Img</th>
                                 <th>Nama Penerima</th>
                                 <th>Nama Donatur</th>
                                 <th width="25%">Opsi</th>

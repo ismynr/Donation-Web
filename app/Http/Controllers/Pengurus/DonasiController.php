@@ -44,7 +44,8 @@ class DonasiController extends Controller
             'id_donatur' => 'required',
             'jumlah_donasi' => 'required|numeric',
             'tanggal_memberi' => 'required|date',
-            'pdf' => 'max:2048|mimes:pdf'
+            'pdf' => 'max:2048|mimes:pdf',
+            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif'
         ]);
 
         if($validator->fails()) {
@@ -63,6 +64,13 @@ class DonasiController extends Controller
                 $pdf->move(public_path('/uploads/donasi/pdf/'), $new_name);
 
                 $donasi->pdf = $new_name;
+            }
+            if($request->file('gambar')){
+                $image = $request->file('gambar');
+                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('/uploads/donasi/photos/'), $new_name);
+
+                $donasi->gambar = $new_name;
             }
 
             $donasi->save();
@@ -87,7 +95,8 @@ class DonasiController extends Controller
             'id_donatur' => 'required',
             'jumlah_donasi' => 'required|numeric',
             'tanggal_memberi' => 'required|date',
-            'pdf' => 'max:2048|mimes:pdf'
+            'pdf' => 'max:2048|mimes:pdf',
+            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif'
         ]);
 
         if($validator->fails()) {
@@ -113,6 +122,17 @@ class DonasiController extends Controller
 
                 $donasi->pdf = $new_name;
             }
+            if($request->file('gambar')){
+                $image = $request->file('gambar');
+                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('/uploads/donasi/photos/'), $new_name);
+
+                if($donasi->gambar != NULL){
+                    unlink(public_path('/uploads/donasi/photos/'.$donasi->gambar));
+                }
+
+                $donasi->gambar = $new_name;
+            }
 
             $donasi->save();
             return response()->json(['success' => true]);
@@ -123,6 +143,9 @@ class DonasiController extends Controller
         $data = Donasi::findOrFail($id);
         if($data->pdf != NULL){
             unlink(public_path('/uploads/donasi/pdf/'.$data->pdf));
+        }
+        if($data->pdf != NULL){
+           unlink(public_path('/uploads/donasi/photos/'.$data->gambar)); 
         }
         if (Donasi::destroy($id)) {
             $data = 'Success';
