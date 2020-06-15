@@ -61,6 +61,11 @@
                           <td style="border:0">{{ $dataDonasi['tanggal_memberi'] }}</td>
                         </tr>
                         <tr>
+                          <th style="border:0">PDF Upload</th>
+                          <td style="border:0">:</td>
+                          <td style="border:0"><a href="/uploads/donasi/pdf/{{ $dataDonasi['pdf'] }}" class="btn btn-rounded btn-success" target="_blank">link Download</a></td>
+                        </tr>
+                        <tr>
                           <th style="border:0">Terkhir Ditambahkan</th>
                           <td style="border:0">:</td>
                           <td style="border:0">{{ $dataDonasi['created_at'] }}</td>
