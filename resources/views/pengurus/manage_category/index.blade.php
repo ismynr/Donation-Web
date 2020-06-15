@@ -25,6 +25,7 @@
                               <tr>
                                 <th>#</th>
                                 <th>Nama Kategori</th>
+                                <th>Gambar</th>
                                 <th width="25%">Opsi</th>
                               </tr>
                             </thead>

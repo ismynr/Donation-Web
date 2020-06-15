@@ -16,6 +16,18 @@
               <input type="text" class="form-control" name="nama_kategori">
               <small class="errorNama_kategori text-danger hidden"></small>
           </div>
+          <div class="form-group">
+            <label for="gambar" class="col-form-label">Upload Bentuk Kategori:</label> <br/>
+            <input type="file" id="gambar" name="gambar" />
+            <small class="errorGambar text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col s6">
+                  <img src="http://placehold.it/100x100" class="showgambar" style="max-width:200px;max-height:200px;float:left;" />
+              </div>
+            </div>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -45,6 +57,18 @@
               <input type="text" id="edit_nama_kategori" class="form-control" name="nama_kategori">
               <small class="edit_errorNama_kategori text-danger hidden"></small>
           </div>
+          <div class="form-group">
+            <label for="gambar" class="col-form-label">Upload Bentuk Kategori <small class="text-muted">*kosongkan kalo nggak mau diganti</small>:</label> <br/>
+            <input type="file" id="edit_gambar" name="gambar" />
+            <small class="edit_errorGambar text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col s6">
+                  <img src="http://placehold.it/100x100" class="showgambar" id="edit_showgambar" style="max-width:200px;max-height:200px;float:left;" />
+              </div>
+            </div>
+          </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -72,14 +96,20 @@
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'nama_kategori', name: 'nama_kategori'},
+            {data: 'gambar', name: 'gambar', 
+              render: function( data, type, full, meta ) {
+                          return "<img src=\"/uploads/category/photos/" + data + "\" width=\"50\" height=\"50\"/>"; 
+                      }},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 
     // Add button to show modal dialog
     $('.tambahModal').click(function(){
+      $('.showgambar').attr('src', 'http://placehold.it/100x100');
       $('#storeBtn').html('Tambah');
       $('#tambahForm').trigger("reset");
+      
     });
 
     // Save Button in modal dialog
@@ -87,18 +117,27 @@
         e.preventDefault();
         var frm = $('#tambahForm');
         $('.errorNama_kategori').hide();
+        $('.errorGambar').hide();
         $(this).html('Sending..');
     
         $.ajax({
-          data: frm.serialize(),
+          // data: frm.serialize(),
+          data : new FormData($("#tambahForm")[0]),
+          dataType : 'json',
+          processData: false,
+          contentType: false,
           url: "{{ route('pengurus.category.store') }}",
-          type: "POST",
-          dataType: 'json',
+          method: "POST",
           success: function (data) {
             if (data.errors) {
+              console.log(data);
                 if (data.errors.nama_kategori) {
                   $('.errorNama_kategori').show();
                   $('.errorNama_kategori').text(data.errors.nama_kategori);
+                }
+                if (data.errors.gambar) {
+                  $('.errorGambar').show();
+                  $('.errorGambar').text(data.errors.gambar);
                 }
             }else {
               $('#tambahModal').modal('hide');
@@ -124,9 +163,10 @@
             type : 'GET',
             datatype : 'json',
             success:function(data){
+                $('#editForm').trigger("reset");
                 $('#edit_id').val(data.id_kategori);
-                console.log(data)
                 $('#edit_nama_kategori').val(data.nama_kategori);
+                $('#edit_showgambar').attr('src', '/uploads/category/photos/'+data.gambar);
                 $('.edit_errorNama_kategori').hide();
                 $('#editModal').modal('show');
             }
@@ -136,20 +176,29 @@
     // Update button in modal dialog
     $('#updateBtn').click(function(e){
         e.preventDefault();
-        $('.edit_errorNama_kategori').hide();
-        var url = "/pengurus/category/"+$('#edit_id').val();
         var frm = $('#editForm');
+        $('.edit_errorNama_kategori').hide();
+        $('.edit_errorGambar').hide();
+        var url = "/pengurus/category/"+$('#edit_id').val();
+        var formdata = new FormData($("#editForm")[0]);
+        formdata.append('_method', 'PUT');
 
-        $.ajax({
-            data : frm.serialize(),
-            type :'PUT',
+        $.ajax({                       
+            method :'POST',
             url : url,
+            data : formdata,
             dataType : 'json',
+            processData: false,
+            contentType: false,
             success:function(data){
               if (data.errors) {
-                if (data.errors.edit_name) {
+                if (data.errors.nama_kategori) {
                     $('.edit_errorNama_kategori').show();
-                    $('.edit_errorNama_kategori').text(data.errors.edit_name);
+                    $('.edit_errorNama_kategori').text(data.errors.nama_kategori);
+                }
+                if (data.errors.gambar){
+                  $('.edit_errorGambar').show();
+                  $('.edit_errorGambar').text(data.errors.gambar);
                 }
               }else {
                 $('.edit_errorNama_kategori').addClass('hidden');
@@ -161,6 +210,7 @@
             },
             error: function (jqXHR, textStatus, errorThrown) {
               alert('Please Reload to read Ajax');
+              console.log("ERROR : ", e);
             }
         });
     });
@@ -196,6 +246,26 @@
             });
           }else { swal.close(); }
         });
+    });
+
+    // SHOW IMAGE
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.showgambar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#edit_gambar").change(function () {
+        readURL(this);
+    });
+    $("#gambar").change(function () {
+        readURL(this);
     });
 
   });

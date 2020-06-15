@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="{{ asset('select2/bootstrap.select2.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{ asset('quixlab') }}/plugins/tables/css/datatable/dataTables.bootstrap4.min.css">
     
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}" crossorigin="anonymous"></script>
+    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 </head>
 
 <body>
