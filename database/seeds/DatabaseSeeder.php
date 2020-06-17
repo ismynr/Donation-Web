@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
                 DonaturSeeder::class,
                 PengurusSeeder::class,
                 UserSeeder::class,
-                DonasiSeeder::class
+                DonasiSeeder::class,
+                LayananPublicsSeeder::class,
             ]
         );
     }

@@ -10,6 +10,8 @@
         <div class="modal-body">
           <form id="tambahForm">
             {{ csrf_field() }}
+            <h5>User Profile</h5>
+            <hr>
             <div class="form-group">
               <label for="name" class="col-form-label">NIP:</label>
               <input type="number" class="form-control" name="nip">
@@ -25,16 +27,19 @@
                 <input type="text" class="form-control" name="jabatan">
                 <small class="errorJabatan text-danger hidden"></small>
             </div>
+
+            <h5>User Account</h5>
+            <hr>
             <div class="form-group">
               <label for="name" class="col-form-label">Email:</label>
               <input type="email" class="form-control" name="email">
               <small class="errorEmail text-danger hidden"></small>
             </div>
             <div class="form-group">
-              <label for="name" class="col-form-label">Password:</label>
-              <input type="password" class="form-control" name="password">
-              <small class="errorPassword text-danger hidden"></small>
-            </div>
+              <label for="password" class="col-form-label">Password (DEFAULT):</label>
+              <input type="text" class="form-control" name="password" disabled value="PASSWORD DISAMAKAN DENGAN EMAIL">
+              <small class="text-danger">dapat diganti sendiri saat login donatur tersebut, dibagian profile</small>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -58,6 +63,8 @@
           <form id="editForm">
             {{ csrf_field() }}
             <input type="hidden" id="edit_id" name="id">
+            <h5>User Profile</h5>
+            <hr>
             <div class="form-group">
               <label for="name" class="col-form-label">NIP:</label>
               <input type="number" id="edit_nip"  class="form-control" name="nip">
@@ -73,6 +80,23 @@
                   <input type="text" id="edit_jabatan"  class="form-control" name="jabatan">
                   <small class="edit_errorJabatan text-danger hidden"></small>
               </div>
+
+            <h4>User Account</h4>
+            <hr>
+            <div class="form-group">
+                <label for="email" class="col-form-label">Email:</label>
+                <input id="edit_email" type="email" class="form-control" name="email">
+                <small class="edit_errorEmail text-danger hidden"></small>
+            </div>
+            <div class="form-group">
+              <div class="form-check">
+                <input class="form-check-input" name="password" value ="Reset Password" type="checkbox" id="gridCheck">
+                <label class="form-check-label" for="gridCheck">
+                  Reset Password !
+                </label>
+              </div>
+              <small class="text-danger">Password akan sama dengan email</small>
+            </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -106,15 +130,20 @@ var table = $('.data-table').DataTable({
     ]
 });
 
-// Save Button in modal dialog
-$('#storeBtn').click(function (e) {
+  // Add button to show modal dialog
+  $('.tambahModal').click(function(){
+    $('#storeBtn').html('Tambah');
+    $('#tambahForm').trigger("reset");
+  });
+
+    // Save Button in modal dialog
+    $('#storeBtn').click(function (e) {
         e.preventDefault();
         var frm = $('#tambahForm');
         $('.errorNip').hide();
         $('.errorNama').hide();
         $('.errorJabatan').hide();
         $('.errorEmail').hide();
-        $('.errorPassword').hide();
         $(this).html('Sending..');
     
         $.ajax({
@@ -140,10 +169,6 @@ $('#storeBtn').click(function (e) {
                   $('.errorEmail').show();
                   $('.errorEmail').text(data.errors.email);
                 }
-                if (data.errors.password) {
-                  $('.errorPassword').show();
-                  $('.errorPassword').text(data.errors.jabatan);
-                }
             }else {
               $('#tambahModal').modal('hide');
               frm.trigger("reset");
@@ -168,13 +193,15 @@ $('#storeBtn').click(function (e) {
             type : 'GET',
             datatype : 'json',
             success:function(data){
-                $('#edit_id').val(data.id_pengurus);
-                $('#edit_nip').val(data.nip);
-                $('#edit_nama').val(data.nama);
-                $('#edit_jabatan').val(data.jabatan);
+                $('#edit_id').val(data.data.id_pengurus);
+                $('#edit_nip').val(data.data.nip);
+                $('#edit_nama').val(data.data.nama);
+                $('#edit_jabatan').val(data.data.jabatan);
+                $('#edit_email').val(data.user.email);
                 $('.edit_errorNip').hide();
                 $('.edit_errorNama').hide();
                 $('.edit_errorJabatan').hide();
+                $('.edit_errorEmail').hide();
                 $('#editModal').modal('show');
             }
         });
@@ -186,8 +213,8 @@ $('#storeBtn').click(function (e) {
         $('.edit_errorNip').hide();
         $('.edit_errorNama').hide();
         $('.edit_errorJabatan').hide();
+        $('.edit_errorEmail').hide();
         var url = "/admin/pengurus/"+$('#edit_id').val();
-        console.log(url);
         var frm = $('#editForm');
 
         $.ajax({
@@ -208,6 +235,10 @@ $('#storeBtn').click(function (e) {
                 if (data.errors.jabatan) {
                   $('.edit_errorJabatan').show();
                   $('.edit_errorJabatan').text(data.errors.jabatan);
+                }
+                if (data.errors.email) {
+                  $('.edit_errorEmail').show();
+                  $('.edit_errorEmail').text(data.errors.email);
                 }
               }else {
                 $('#editModal').modal('hide');

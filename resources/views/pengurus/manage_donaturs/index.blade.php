@@ -17,7 +17,7 @@
               <div class="card">
                   <div class="card-body">
                       <h4 class="card-title float-left">List Data Donatur (Pendonasi)</h4>
-                      <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button>
+                      {{-- <button type="button" class="btn btn-primary float-right tambahModal" data-toggle="modal" data-target="#tambahModal">Tambah</button> --}}
                       <div class="table-responsive">
                           <table class="table data-table table-striped table-bordered" id="table">
                             <thead>

@@ -32,7 +32,7 @@
 
             <li class="nav-label mt-3">Public</li>
             <li>
-                <a href="#" aria-expanded="false">
+                <a href="{{ route('pengurus.layanan_public.index') }}" aria-expanded="false">
                     <i class="icon-envelope menu-icon"></i> <span class="nav-text">Layanan</span>
                 </a>
             </li>                   

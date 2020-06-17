@@ -49,8 +49,7 @@ class ManageDonaturController extends Controller
             'no_hp' => 'required|min:9',
             'alamat' => 'required',
             'umur' => 'required',
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|unique:users|email'
         ]);
 
         if($validator->fails()) {
@@ -64,6 +63,7 @@ class ManageDonaturController extends Controller
             $user->save();
 
             $donatur = new Donatur;
+            $donatur->id_user = $user->id;
             $donatur->nama_depan = $request->nama_depan;
             $donatur->nama_belakang = $request->nama_belakang;
             $donatur->no_hp = $request->no_hp;
@@ -90,13 +90,14 @@ class ManageDonaturController extends Controller
 
     public function update(Request $request, $id)
     {
+        $get = Donatur::where('id_donatur', $id)->first();
         $validator = Validator::make($request->all(), [
             'nama_depan' => 'required',
             'nama_belakang' => 'required',
             'no_hp' => 'required|min:9',
             'alamat' => 'required',
             'umur' => 'required',
-            'email' => 'required'
+            'email' => 'email|required|max:255|unique:users,email,'. $get->id_user
         ]);
 
         if($validator->fails()) {
@@ -109,10 +110,16 @@ class ManageDonaturController extends Controller
             $donatur->alamat = $request->alamat;
             $donatur->umur = $request->umur;
             $donatur->email = $request->email;
-            if($request->password == "Reset Password"){
-                $donatur->password = Hash::make($request->email);
-            }
             $donatur->save();
+
+            // UPDATE JUGA USER ACCOUNT PADA TABEL USER
+            $users = User::find($donatur->id_user);
+            $users->email = $request->email;
+            if($request->password == "Reset Password"){
+                $users->password = Hash::make($request->email);
+            }
+            $users->save();
+            
             return response()->json(['success' => true]);
         }
     }

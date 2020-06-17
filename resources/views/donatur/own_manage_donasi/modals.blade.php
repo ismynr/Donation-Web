@@ -27,22 +27,12 @@
               <small class="errorId_penerima text-danger hidden"></small>
           </div>
           <div class="form-group">
-              <label for="name" class="col-form-label">Donatur:</label>
-              <select name="id_donatur" class="cari_donatur form-control select2"></select>
-              <small class="errorId_donatur text-danger hidden"></small>
-          </div>
-          <div class="form-group">
               <label for="city" class="col-form-label">Tanggal Pemberian:</label>
               <input type="date" class="form-control datepicker" name="tanggal_memberi" placeholder="ex: 2020-03-28" autocomplete="off">
               <small class="errorTanggal_memberi text-danger hidden"></small>
           </div>
           <div class="form-group">
-            <label for="pdf" class="col-form-label">PDF:</label> <br/>
-            <input type="file" id="pdf" name="pdf" />
-            <small class="errorPdf text-danger hidden"></small>
-          </div>
-          <div class="form-group">
-            <label for="gambar" class="col-form-label">Upload Photo:</label> <br/>
+            <label for="gambar" class="col-form-label">Upload Photo *bukti sudah menyerahkan donasi/bisa nanti:</label> <br/>
             <input type="file" id="gambar" name="gambar" />
             <small class="errorGambar text-danger hidden"></small>
           </div>
@@ -93,26 +83,9 @@
               <small class="edit_errorId_penerima text-danger hidden"></small>
           </div>
           <div class="form-group">
-              <label for="name" class="col-form-label">Donatur:</label>
-              <select id="edit_id_donatur" name="id_donatur" class="cari_donatur form-control select2"></select>
-              <small class="edit_errorId_donatur text-danger hidden"></small>
-          </div>
-          <div class="form-group">
               <label for="city" class="col-form-label">Tanggal Pemberian:</label>
               <input type="date" class="form-control datepicker" id="edit_tanggal_memberi" name="tanggal_memberi" placeholder="ex: 2020-03-28" autocomplete="off">
               <small class="edit_errorTanggal_memberi text-danger hidden"></small>
-          </div>
-          <div class="form-group">
-            <label for="pdf" class="col-form-label">PDF <small class="text-muted">*kosongkan kalo gak mau diganti</small>:</label> <br/>
-            <input type="file" id="edit_pdf" name="pdf" />
-            <small class="edit_errorPdf text-danger hidden"></small>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col s6">
-                  <a href="" class="btn btn-success btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
-              </div>
-            </div>
           </div>
           <div class="form-group">
             <label for="gambar" class="col-form-label">Upload Bentuk Kategori <small class="text-muted">*kosongkan kalo nggak mau diganti</small>:</label> <br/>
@@ -149,10 +122,10 @@
     var table = $('.data-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('pengurus.donasi.index') }}",
+        ajax: "{{ route('donatur.donasi.index') }}",
         columns: [
-            {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-            {data: 'category', name: 'category'},
+            {data: 'DT_RowIndex', name: 'DT_RowIndex', searchable: false, orderable: false},
+            {data: 'category', name: 'category', searchable: false, orderable: false},
             {data: 'jumlah_donasi', name: 'jumlah_donasi', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )},
             {data: 'pdf', name: 'pdf', 
               render: function( data, type, full, meta ) {
@@ -170,8 +143,7 @@
                           return "<img src=\"/uploads/donasi/photos/" + data + "\" width=\"50\" height=\"50\"/>"; 
                         }
                       }},
-            {data: 'penerima', name: 'penerima'},
-            {data: 'donatur', name: 'donatur'},
+            {data: 'penerima', name: 'penerima', searchable: false, orderable: false},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
@@ -189,7 +161,6 @@
         var frm = $('#tambahForm');
         $('.errorId_kategori').hide();
         $('.errorId_penerima').hide();
-        $('.errorId_donatur').hide();
         $('.errorJumlah_donasi').hide();
         $('.errorTanggal_memberi').hide();
         $('.errorPdf').hide();
@@ -199,7 +170,7 @@
         $.ajax({
           // data: frm.serialize(),
           data: new FormData($("#tambahForm")[0]),
-          url: "{{ route('pengurus.donasi.store') }}",
+          url: "{{ route('donatur.donasi.store') }}",
           type: "POST",
           dataType: 'json',
           processData: false,
@@ -214,10 +185,6 @@
                   $('.errorId_penerima').show();
                   $('.errorId_penerima').text(data.errors.id_penerima);
                 }
-                if (data.errors.id_donatur) {
-                  $('.errorId_donatur').show();
-                  $('.errorId_donatur').text(data.errors.id_donatur);
-                }
                 if (data.errors.jumlah_donasi) {
                   $('.errorJumlah_donasi').show();
                   $('.errorJumlah_donasi').text(data.errors.jumlah_donasi);
@@ -225,10 +192,6 @@
                 if (data.errors.tanggal_memberi) {
                   $('.errorTanggal_memberi').show();
                   $('.errorTanggal_memberi').text(data.errors.tanggal_memberi);
-                }
-                if (data.errors.pdf) {
-                  $('.errorPdf').show();
-                  $('.errorPdf').text(data.errors.pdf);
                 }
                 if (data.errors.gambar) {
                   $('.errorGambar').show();
@@ -263,21 +226,15 @@
                 $('#edit_tanggal_memberi').val(data.tanggal_memberi);
                 var row1 = $('#table tbody tr td:eq(1)').text();
                 var row5 = $('#table tbody tr td:eq(5)').text();
-                var row6 = $('#table tbody tr td:eq(6)').text();
                 $("#edit_id_kategori").select2("trigger", "select", {
                     data: { id: data.id_kategori, text:row1 }
                 });
                 $("#edit_id_penerima").select2("trigger", "select", {
                     data: { id: data.id_penerima, text:row5 }
                 });
-                $("#edit_id_donatur").select2("trigger", "select", {
-                    data: { id: data.id_donatur, text:row6 }
-                });
-                $('#edit_showpdf').attr('href', '/uploads/donasi/pdf/'+data.pdf);
                 $('#edit_showgambar').attr('src', '/uploads/donasi/photos/'+data.gambar);
                 $('.errorId_kategori').hide();
                 $('.errorId_penerima').hide();
-                $('.errorId_donatur').hide();
                 $('.errorJumlah_donasi').hide();
                 $('.errorTanggal_memberi').hide();
                 $('#editModal').modal('show');
@@ -290,12 +247,11 @@
         e.preventDefault();
         $('.errorId_kategori').hide();
         $('.errorId_penerima').hide();
-        $('.errorId_donatur').hide();
         $('.errorJumlah_donasi').hide();
         $('.errorTanggal_memberi').hide();
         $('.errorPdf').hide();
         $('.edit_errorGambar').hide();
-        var url = "/pengurus/donasi/"+$('#edit_id').val();
+        var url = "/donatur/donasi/"+$('#edit_id').val();
         var frm = $('#editForm');
         var formdata = new FormData($("#editForm")[0]);
         formdata.append('_method', 'PUT');
@@ -318,10 +274,6 @@
                   $('.edit_errorId_penerima').show();
                   $('.edit_errorId_penerima').text(data.errors.id_penerima);
                 }
-                if (data.errors.id_donatur) {
-                  $('.edit_errorId_donatur').show();
-                  $('.edit_errorId_donatur').text(data.errors.id_donatur);
-                }
                 if (data.errors.jumlah_donasi) {
                   $('.edit_errorJumlah_donasi').show();
                   $('.edit_errorJumlah_donasi').text(data.errors.jumlah_donasi);
@@ -329,10 +281,6 @@
                 if (data.errors.tanggal_memberi) {
                   $('.edit_errorTanggal_memberi').show();
                   $('.edit_errorTanggal_memberi').text(data.errors.tanggal_memberi);
-                }
-                if (data.errors.pdf) {
-                  $('.edit_errorPdf').show();
-                  $('.edit_errorPdf').text(data.errors.pdf);
                 }
                 if (data.errors.gambar){
                   $('.edit_errorGambar').show();
@@ -419,7 +367,7 @@
       theme: "bootstrap",
       placeholder: 'Pilih Kategori',
       ajax: {
-          url: "<?=route('pengurus.donasi.cari.category');?>",
+          url: "<?=route('donatur.donasi.cari.category');?>",
           dataType: 'json',
           delay: 250,
           data: function (params) {
@@ -447,7 +395,7 @@
         theme: "bootstrap",
         placeholder: 'Pilih Penerima',
         ajax: {
-            url: "<?=route('pengurus.donasi.cari.penerima');?>",
+            url: "<?=route('donatur.donasi.cari.penerima');?>",
             dataType: 'json',
             delay: 250,
             data: function (params) {
@@ -459,34 +407,6 @@
                   return {
                       text: item.nama+' - (id: '+item.id_penerima+')',
                       id: item.id_penerima
-                  }
-                })
-              };
-            }, cache: true
-        },
-        templateSelection: function (selection) {
-            var result = selection.text.split('-');
-            return result[0];
-        }
-    });
-
-    // Auto complete combobox donatur select
-      $('.cari_donatur').select2({
-        theme: "bootstrap",
-        placeholder: 'Pilih Donautur',
-        ajax: {
-            url: "<?=route('pengurus.donasi.cari.donatur');?>",
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-              return { q: params.term }
-            },
-            processResults: function (data) {
-              return {
-                results:  $.map(data, function (item) {
-                  return {
-                      text: item.nama_depan+' '+item.nama_belakang+' - (id: '+item.id_donatur+')',
-                      id: item.id_donatur
                   }
                 })
               };

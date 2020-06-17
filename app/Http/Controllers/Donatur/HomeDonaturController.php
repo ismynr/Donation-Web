@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use App\Donasi;
+use App\Donatur;
 
 class HomeDonaturController extends Controller
 {
@@ -14,23 +16,19 @@ class HomeDonaturController extends Controller
     }
 
     public function index(){
+        $get= Donatur::where('id_user', Auth::user()->id)->first();
+
         $total_donasi = DB::table('donasi')->sum('jumlah_donasi');
         $penerima = DB::table('penerima')->count();
         $donatur = DB::table('donatur')->count();
         $donasi = DB::table('donasi')->count();
-        $riwayat = DB::table('donasi')
-        ->join('penerima', 'donasi.id_penerima', '=', 'penerima.id_penerima')
-        ->join('donatur', 'donasi.id_donatur', '=', 'donatur.id_donatur')
-        ->select('jumlah_donasi', 'penerima.nama', 'donatur.nama_depan' )
-        ->limit(10)
-        ->orderBy('id_donasi', 'desc')
-        ->get();
+        $donasi_perorang = Donasi::where('id_donatur', $get->id_donatur)->sum('jumlah_donasi');
         $data = array(
             'total_donasi' => $total_donasi,
             'penerima' => $penerima,
             'donatur' => $donatur,
             'donasi' => $donasi,
-            'riwayat' => $riwayat
+            'donasi_perorang' => $donasi_perorang,
         );
 
         return view('donatur.index', compact('data'));

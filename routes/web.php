@@ -55,9 +55,8 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'a
         Route::get('/', 'Admin\HomeAdminController@index')->name('dashboard');
         Route::resource('pengurus', 'Admin\ManagePengurusController');
         Route::resource('donatur', 'Admin\ManageDonaturController');
-        Route::resource('profile', 'Admin\ProfileAdminController');
         Route::resource('user', 'Admin\ManageUserController');
-        // Route::get('huhu', 'Admin\ManageUserController@huhu');
+        Route::resource('profile', 'Admin\ProfileAdminController');
 });
 
  
@@ -71,10 +70,9 @@ Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus', 'as'
         Route::resource('donasi', 'Pengurus\DonasiController');
         Route::resource('category', 'Pengurus\CategoryController');
         Route::resource('penerima', 'Pengurus\PenerimaController');
-        Route::resource('layanan_public', 'Pengurus\LayananPublicController');
-        // Route::resource('pengurus', 'Pengurus\PengurusController');
         Route::resource('donatur', 'Pengurus\DonaturController');
-        // Route::get('donatur-lis', 'Pengurus\DonaturController@getDonatur')->name('donatur.list');
+        Route::resource('layanan_public', 'Pengurus\LayananPublicController');
+        Route::resource('profile', 'Pengurus\ProfilePengurusController');
 
         // JSON Route
         Route::get('donasi/cari/category', 'Pengurus\DonasiController@loadDataCategory')->name('donasi.cari.category');
@@ -90,5 +88,12 @@ Route::group(['middleware' => ['auth', 'pengurus'], 'prefix' => 'pengurus', 'as'
 Route::group(['middleware' => ['auth', 'donatur'], 'prefix' => 'donatur', 'as' => 'donatur.'], 
     function () {
         Route::get('/', 'Donatur\HomeDonaturController@index')->name('dashboard');
+        Route::resource('donasi', 'Donatur\ManageDonasiController');
+        Route::resource('layanan_public', 'Donatur\LayananPublicController');
+        Route::resource('profile', 'Donatur\ProfileDonaturController');
+
+        // JSON Route
+        Route::get('donasi/cari/category', 'Donatur\ManageDonasiController@loadDataCategory')->name('donasi.cari.category');
+        Route::get('donasi/cari/penerima', 'Donatur\ManageDonasiController@loadDataPenerima')->name('donasi.cari.penerima');
 });
 

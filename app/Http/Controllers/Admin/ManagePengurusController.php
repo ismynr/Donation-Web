@@ -43,7 +43,6 @@ class ManagePengurusController extends Controller
             'nama'      => 'required|min:2',
             'jabatan'   => 'required',
             'email'     => 'required|email|unique:users',
-            'password'  => 'required|min:3',
         ]);
 
         if($validator->fails()) {
@@ -54,7 +53,7 @@ class ManagePengurusController extends Controller
             $users->name = $request->nama;
             $users->email = $request->email;
             $users->role = 'pengurus';
-            $users->password = Hash::make($request->password);
+            $users->password = Hash::make($request->email);
             $users->save();
 
             // Make Data Pengurus
@@ -78,15 +77,19 @@ class ManagePengurusController extends Controller
     public function edit($id)
     {
         $data = Pengurus::findOrFail($id);
-        return response()->json($data);
+        $user = User::findOrFail($data->id_user);
+        return response()->json(['data' => $data, 'user' => $user]);
     }
 
     public function update(Request $request, $id)
     {
+        $get = Pengurus::where('id_pengurus', $id)->first();
+
         $validator = Validator::make($request->all(), [
             'nip' => 'required',
             'nama' => 'required',
             'jabatan' => 'required',
+            'email' => 'email|required|max:255|unique:users,email,'. $get->id_user
         ]);
         
         if($validator->fails()) {
@@ -98,9 +101,13 @@ class ManagePengurusController extends Controller
             $pengurus->jabatan = $request->jabatan;
             $pengurus->save();
             
-            // Update juga nama pada tabel users
+            // UPDATE JUGA USER ACCOUNT PADA TABEL USER
             $users = User::find($pengurus->id_user);
             $users->name = $request->nama;
+            $users->email = $request->email;
+            if($request->password == "Reset Password"){
+                $donatur->password = Hash::make($request->email);
+            }
             $users->save();
             return response()->json(['success' => true]);
         }

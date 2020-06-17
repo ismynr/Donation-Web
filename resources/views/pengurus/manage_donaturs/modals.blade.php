@@ -95,21 +95,6 @@
               <textarea id="edit_alamat" name="alamat" class="form-control" cols="30" rows="10"></textarea>
               <small class="edit_errorAlamat text-danger hidden"></small>
           </div>
-          <div class="form-group">
-              <label for="email" class="col-form-label">Email:</label>
-              <input id="edit_email" type="email" class="form-control" name="email">
-              <small class="edit_errorEmail text-danger hidden"></small>
-          </div>
-          <div class="form-group">
-            <div class="form-check">
-              <input class="form-check-input" name="password" value ="Reset Password" type="checkbox" id="gridCheck">
-              <label class="form-check-label" for="gridCheck">
-                Reset Password !
-              </label>
-            </div>
-            <small class="text-danger">Password akan sama dengan email</small>
-          </div>
-          
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

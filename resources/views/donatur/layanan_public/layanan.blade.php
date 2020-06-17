@@ -1,10 +1,10 @@
-@extends('layouts.pengurus.app')
+@extends('layouts.donatur.app')
 
 @section('content')
   <div class="row page-titles mx-0">
       <div class="col p-md-0">
           <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="javascript:void(0)">Pengurus</a></li>
+              <li class="breadcrumb-item"><a href="javascript:void(0)">Donatur</a></li>
               <li class="breadcrumb-item"><a href="javascript:void(0)">Public</a></li>
               <li class="breadcrumb-item active"><a href="javascript:void(0)">Layanan</a></li>
           </ol>
@@ -18,19 +18,17 @@
             <div class="card">
                 <div class="card-body">
                     <div class="email-left-box">
+                        <a href="{{ route('donatur.layanan_public.create') }}" class="btn btn-primary btn-block">Compose</a>
                         <div class="mail-list mt-4">
                             <a href="{{ route('pengurus.layanan_public.index') }}" class="list-group-item border-0 p-r-0 @if(app('request')->input('sent') == '') text-primary font-weight-bold @else @endif">
                                 <i class="icon-envelope-open mr-2"></i>Inbox
                                 <span class="badge badge-primary badge-sm float-right m-t-5">{{ $jumlah_unread }}</span> 
                             </a>
-                            <a href="{{ route('pengurus.layanan_public.index') }}?sent=true" class="list-group-item border-0 p-r-0 @if(app('request')->input('sent') == 'true') text-primary font-weight-bold @else @endif">
-                                <i class="icon-envelope-letter mr-2"></i>Sent
-                            </a> 
                         </div>
                     </div>
                     <div class="email-right-box">
                         <div role="toolbar" class="toolbar">
-                            <span class="btn btn-dark" >Daftar Pesan</span>
+                            <span class="btn btn-dark mr-3" >Daftar Pesan</span>
                         </div>
                         <div class="email-list m-t-15">
                             @if (count($errors) > 0)
@@ -47,15 +45,16 @@
                             @endif
                             @forelse ($lp as $l)
                             <div class="message">
-                                <a href="{{ route('pengurus.layanan_public.show', $l->id) }}">
+                                <a href="{{ route('donatur.layanan_public.show', $l->id) }}">
                                     <div class="col-mail col-mail-1">
-                                        @if (app('request')->input('sent') != 'true')
-                                            @if($l->read == 0)
-                                                <div class="badge badge-danger">unread</div>
-                                            @endif
-                                            @if($l->reply == 1)
-                                            <div class="badge badge-primary">answered</div>
-                                            @endif
+                                        @if($l->id_pengurus != NULL && $l->read == 0)
+                                            <div class="badge badge-danger">unread</div>
+                                        @endif 
+                                        @if($l->id_pengurus != NULL)
+                                            <div class="badge badge-dark"><i class="icon-action-redo"></i></div>
+                                        @endif 
+                                        @if($l->reply == 1)
+                                        <div class="badge badge-primary">answered</div>
                                         @endif
                                     </div>
                                     <div class="col-mail col-mail-2">

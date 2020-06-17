@@ -94,7 +94,7 @@ class DonaturController extends Controller
             'no_hp' => 'required|min:9',
             'alamat' => 'required',
             'umur' => 'required',
-            'email' => 'required'
+            // 'email' => 'required'
         ]);
 
         if($validator->fails()) {
@@ -106,10 +106,10 @@ class DonaturController extends Controller
             $donatur->no_hp = $request->no_hp;
             $donatur->alamat = $request->alamat;
             $donatur->umur = $request->umur;
-            $donatur->email = $request->email;
-            if($request->password == "Reset Password"){
-                $donatur->password = Hash::make($request->email);
-            }
+            // $donatur->email = $request->email;
+            // if($request->password == "Reset Password"){
+            //     $donatur->password = Hash::make($request->email);
+            // }
             $donatur->save();
             return response()->json(['success' => true]);
         }

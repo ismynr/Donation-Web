@@ -25,10 +25,7 @@
                         <div class="dropdown-content-body">
                             <ul>
                                 <li>
-                                    <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
-                                </li>
-                                <li>
-                                    <a href="app-profile.html"><i class="icon-lock"></i> <span>Ubah Password</span></a>
+                                    <a href="{{ route('donatur.profile.index') }}"><i class="icon-user"></i> <span>Profile</span></a>
                                 </li>
                                 <hr class="my-2">
                                 <li>

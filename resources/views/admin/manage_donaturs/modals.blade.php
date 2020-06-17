@@ -11,6 +11,8 @@
       <div class="modal-body">
         <form id="tambahForm">
           {{ csrf_field() }}
+          <h4>User Profile</h4>
+          <hr>
           <div class="form-group">
               <label for="nama_depan" class="col-form-label">Nama Depan:</label>
               <input type="text" class="form-control" name="nama_depan">
@@ -36,6 +38,8 @@
               <textarea name="alamat" class="form-control" cols="30" rows="10"></textarea>
               <small class="errorAlamat text-danger hidden"></small>
           </div>
+          <h4>User Account</h4>
+          <hr>
           <div class="form-group">
               <label for="email" class="col-form-label">Email:</label>
               <input type="email" class="form-control" name="email">
@@ -43,8 +47,8 @@
           </div>
           <div class="form-group">
               <label for="password" class="col-form-label">Password (DEFAULT):</label>
-              <input type="text" class="form-control" name="password" disabled value="PASSWORD DISAMAKAN DENGAN EMAIL">
-              <small class="errorPassword text-danger">dapat diganti sendiri saat login donatur tersebut, dibagian profile</small>
+              <input type="text" class="form-control" name="" disabled value="PASSWORD DISAMAKAN DENGAN EMAIL">
+              <small class="text-danger">dapat diganti sendiri saat login donatur tersebut, dibagian profile</small>
           </div>
       </div>
       <div class="modal-footer">
@@ -70,6 +74,8 @@
         <form id="editForm">
           {{ csrf_field() }}
           <input type="hidden" id="edit_id" name="id">
+          <h4>User Profile</h4>
+          <hr>
           <div class="form-group">
               <label for="nama_depan" class="col-form-label">Nama Depan:</label>
               <input type="text" id="edit_nama_depan" class="form-control" name="nama_depan">
@@ -95,6 +101,9 @@
               <textarea id="edit_alamat" name="alamat" class="form-control" cols="30" rows="10"></textarea>
               <small class="edit_errorAlamat text-danger hidden"></small>
           </div>
+
+          <h4>User Account</h4>
+          <hr>
           <div class="form-group">
               <label for="email" class="col-form-label">Email:</label>
               <input id="edit_email" type="email" class="form-control" name="email">
@@ -109,7 +118,6 @@
             </div>
             <small class="text-danger">Password akan sama dengan email</small>
           </div>
-          
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -217,7 +225,6 @@
             datatype : 'json',
             success:function(data){
                 $('#edit_id').val(data.id_donatur);
-                console.log(data)
                 $('#edit_nama_depan').val(data.nama_depan);
                 $('#edit_nama_belakang').val(data.nama_belakang);
                 $('#edit_no_hp').val(data.no_hp);
@@ -254,7 +261,6 @@
             dataType : 'json',
             success:function(data){
               if (data.errors) {
-                console.log(data.errors.no_hp);
                 if (data.errors.nama_depan) {
                     $('.edit_errorNama_depan').show();
                     $('.edit_errorNama_depan').text(data.errors.nama_depan);
