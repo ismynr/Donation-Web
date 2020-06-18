@@ -57,6 +57,8 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'a
         Route::resource('donatur', 'Admin\ManageDonaturController');
         Route::resource('user', 'Admin\ManageUserController');
         Route::resource('profile', 'Admin\ProfileAdminController');
+        Route::get('activity', 'Admin\ActivityLogController@index')->name('activity.index');
+        Route::get('activity/{id}', 'Admin\ActivityLogController@show')->name('activity.show');
 });
 
  

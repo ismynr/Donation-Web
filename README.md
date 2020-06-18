@@ -10,31 +10,6 @@
 <br>
 
 ## HomeWork Sing Uwis
-### 8th
-1. Migration for ALL TABLES.
-    -   Donasi, Category ***[Uwis]***
-    -   Donatur
-    -   Penerima ***[Uwis]*** 
-    -   Pengurus ***[Uwis]***
-2. Seeding for ALL TABLES.
-    -   Donasi, Category ***[Uwis]***
-    -   Donatur
-    -   Penerima ***[Uwis]***  
-    -   Pengurus ***[Uwis]***
-3. Seeding at least 25 rows per Tables.
-    -   Donasi, Category ***[Uwis]***
-    -   Donatur
-    -   Penerima ***[Uwis]***
-    -   Pengurus ***[Uwis]***
-
-### 9th
-1. Registration ***[Uwis]***
-2. Email Verification ***[Uwis]*** basic
-3. Login ***[Uwis]***
-4. Logout ***[Uwis]***
-5. Change Password
-6. Forgot Password
-
 ### 10th 
 #### A. Image Upload
 1. Image upload in Create Page in every CRUD. Only JPEG, JPG, PNG, & GIF are allowed.
@@ -48,15 +23,41 @@
 4. Show link of the uploaded PDF in Edit Page in every CRUD.
 <br>
 
-# Cara Install
+## Deskripsi Sistem
+### Role dan Peran Masing2
+1.   Admin 
+    -   Management Pengurus user account
+    -   Management Donatur user account
+    -   Activity log all role
+    -   Profile, change pwd
+2.   Pengurus
+    -   Management Penerima
+    -   Management Donatur without user account
+    -   Management Donasi
+    -   Management Kategori Donasi
+    -   Dukungan Layanan for Donatur
+    -   Profile, change pwd
+3.   Donatur
+    -   Donasi Donatur
+    -   Dukungan Layanan from Pengurus
+    -   Profile, change pwd
+<br>
 
+###  Lainya *[Durung]*
+-   UI Homepage
+-   Topik Sistem
+-   Ngrapihi Sistem
+-   .....
+
+
+# Cara Install
 ## Clone Dari Github
--   Masuk terminal / git bash
+-   Open terminal / git bash
 -   git clone [url_github]
 -   cd [nama_repo]
 -   composer install
 -   cp .env.example .env
--   setting email konfigurasi di .env
+-   setting database and email konfigurasi di .env
 -   php artisan key:generate
 -   php artisan migrate:fresh --seed
 

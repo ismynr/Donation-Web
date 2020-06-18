@@ -231,7 +231,6 @@ return [
 
         // Custom Alianses
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-        'ActivityLog' => App\Helpers\ActivityLog::class,
     ],
 
 ];

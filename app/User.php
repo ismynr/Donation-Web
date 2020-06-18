@@ -5,12 +5,19 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, LogsActivity;
 
     protected $table = 'users';
+
+    // LOG ACTIVITY SPATIE
+    protected static $logName = 'users';
+    protected static $logAttributes = ['name', 'email', 'password', 'email_verified_at'];
+    protected static $recordEvents = ['created', 'updated', 'deleted'];
+    protected static $logOnlyDirty = true;
 
     /**
      * The attributes that are mass assignable.

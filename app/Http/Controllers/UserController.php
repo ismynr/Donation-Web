@@ -40,6 +40,8 @@ class UserController extends Controller
         $donatur->email = Auth::user()->email;
         $donatur->save();
 
+        activity()->log('registered as donatur');
+
         return redirect()->route('donatur.dashboard')->withSuccess('Anda berhasil mendaftar sebagai DONATUR! Selamat bergabung!');
     }
 }

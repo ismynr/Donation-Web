@@ -42,6 +42,8 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
+        activity()->log('login');
+
         // to admin dashboard
         if($user->isPengurus()) {
             return redirect(route('pengurus.dashboard'));
@@ -63,5 +65,23 @@ class LoginController extends Controller
         }
 
         abort(404);
+    }
+
+    public function logout(Request $request){
+        activity()->log('logout');
+        
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new Response('', 204)
+            : redirect('/');
     }
 }
