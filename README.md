@@ -25,30 +25,39 @@
 
 ## Deskripsi Sistem
 ### Role dan Peran Masing2
-1.   Admin 
+1.  Admin 
     -   Management Pengurus user account
     -   Management Donatur user account
     -   Activity log all role
     -   Profile, change pwd
-2.   Pengurus
+2.  Pengurus
     -   Management Penerima
     -   Management Donatur without user account
     -   Management Donasi
     -   Management Kategori Donasi
     -   Dukungan Layanan for Donatur
     -   Profile, change pwd
-3.   Donatur
+3.  Donatur
     -   Donasi Donatur
     -   Dukungan Layanan from Pengurus
     -   Profile, change pwd
 <br>
 
-###  Lainya *[Durung]*
--   UI Homepage
--   Topik Sistem
--   Ngrapihi Sistem
--   .....
+### Login
+-   Admin
+    -   Email: admin@gmail.com
+    -   Password: admin
+-   Pengurus, Donatur
+    -   Email: **liat database users sesuai role**
+    -   Password: **sama sesuai email**
+<br>
 
+###  Lainya 
+-   UI Homepage **[Durung]**
+-   Topik Sistem **[Durung]**
+-   Ngrapihi Sistem **[Durung]**
+-   .....
+<br>
 
 # Cara Install
 ## Clone Dari Github
@@ -60,6 +69,7 @@
 -   setting database and email konfigurasi di .env
 -   php artisan key:generate
 -   php artisan migrate:fresh --seed
+<br>
 
 ## Perbaharui Repo Lokal Dr Remote
 -   git pull [nama_remote] [nama_branch]
