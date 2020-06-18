@@ -3,6 +3,15 @@
 @section('content')
 
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            @if (session('success'))
+            <div class="alert alert-success text-center">
+                <span class="alert-inner--text">{{session('success')}}</span>
+            </div>
+            @endif
+        </div>
+    </div>
   <div class="row">
     <div class="col-lg-12">
           <div class="card gradient-1 text-center">

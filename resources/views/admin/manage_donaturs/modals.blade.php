@@ -219,6 +219,7 @@
     $('#table').on('click','.editBtn[data-id]',function(e){
         e.preventDefault();
         var url = $(this).data('id');
+        $('#editForm').trigger("reset");
         $.ajax({
             url : url,
             type : 'GET',

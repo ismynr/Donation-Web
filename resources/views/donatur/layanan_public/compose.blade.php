@@ -27,7 +27,7 @@
                     </div>
                     <div class="email-right-box">
                         <div class="toolbar" role="toolbar">
-                            <span class="btn btn-dark mr-3" >Baca Pesan</span>
+                            <span class="btn btn-dark mr-3" >Tulis Pesan</span>
                             <a href="javascript:history.back()" class="btn btn-outline-primary"><i class="icon-arrow-left"></i></a>
                             <button type="button" class="btn btn-danger"><i class="icon-trash"></i></button>
                         </div>

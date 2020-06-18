@@ -44,8 +44,8 @@
         <!--**********************************
             Nav header start
         ***********************************-->
-        <div class="nav-header">
-            <div class="brand-logo">
+        <div class="nav-header bg-white">
+            <div class="brand-logo gradient-2">
                 <a href="index.html">
                     <b class="logo-abbr"><img src="{{ asset('quixlab') }}/images/logo.png" alt=""> </b>
                     <span class="logo-compact"><img src="{{ asset('quixlab') }}/images/logo-compact.png" alt=""></span>

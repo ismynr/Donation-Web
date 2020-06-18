@@ -17,7 +17,6 @@ class LayananPublicsSeeder extends Seeder
         $faker = Faker::create('id_ID');
         $donatur = Donatur::all();
 
-        // SEEDER Y BELOOM
         for ($i=0; $i < 25; $i++) { 
             $randomdonatur = $faker->randomElement($donatur);
 

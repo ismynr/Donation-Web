@@ -17,7 +17,7 @@
           <div class="col-12">
               <div class="card">
                   <div class="card-body">
-                      <h4 class="card-title float-left">List Data User <small class="text-muted">Belum verification email</small></h4>
+                      <h4 class="card-title float-left">List Data User</h4>
                       <div class="table-responsive">
                           <table class="table data-table table-striped table-bordered" id="table">
                             <thead class="bg-light ">
@@ -25,6 +25,7 @@
                                 <th>#</th>
                                 <th>Nama</th>
                                 <th>Email</th>
+                                <th>Status User</th>
                                 <th>Bergabung Pada</th>
                                 <th width="20%">Opsi</th>
                               </tr>

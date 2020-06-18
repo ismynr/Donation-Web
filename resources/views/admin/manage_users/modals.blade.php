@@ -50,6 +50,14 @@ $(function () {
           {data: 'DT_RowIndex', name: 'DT_RowIndex'},
           {data: 'name', name: 'name'},
           {data: 'email', name: 'email'},
+          {data: 'email_verified_at', name: 'email_verified_at', 
+              render: function( data, type, full, meta ) {
+                        if(data == null){
+                          return '<span class="badge badge-danger">Belum Verifikasi</span>';
+                        }else{
+                          return "<span class='badge badge-primary'>Belum Isi Data</span>"; 
+                        }
+                      }},
           {data: 'created_at', name: 'created_at'},
           {data: 'action', name: 'action', orderable: false, searchable: false},
       ]

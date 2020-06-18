@@ -37,7 +37,7 @@ Auth::routes(['verify' => true]);
 
 /**
  * 
- * Middleware Auth User Yang Belum Punya Role SETELAH REGISTRASI
+ * Middleware Auth User Yang Belum Punya Role SETELAH REGISTRASI DAN VERIFIKASI
  */
 Route::group(['middleware' => ['auth', 'user', 'verified'], 'prefix' => 'user', 'as' => 'user.'], 
     function () {

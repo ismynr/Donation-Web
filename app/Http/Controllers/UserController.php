@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
-use App\Pengurus;
+use App\Donatur;
 use App\User;
 use Validator;
 
@@ -18,23 +18,28 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nip'       => 'required|numeric',
-            'nama'      => 'required|min:2',
-            'jabatan'   => 'required',
+            'nama_depan'        => 'required',
+            'nama_belakang'     => 'required',
+            'no_hp'             => 'required|numeric',
+            'alamat'            => 'required',
+            'umur'              => 'required|numeric',
         ]);
 
         $user = User::find(Auth::user()->id);
-        $user->role = "pengurus";
+        $user->role = "donatur";
         $user->save();
         
-        // Make Data Pengurus
-        $pengurus = new Pengurus;
-        $pengurus->id_user = Auth::user()->id;
-        $pengurus->nip = $request->nip;
-        $pengurus->nama = $request->nama;
-        $pengurus->jabatan = $request->jabatan;
-        $pengurus->save();
+        // Make Data Donatur
+        $donatur = new Donatur();
+        $donatur->id_user = Auth::user()->id;
+        $donatur->nama_depan = $request->nama_depan;
+        $donatur->nama_belakang = $request->nama_belakang;
+        $donatur->no_hp = $request->no_hp;
+        $donatur->alamat = $request->alamat;
+        $donatur->umur = $request->umur;
+        $donatur->email = Auth::user()->email;
+        $donatur->save();
 
-        return redirect('/pengurus');
+        return redirect()->route('donatur.dashboard')->withSuccess('Anda berhasil mendaftar sebagai DONATUR! Selamat bergabung!');
     }
 }
