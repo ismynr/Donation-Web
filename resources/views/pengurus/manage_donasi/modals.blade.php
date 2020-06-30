@@ -110,7 +110,7 @@
           <div class="form-group">
             <div class="row">
               <div class="col s6">
-                  <a href="" class="btn btn-success btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
+                  <a href="" class="btn btn-dark btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
               </div>
             </div>
           </div>
@@ -159,7 +159,7 @@
                         if(data == null){
                           return '<small class="text-muted">Belum upload</small>';
                         }else{
-                          return "<a class='btn btn-rounded btn-success btn-sm' href=\"/uploads/donasi/pdf/" + data + "\" target='_blank'>pdf</a>"; 
+                          return "<a class='btn btn-rounded btn-dark btn-sm' href=\"{{Storage::url('public/donasi/pdf/')}}" + data + "\" target='_blank'>pdf</a>"; 
                         }
                       }},
             {data: 'gambar', name: 'gambar', 
@@ -167,7 +167,7 @@
                         if(data == null){
                           return '<small class="text-muted">Belum upload</small>';
                         }else{
-                          return "<img src=\"/uploads/donasi/photos/" + data + "\" width=\"50\" height=\"50\"/>"; 
+                          return "<img src=\"{{Storage::url('public/donasi/photos/')}}" + data + "\" width=\"50\" height=\"50\"/>"; 
                         }
                       }},
             {data: 'penerima', name: 'penerima'},
@@ -258,6 +258,7 @@
             type : 'GET',
             datatype : 'json',
             success:function(data){
+                $('#editForm').trigger("reset");
                 $('#edit_id').val(data.id_donasi);
                 $('#edit_jumlah_donasi').val(data.jumlah_donasi);
                 $('#edit_tanggal_memberi').val(data.tanggal_memberi);
@@ -273,8 +274,8 @@
                 $("#edit_id_donatur").select2("trigger", "select", {
                     data: { id: data.id_donatur, text:row6 }
                 });
-                $('#edit_showpdf').attr('href', '/uploads/donasi/pdf/'+data.pdf);
-                $('#edit_showgambar').attr('src', '/uploads/donasi/photos/'+data.gambar);
+                $('#edit_showpdf').attr('href', '{{Storage::url("donasi/pdf/")}}'+data.pdf);
+                $('#edit_showgambar').attr('src', '{{Storage::url("donasi/photos/")}}'+data.gambar);
                 $('.errorId_kategori').hide();
                 $('.errorId_penerima').hide();
                 $('.errorId_donatur').hide();
@@ -299,6 +300,7 @@
         var frm = $('#editForm');
         var formdata = new FormData($("#editForm")[0]);
         formdata.append('_method', 'PUT');
+        $(this).html('Sending..');
 
         $.ajax({
             // data : frm.serialize(),
@@ -344,9 +346,11 @@
                 swal('Success!','Data Updated Successfully','success');
                 table.ajax.reload(null,false);
               }
+              $("#updateBtn").html('Ubah');
             },
             error: function (jqXHR, textStatus, errorThrown) {
               alert('Please Reload to read Ajax');
+              $("#updateBtn").html('Ubah');
             }
         });
     });
@@ -404,8 +408,6 @@
         readURL(this);
     });
     
-
-
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurus;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Donasi;
 use App\Category;
 use App\Penerima;
@@ -58,17 +59,15 @@ class DonasiController extends Controller
             $donasi->jumlah_donasi = $request->jumlah_donasi;
             $donasi->tanggal_memberi = $request->tanggal_memberi;
 
-            if($request->file('pdf')){
-                $pdf = $request->file('pdf');
+            if($pdf = $request->file('pdf')){
                 $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $pdf->getClientOriginalExtension();
-                $pdf->move(public_path('/uploads/donasi/pdf/'), $new_name);
+                Storage::putFileAs('public/donasi/pdf', $pdf, $new_name); 
 
                 $donasi->pdf = $new_name;
             }
-            if($request->file('gambar')){
-                $image = $request->file('gambar');
+            if($image = $request->file('gambar')){
                 $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('/uploads/donasi/photos/'), $new_name);
+                Storage::putFileAs('public/donasi/photos', $image, $new_name); 
 
                 $donasi->gambar = $new_name;
             }
@@ -109,26 +108,24 @@ class DonasiController extends Controller
             $donasi->jumlah_donasi = $request->jumlah_donasi;
             $donasi->tanggal_memberi = $request->tanggal_memberi;
 
-            if($request->file('pdf')){
+            if($pdf = $request->file('pdf')){
                 // KALO UPLOAD PDF LAGI
-                $pdf = $request->file('pdf');
                 $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $pdf->getClientOriginalExtension();
-                $pdf->move(public_path('/uploads/donasi/pdf/'), $new_name);
+                Storage::putFileAs('public/donasi/pdf', $pdf, $new_name); 
 
                 // FILE PDF SEBELUMNYA DI HAPUS
                 if($donasi->pdf != NULL){
-                    unlink(public_path('/uploads/donasi/pdf/'.$donasi->pdf));
+                    Storage::disk('public')->delete('donasi/pdf/'.$donasi->pdf);
                 }
 
                 $donasi->pdf = $new_name;
             }
-            if($request->file('gambar')){
-                $image = $request->file('gambar');
+            if($image = $request->file('gambar')){
                 $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('/uploads/donasi/photos/'), $new_name);
+                Storage::putFileAs('public/donasi/photos', $image, $new_name); 
 
                 if($donasi->gambar != NULL){
-                    unlink(public_path('/uploads/donasi/photos/'.$donasi->gambar));
+                    Storage::disk('public')->delete('donasi/photos/'.$donasi->gambar);
                 }
 
                 $donasi->gambar = $new_name;
@@ -141,12 +138,15 @@ class DonasiController extends Controller
 
     public function destroy($id){
         $data = Donasi::findOrFail($id);
-        if($data->pdf != NULL){
-            unlink(public_path('/uploads/donasi/pdf/'.$data->pdf));
+
+        if(Storage::disk('public')->exists('donasi/photos/'.$data->gambar) == 1){
+            Storage::disk('public')->delete('donasi/photos/'.$data->gambar);
         }
-        if($data->pdf != NULL){
-           unlink(public_path('/uploads/donasi/photos/'.$data->gambar)); 
+
+        if(Storage::disk('public')->exists('donasi/pdf/'.$data->pdf) == 1){
+            Storage::disk('public')->delete('donasi/pdf/'.$data->pdf);
         }
+
         if (Donasi::destroy($id)) {
             $data = 'Success';
         }else {
