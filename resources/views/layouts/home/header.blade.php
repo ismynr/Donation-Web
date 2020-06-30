@@ -16,30 +16,8 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ url('/') }}">Home</a>
                                 </li>
-
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Pages
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="Event.html">Event</a>
-                                        <a class="dropdown-item" href="elements.html">Elements</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        blog
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="blog.html">blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                                    </div>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('contact') }}">Contact</a>
+                                <li class="d-block d-sm-none nav-item">
+                                    <a class="nav-link" href="{{ url('login') }}">Login</a>
                                 </li>
                                 <li class="d-none d-lg-block">
                                     <a class="btn_2" href="{{ url('login') }}">Login</a>
