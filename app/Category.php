@@ -10,7 +10,7 @@ class Category extends Model
     use LogsActivity;
 
     protected $table = 'category';
-    protected $fillable = ['nama_kategori', 'gambar'];
+    protected $fillable = ['nama_kategori', 'gambar', 'pdf'];
     protected $primaryKey = 'id_kategori';
 
     // LOG ACTIVITY SPATIE

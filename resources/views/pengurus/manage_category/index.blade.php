@@ -26,6 +26,7 @@
                                 <th>#</th>
                                 <th>Nama Kategori</th>
                                 <th>Gambar</th>
+                                <th>Pdf</th>
                                 <th width="25%">Opsi</th>
                               </tr>
                             </thead>

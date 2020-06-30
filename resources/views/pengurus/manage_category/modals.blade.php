@@ -17,6 +17,11 @@
               <small class="errorNama_kategori text-danger hidden"></small>
           </div>
           <div class="form-group">
+            <label for="pdf" class="col-form-label">PDF:</label> <br/>
+            <input type="file" id="pdf" name="pdf" />
+            <small class="errorPdf text-danger hidden"></small>
+          </div>
+          <div class="form-group">
             <label for="gambar" class="col-form-label">Upload Bentuk Kategori:</label> <br/>
             <input type="file" id="gambar" name="gambar" />
             <small class="errorGambar text-danger hidden"></small>
@@ -56,6 +61,18 @@
               <label for="name" class="col-form-label">Nama Kategori:</label>
               <input type="text" id="edit_nama_kategori" class="form-control" name="nama_kategori">
               <small class="edit_errorNama_kategori text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <label for="pdf" class="col-form-label">PDF <small class="text-muted">*kosongkan kalo gak mau diganti</small>:</label> <br/>
+            <input type="file" id="edit_pdf" name="pdf" />
+            <small class="edit_errorPdf text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col s6">
+                  <a href="" class="btn btn-dark btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
+              </div>
+            </div>
           </div>
           <div class="form-group">
             <label for="gambar" class="col-form-label">Upload Bentuk Kategori <small class="text-muted">*kosongkan kalo nggak mau diganti</small>:</label> <br/>
@@ -98,7 +115,19 @@
             {data: 'nama_kategori', name: 'nama_kategori'},
             {data: 'gambar', name: 'gambar', 
               render: function( data, type, full, meta ) {
-                          return "<img src=\"/uploads/category/photos/" + data + "\" width=\"50\" height=\"50\"/>"; 
+                        if(data == null){
+                          return '<small class="text-muted">Belum upload</small>';
+                        }else{
+                          return "<img src=\"{{Storage::url('public/category/photos/')}}" + data + "\" width=\"50\" height=\"50\"/>"; 
+                        }
+                      }},
+            {data: 'pdf', name: 'pdf', 
+              render: function( data, type, full, meta ) {
+                        if(data == null){
+                          return '<small class="text-muted">Belum upload</small>';
+                        }else{
+                          return "<a class='btn btn-rounded btn-dark btn-sm' href=\"{{Storage::url('public/category/pdf/')}}" + data + "\" target='_blank'>pdf</a>"; 
+                        }
                       }},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
@@ -118,6 +147,7 @@
         var frm = $('#tambahForm');
         $('.errorNama_kategori').hide();
         $('.errorGambar').hide();
+        $('.errorPdf').hide();
         $(this).html('Sending..');
     
         $.ajax({
@@ -138,6 +168,10 @@
                 if (data.errors.gambar) {
                   $('.errorGambar').show();
                   $('.errorGambar').text(data.errors.gambar);
+                }
+                if (data.errors.pdf) {
+                  $('.errorPdf').show();
+                  $('.errorPdf').text(data.errors.pdf);
                 }
             }else {
               $('#tambahModal').modal('hide');
@@ -166,7 +200,8 @@
                 $('#editForm').trigger("reset");
                 $('#edit_id').val(data.id_kategori);
                 $('#edit_nama_kategori').val(data.nama_kategori);
-                $('#edit_showgambar').attr('src', '/uploads/category/photos/'+data.gambar);
+                $('#edit_showgambar').attr('src', '{{Storage::url("category/photos/")}}'+ data.gambar);
+                $('#edit_showpdf').attr('href', '{{Storage::url("category/pdf/")}}'+data.pdf);
                 $('.edit_errorNama_kategori').hide();
                 $('#editModal').modal('show');
             }
@@ -179,9 +214,11 @@
         var frm = $('#editForm');
         $('.edit_errorNama_kategori').hide();
         $('.edit_errorGambar').hide();
+        $('.edit_errorPdf').hide();
         var url = "/pengurus/category/"+$('#edit_id').val();
         var formdata = new FormData($("#editForm")[0]);
         formdata.append('_method', 'PUT');
+        $(this).html('Sending..');
 
         $.ajax({                       
             method :'POST',
@@ -200,6 +237,10 @@
                   $('.edit_errorGambar').show();
                   $('.edit_errorGambar').text(data.errors.gambar);
                 }
+                if (data.errors.pdf){
+                  $('.edit_errorPdf').show();
+                  $('.edit_errorPdf').text(data.errors.pdf);
+                }
               }else {
                 $('.edit_errorNama_kategori').addClass('hidden');
                 frm.trigger('reset');
@@ -207,8 +248,10 @@
                 swal('Success!','Data Updated Successfully','success');
                 table.ajax.reload(null,false);
               }
+              $('#updateBtn').html('Ubah');
             },
             error: function (jqXHR, textStatus, errorThrown) {
+              $('#updateBtn').html('Ubah');
               alert('Please Reload to read Ajax');
               console.log("ERROR : ", e);
             }

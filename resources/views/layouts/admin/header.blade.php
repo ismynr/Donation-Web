@@ -8,7 +8,7 @@
         <div class="header-left">
             <div class="input-group icons">
                 <div class="input-group-prepend">
-                    <a href="{{ url('/') }}"><span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3 mt-1" id="basic-addon1"><i class="icon-home menu-icon">  Home</i></span></a>
+                    <a href="{{ url('/') }}" title="home"an class="input-group-text bg-transparent border-0 pr-2 pr-sm-3 mt-1" id="basic-addon1"><i class="icon-home menu-icon"></i></span></a>
                     <span class="label gradient-2 btn-rounded mt-2">{{ Auth::user()->role }}</span>
                 </div>
             </div>
