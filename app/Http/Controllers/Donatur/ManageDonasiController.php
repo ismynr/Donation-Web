@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Donatur;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Donasi;
 use DataTables;
 use App\Category;
@@ -65,12 +66,9 @@ class ManageDonasiController extends Controller
             $donasi->jumlah_donasi = $request->jumlah_donasi;
             $donasi->tanggal_memberi = $request->tanggal_memberi;
 
-            if($request->file('gambar')){
-                $image = $request->file('gambar');
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('/uploads/donasi/photos/'), $new_name);
-
-                $donasi->gambar = $new_name;
+            if($image = $request->file('gambar')){
+                $new_name = Storage::putFile('public/donasi/photos', $image);
+                $donasi->gambar = basename($new_name);
             }
 
             $donasi->save();
@@ -112,17 +110,15 @@ class ManageDonasiController extends Controller
             $donasi->id_donatur = $get->id_donatur;
             $donasi->jumlah_donasi = $request->jumlah_donasi;
             $donasi->tanggal_memberi = $request->tanggal_memberi;
-            
-            if($request->file('gambar')){
-                $image = $request->file('gambar');
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('/uploads/donasi/photos/'), $new_name);
+
+            if($image = $request->file('gambar')){
+                $new_name = Storage::putFile('public/donasi/photos', $image);
 
                 if($donasi->gambar != NULL){
-                    unlink(public_path('/uploads/donasi/photos/'.$donasi->gambar));
+                    Storage::delete('public/donasi/photos/'.$donasi->gambar);
                 }
 
-                $donasi->gambar = $new_name;
+                $donasi->gambar = basename($new_name);
             }
 
             $donasi->save();
@@ -135,8 +131,8 @@ class ManageDonasiController extends Controller
         $data = Donasi::findOrFail($id);
 
         // KALO PDF Y BELUM DIAPLOD
-        if($data->pdf != NULL){
-           unlink(public_path('/uploads/donasi/photos/'.$data->gambar)); 
+        if(Storage::exists('public/donasi/photos/'.$data->gambar) == 1){
+            Storage::delete('public/donasi/photos/'.$data->gambar);
         }
 
         if (Donasi::destroy($id)) {

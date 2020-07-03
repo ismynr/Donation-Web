@@ -60,16 +60,12 @@ class DonasiController extends Controller
             $donasi->tanggal_memberi = $request->tanggal_memberi;
 
             if($pdf = $request->file('pdf')){
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $pdf->getClientOriginalExtension();
-                Storage::putFileAs('public/donasi/pdf', $pdf, $new_name); 
-
-                $donasi->pdf = $new_name;
+                $new_name = Storage::putFile('public/donasi/pdf', $pdf);
+                $donasi->pdf = basename($new_name);
             }
             if($image = $request->file('gambar')){
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
-                Storage::putFileAs('public/donasi/photos', $image, $new_name); 
-
-                $donasi->gambar = $new_name;
+                $new_name = Storage::putFile('public/donasi/photos', $image);
+                $donasi->gambar = basename($new_name);
             }
 
             $donasi->save();
@@ -110,25 +106,23 @@ class DonasiController extends Controller
 
             if($pdf = $request->file('pdf')){
                 // KALO UPLOAD PDF LAGI
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $pdf->getClientOriginalExtension();
-                Storage::putFileAs('public/donasi/pdf', $pdf, $new_name); 
+                $new_name = Storage::putFile('public/donasi/pdf', $pdf);
 
                 // FILE PDF SEBELUMNYA DI HAPUS
                 if($donasi->pdf != NULL){
-                    Storage::disk('public')->delete('donasi/pdf/'.$donasi->pdf);
+                    Storage::delete('public/donasi/pdf/'.$donasi->pdf);
                 }
 
-                $donasi->pdf = $new_name;
+                $donasi->pdf = basename($new_name);
             }
             if($image = $request->file('gambar')){
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
-                Storage::putFileAs('public/donasi/photos', $image, $new_name); 
+                $new_name = Storage::putFile('public/donasi/photos', $image);
 
                 if($donasi->gambar != NULL){
-                    Storage::disk('public')->delete('donasi/photos/'.$donasi->gambar);
+                    Storage::delete('public/donasi/photos/'.$donasi->gambar);
                 }
 
-                $donasi->gambar = $new_name;
+                $donasi->gambar = basename($new_name);
             }
 
             $donasi->save();
@@ -139,12 +133,12 @@ class DonasiController extends Controller
     public function destroy($id){
         $data = Donasi::findOrFail($id);
 
-        if(Storage::disk('public')->exists('donasi/photos/'.$data->gambar) == 1){
-            Storage::disk('public')->delete('donasi/photos/'.$data->gambar);
+        if(Storage::exists('public/donasi/photos/'.$data->gambar) == 1){
+            Storage::delete('public/donasi/photos/'.$data->gambar);
         }
 
-        if(Storage::disk('public')->exists('donasi/pdf/'.$data->pdf) == 1){
-            Storage::disk('public')->delete('donasi/pdf/'.$data->pdf);
+        if(Storage::exists('public/donasi/pdf/'.$data->pdf) == 1){
+            Storage::delete('public/donasi/pdf/'.$data->pdf);
         }
 
         if (Donasi::destroy($id)) {

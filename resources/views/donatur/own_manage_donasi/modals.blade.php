@@ -132,7 +132,7 @@
                         if(data == null){
                           return '<small class="text-muted">Belum upload</small>';
                         }else{
-                          return "<a class='btn btn-rounded btn-success btn-sm' href=\"/uploads/donasi/pdf/" + data + "\" target='_blank'>pdf</a>"; 
+                          return "<a class='btn btn-rounded btn-success btn-sm' href=\"{{Storage::url('public/donasi/pdf/')}}" + data + "\" target='_blank'>pdf</a>"; 
                         }
                       }},
             {data: 'gambar', name: 'gambar', 
@@ -140,7 +140,7 @@
                         if(data == null){
                           return '<small class="text-muted">Belum upload</small>';
                         }else{
-                          return "<img src=\"/uploads/donasi/photos/" + data + "\" width=\"50\" height=\"50\"/>"; 
+                          return "<img src=\"{{Storage::url('public/donasi/photos/')}}" + data + "\" width=\"50\" height=\"50\"/>"; 
                         }
                       }},
             {data: 'penerima', name: 'penerima', searchable: false, orderable: false},
@@ -232,7 +232,7 @@
                 $("#edit_id_penerima").select2("trigger", "select", {
                     data: { id: data.id_penerima, text:row5 }
                 });
-                $('#edit_showgambar').attr('src', '/uploads/donasi/photos/'+data.gambar);
+                $('#edit_showgambar').attr('src', '{{Storage::url("donasi/photos/")}}'+data.gambar);
                 $('.errorId_kategori').hide();
                 $('.errorId_penerima').hide();
                 $('.errorJumlah_donasi').hide();

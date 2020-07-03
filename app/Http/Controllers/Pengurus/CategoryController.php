@@ -45,15 +45,13 @@ class CategoryController extends Controller
             $category->nama_kategori = $request->nama_kategori;
 
             if($pdf = $request->file('pdf')){
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $pdf->getClientOriginalExtension();
-                Storage::putFileAs('public/category/pdf', $pdf, $new_name); 
-                $category->pdf = $new_name;
+                $new_name = Storage::putFile('public/category/pdf', $pdf); 
+                $category->pdf = basename($new_name);
             }
 
             if($image = $request->file('gambar')){
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
-                Storage::putFileAs('public/category/photos', $image, $new_name); 
-                $category->gambar = $new_name;
+                $new_name = Storage::putFile('public/category/photos', $image); 
+                $category->gambar = basename($new_name);
             }
 
             $category->save();
@@ -83,21 +81,19 @@ class CategoryController extends Controller
             $category->nama_kategori = $request->nama_kategori;
 
             if($image = $request->file('gambar')){
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $image->getClientOriginalExtension();
-                Storage::putFileAs('public/category/photos', $image, $new_name); 
+                $new_name = Storage::putFile('public/category/photos', $image); 
                 if($category->gambar != NULL){
-                    Storage::disk('public')->delete('category/photos/'.$category->gambar);
+                    Storage::delete('public/category/photos/'.$category->gambar);
                 }
-                $category->gambar = $new_name;
+                $category->gambar = basename($new_name);
             }
 
             if($pdf = $request->file('pdf')){
-                $new_name = date('Y-m-d-H:i:s') . '-' . rand() . '.' . $pdf->getClientOriginalExtension();
-                Storage::putFileAs('public/category/pdf', $pdf, $new_name); 
+                $new_name = Storage::putFile('public/category/pdf', $pdf);
                 if($category->pdf != NULL){
-                    Storage::disk('public')->delete('category/pdf/'.$category->pdf);
+                    Storage::delete('public/category/photos/'.$category->pdf);
                 }
-                $category->pdf = $new_name;
+                $category->pdf = basename($new_name);
             }
             
             $category->save();
@@ -107,13 +103,12 @@ class CategoryController extends Controller
 
     public function destroy($id){
         $data = Category::findOrFail($id);
-        
-        if(Storage::disk('public')->exists('category/photos/'.$data->gambar) == 1){
-            Storage::disk('public')->delete('category/photos/'.$data->gambar);
+        if(Storage::exists('public/category/photos/'.$data->gambar) == 1){
+            Storage::delete('public/category/photos/'.$data->gambar);
         }
 
-        if(Storage::disk('public')->exists('category/pdf/'.$data->pdf) == 1){
-            Storage::disk('public')->delete('category/pdf/'.$data->pdf);
+        if(Storage::exists('public/category/pdf/'.$data->pdf) == 1){
+            Storage::delete('public/category/pdf/'.$data->pdf);
         }
 
         if (Category::destroy($id)) {

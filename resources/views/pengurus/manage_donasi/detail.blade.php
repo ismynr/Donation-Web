@@ -63,12 +63,12 @@
                         <tr>
                           <th style="border:0">PDF Upload</th>
                           <td style="border:0">:</td>
-                          <td style="border:0"><a href="{{ Storage::url("donasi/pdf/") . $dataDonasi['pdf'] }}" class="btn btn-rounded btn-dark" target="_blank">link Download</a></td>
+                          <td style="border:0"><a href="{{ Storage::url('donasi/pdf/') . $dataDonasi['pdf'] }}" class="btn btn-rounded btn-dark" target="_blank">link Download</a></td>
                         </tr>
                         <tr>
                           <th style="border:0">Gambar Upload</th>
                           <td style="border:0">:</td>
-                          <td style="border:0"><img src="{{ Storage::url("donasi/photos/")  . $dataDonasi['gambar'] }}" alt="" width="100" height="100"></td>
+                          <td style="border:0"><img src="{{ Storage::url('donasi/photos/')  . $dataDonasi['gambar'] }}" alt="" width="100" height="100"></td>
                         </tr>
                         <tr>
                           <th style="border:0">Terkhir Ditambahkan</th>
