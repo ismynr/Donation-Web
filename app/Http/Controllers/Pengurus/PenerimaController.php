@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pengurus;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Penerima;
 use App\Donasi;
 use DataTables;
@@ -60,6 +61,8 @@ class PenerimaController extends Controller
             'umur' => 'required|numeric',
             'jumkel' => 'required|numeric',
             'penghasilan' => 'required|numeric',
+            'pdf' => 'max:2048|mimes:pdf',
+            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif'
         ]);
 
         if($validator->fails()) {
@@ -73,6 +76,16 @@ class PenerimaController extends Controller
             $penerima->umur = $request->umur;
             $penerima->jumkel = $request->jumkel;
             $penerima->penghasilan = $request->penghasilan;
+
+            if($pdf = $request->file('pdf')){
+                $new_name = Storage::putFile('public/penerima/pdf', $pdf);
+                $penerima->pdf = basename($new_name);
+            }
+            if($image = $request->file('gambar')){
+                $new_name = Storage::putFile('public/penerima/photos', $image);
+                $penerima->gambar = basename($new_name);
+            }
+
             $penerima->save();
             return response()->json(['success' => true]);
         }
