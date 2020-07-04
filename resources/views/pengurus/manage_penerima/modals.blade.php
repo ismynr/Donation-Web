@@ -49,6 +49,23 @@
                 <input type="number" class="form-control" name="penghasilan">
                 <small class="errorPenghasilan text-danger hidden"></small>
               </div>
+              <div class="form-group">
+                <label for="pdf" class="col-form-label">PDF :</label> <br/>
+                <input type="file" class="form-control" name="pdf">
+                <small class="errorPdf text-danger hidden"></small>
+              </div>
+              <div class="form-group">
+                <label for="gambar" class="col-form-label">Upload Photo :</label> <br/>
+                <input type="file" id="gambar" class="form-control" name="gambar">
+                <small class="errorGambar text-danger hidden"></small>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col s6">
+                      <img src="http://placehold.it/100x100" class="showgambar" style="max-width:200px;max-height:200px;float:left;" />
+                  </div>
+                </div>
+              </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -111,6 +128,30 @@
                 <input type="number" class="form-control" name="penghasilan" id="edit_penghasilan">
                 <small class="edit_errorPenghasilan text-danger hidden"></small>
               </div>
+              <div class="form-group">
+                <label for="pdf" class="col-form-label">PDF <small class="text-muted">*kosongkan jika tidak akan diubah</small>:</label> <br/>
+                <input type="file" id="edit_pdf" name="pdf" />
+                <small class="edit_errorPdf text-danger hidden"></small>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col s6">
+                      <a href="" class="btn btn-dark btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="gambar" class="col-form-label">Upload Bentuk Kategori <small class="text-muted">*kosongkan jika tidak akan diubah</small>:</label> <br/>
+                <input type="file" id="edit_gambar" name="gambar" />
+                <small class="edit_errorGambar text-danger hidden"></small>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col s6">
+                      <img src="http://placehold.it/100x100" class="showgambar" id="edit_showgambar" style="max-width:200px;max-height:200px;float:left;" />
+                  </div>
+                </div>
+              </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -144,9 +185,33 @@ var table = $('.data-table').DataTable({
         {data: 'umur', name: 'umur'},
         {data: 'jumkel', name: 'jumkel'},
         {data: 'penghasilan', name: 'penghasilan', render: $.fn.dataTable.render.number( ',', '.', 2, 'Rp. ' )},
+        {data: 'pdf', name: 'pdf', 
+          render: function( data, type, full, meta ) {
+                    if(data == null){
+                      return '<small class="text-muted">Belum upload</small>';
+                    }else{
+                      return "<a class='btn btn-rounded btn-dark btn-sm' href=\"{{Storage::url('public/penerima/pdf/')}}" + data + "\" target='_blank'>pdf</a>"; 
+                    }
+                  }},
+        {data: 'gambar', name: 'gambar', 
+          render: function( data, type, full, meta ) {
+                    if(data == null){
+                      return '<small class="text-muted">Belum upload</small>';
+                    }else{
+                      return "<img src=\"{{Storage::url('public/penerima/photos/')}}" + data + "\" width=\"50\" height=\"50\"/>"; 
+                    }
+                  }},
         {data: 'action', name: 'action', orderable: false, searchable: false},
     ]
 });
+
+
+    // Add button to show modal dialog
+    $('.tambahModal').click(function(){
+      $('.showgambar').attr('src', 'http://placehold.it/100x100');
+      $('#storeBtn').html('Tambah');
+      $('#tambahForm').trigger("reset");
+    });
 
 // Save Button in modal dialog
 $('#storeBtn').click(function (e) {
@@ -159,13 +224,19 @@ $('#storeBtn').click(function (e) {
         $('.errorUmur').hide();
         $('.errorJumkel').hide();
         $('.errorPenghasilan').hide();
+        $('.errorJumkel').hide();
+        $('.errorPdf').hide();
+        $('.errorGambar').hide();
         $(this).html('Sending..');
     
         $.ajax({
-          data: frm.serialize(),
+          // data: frm.serialize(),
+          data: new FormData($("#tambahForm")[0]),
           url: "{{ route('pengurus.penerima.store') }}",
           type: "POST",
           dataType: 'json',
+          processData: false,
+          contentType: false,
           success: function (data) {
             if (data.errors) {
                 if (data.errors.nama) {
@@ -196,6 +267,14 @@ $('#storeBtn').click(function (e) {
                   $('.errorPenghasilan').show();
                   $('.errorPenghasilan').text(data.errors.penghasilan);
                 }
+                if (data.errors.penghasilan) {
+                  $('.errorPdf').show();
+                  $('.errorPdf').text(data.errors.pdf);
+                }
+                if (data.errors.penghasilan) {
+                  $('.errorGambar').show();
+                  $('.errorGambar').text(data.errors.gambar);
+                }
             }else {
               $('#tambahModal').modal('hide');
               frm.trigger("reset");
@@ -220,6 +299,7 @@ $('#storeBtn').click(function (e) {
             type : 'GET',
             datatype : 'json',
             success:function(data){
+                $('#editForm').trigger("reset");
                 $('#edit_id').val(data.id_penerima);
                 $('#edit_nama').val(data.nama);
                 $('#edit_alamat').val(data.alamat);
@@ -228,6 +308,8 @@ $('#storeBtn').click(function (e) {
                 $('#edit_umur').val(data.umur);
                 $('#edit_jumkel').val(data.jumkel);
                 $('#edit_penghasilan').val(data.penghasilan);
+                $('#edit_showpdf').attr('href', '{{Storage::url("penerima/pdf/")}}'+data.pdf);
+                $('#edit_showgambar').attr('src', '{{Storage::url("penerima/photos/")}}'+data.gambar);
                 $('.errorNama').hide();
                 $('.errorAlamat').hide();
                 $('.errorTglLahir').hide();
@@ -250,14 +332,23 @@ $('#storeBtn').click(function (e) {
         $('.edit_errorUmur').hide();
         $('.edit_errorJumkel').hide();
         $('.edit_errorPenghasilan').hide();
+        $('.edit_errorPdf').hide();
+        $('.edit_errorGambar').hide();
         var url = "/pengurus/penerima/"+$('#edit_id').val();
         var frm = $('#editForm');
+        var formdata = new FormData($("#editForm")[0]);
+        formdata.append('_method', 'PUT');
+        $(this).html('Sending..');
+        
 
         $.ajax({
-            data : frm.serialize(),
-            type :'PUT',
+            // data : frm.serialize(),
+            data : formdata,
+            method :'POST',
             url : url,
             dataType : 'json',
+            processData: false,
+            contentType: false,
             success:function(data){
               if (data.errors) {
                 if (data.errors.nama) {
@@ -288,7 +379,15 @@ $('#storeBtn').click(function (e) {
                   $('.edit_errorPenghasilan').show();
                   $('.edit_errorPenghasilan').text(data.errors.penghasilan);
                 }
-                console.log(data.errors);
+                if (data.errors.pdf) {
+                  $('.edit_errorPdf').show();
+                  $('.edit_errorPdf').text(data.errors.pdf);
+                }
+                if (data.errors.gambar){
+                  $('.edit_errorGambar').show();
+                  $('.edit_errorGambar').text(data.errors.gambar);
+                }
+                
               }else {
                 $('#editModal').modal('hide');
                 frm.trigger('reset');
@@ -306,7 +405,6 @@ $('#storeBtn').click(function (e) {
     $('#table').on('click','.deleteBtn[data-id]',function(e){
         e.preventDefault();
         var url = $(this).data('id');
-        console.log(url);
         swal({
            title: "Are you sure want to remove this item?",
            text: "Data will be Temporary Deleted!",
@@ -327,13 +425,34 @@ $('#storeBtn').click(function (e) {
                 data : { method : '_DELETE' , submit : true},
                 success:function(data){
                     if (data == 'Success') {
-                      swal("Deleted!", "Category has been deleted", "success");
+                      swal("Deleted!", "Penerima data has been deleted", "success");
                       table.ajax.reload(null,false);
                     }
                 }
             });
           }else { swal.close(); }
         });
+    });
+
+    
+        // SHOW IMAGE
+        function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.showgambar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#edit_gambar").change(function () {
+        readURL(this);
+    });
+    $("#gambar").change(function () {
+        readURL(this);
     });
 
 // Datepicker style for date input

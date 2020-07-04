@@ -30,6 +30,8 @@
                               <th>Umur</th>
                               <th>Jumlah Keluarga</th>
                               <th>Penghasilan/bln</th>
+                              <th>PDF</th>
+                              <th>Image</th>
                               <th width="25%">Opsi</th>
                             </tr>
                           </thead>

@@ -62,7 +62,7 @@ class PenerimaController extends Controller
             'jumkel' => 'required|numeric',
             'penghasilan' => 'required|numeric',
             'pdf' => 'max:2048|mimes:pdf',
-            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif'
+            'gambar' => 'required|image|max:2048|mimes:jpeg,jpg,png,gif',
         ]);
 
         if($validator->fails()) {
@@ -78,11 +78,12 @@ class PenerimaController extends Controller
             $penerima->penghasilan = $request->penghasilan;
 
             if($pdf = $request->file('pdf')){
-                $new_name = Storage::putFile('public/penerima/pdf', $pdf);
+                $new_name = Storage::putFile('public/penerima/pdf', $pdf); 
                 $penerima->pdf = basename($new_name);
             }
+
             if($image = $request->file('gambar')){
-                $new_name = Storage::putFile('public/penerima/photos', $image);
+                $new_name = Storage::putFile('public/penerima/photos', $image); 
                 $penerima->gambar = basename($new_name);
             }
 
@@ -133,6 +134,8 @@ class PenerimaController extends Controller
             'umur' => 'required|numeric',
             'jumkel' => 'required|numeric',
             'penghasilan' => 'required|numeric',
+            'pdf' => 'max:2048|mimes:pdf',
+            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif'
         ]);
 
         if($validator->fails()) {
@@ -146,6 +149,26 @@ class PenerimaController extends Controller
             $penerima->umur = $request->umur;
             $penerima->jumkel = $request->jumkel;
             $penerima->penghasilan = $request->penghasilan;
+            if($pdf = $request->file('pdf')){
+                // KALO UPLOAD PDF LAGI
+                $new_name = Storage::putFile('public/penerima/pdf', $pdf);
+
+                // FILE PDF SEBELUMNYA DI HAPUS
+                if($penerima->pdf != NULL){
+                    Storage::delete('public/penerima/pdf/'.$penerima->pdf);
+                }
+
+                $penerima->pdf = basename($new_name);
+            }
+            if($image = $request->file('gambar')){
+                $new_name = Storage::putFile('public/penerima/photos', $image);
+
+                if($penerima->gambar != NULL){
+                    Storage::delete('public/penerima/photos/'.$penerima->gambar);
+                }
+
+                $penerima->gambar = basename($new_name);
+            }
             $penerima->save();
             return response()->json(['success' => true]);
         }
@@ -159,6 +182,16 @@ class PenerimaController extends Controller
      */
     public function destroy($id)
     {
+        $data = Penerima::findOrFail($id);
+        if(Storage::exists('public/penerima/pdf/'.$data->pdf) == 1){
+            Storage::delete('public/penerima/pdf/'.$data->pdf);
+        }
+
+        if(Storage::exists('public/penerima/photos/'.$data->gambar) == 1){
+            Storage::delete('public/penerima/photos/'.$data->gambar);
+        }
+
+
         if (Penerima::destroy($id)) {
             $data = 'Success';
         }else {
