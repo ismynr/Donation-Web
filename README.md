@@ -95,11 +95,14 @@
 -   setting database and email konfigurasi di .env
 -   php artisan key:generate
 -   php artisan migrate:fresh --seed
+-   php artisan storage:link
 <br>
 
 ## Perbaharui Repo Lokal Dr Remote
 -   git pull [nama_remote] [nama_branch]
+-   composer install
 -   php artisan migrate:fresh --seed
+-   php artisan storage:link
 <br>
 
 # DEMO
