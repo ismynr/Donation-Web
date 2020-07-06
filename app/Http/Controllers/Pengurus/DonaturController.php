@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pengurus;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Donatur;
 use App\User;
 use DataTables;
@@ -51,7 +52,9 @@ class DonaturController extends Controller
             'alamat' => 'required',
             'umur' => 'required',
             'email' => 'required',
-            'password' => 'required',
+            'pdf' => 'max:2048|mimes:pdf',
+            'gambar' => 'required|image|max:2048|mimes:jpeg,jpg,png,gif',
+
         ]);
 
         if($validator->fails()) {
@@ -65,12 +68,23 @@ class DonaturController extends Controller
             $user->save();
 
             $donatur = new Donatur;
+            $donatur->id_user = $user->id;
             $donatur->nama_depan = $request->nama_depan;
             $donatur->nama_belakang = $request->nama_belakang;
             $donatur->no_hp = $request->no_hp;
             $donatur->alamat = $request->alamat;
             $donatur->umur = $request->umur;
             $donatur->email = $request->email;
+            // $donatur->password = Hash::make($request->email);
+            if($pdf = $request->file('pdf')){
+                $new_name = Storage::putFile('public/donatur/pdf', $pdf); 
+                $donatur->pdf = basename($new_name);
+            }
+
+            if($image = $request->file('gambar')){
+                $new_name = Storage::putFile('public/donatur/photos', $image); 
+                $donatur->gambar = basename($new_name);
+            }
             $donatur->save();
 
             return response()->json(['success' => true]);
@@ -94,6 +108,8 @@ class DonaturController extends Controller
             'no_hp' => 'required|min:9',
             'alamat' => 'required',
             'umur' => 'required',
+            'pdf' => 'max:2048|mimes:pdf',
+            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif'
             // 'email' => 'required'
         ]);
 
@@ -106,6 +122,26 @@ class DonaturController extends Controller
             $donatur->no_hp = $request->no_hp;
             $donatur->alamat = $request->alamat;
             $donatur->umur = $request->umur;
+            if($pdf = $request->file('pdf')){
+                // KALO UPLOAD PDF LAGI
+                $new_name = Storage::putFile('public/donatur/pdf', $pdf);
+
+                // FILE PDF SEBELUMNYA DI HAPUS
+                if($donatur->pdf != NULL){
+                    Storage::delete('public/donatur/pdf/'.$donatur->pdf);
+                }
+
+                $donatur->pdf = basename($new_name);
+            }
+            if($image = $request->file('gambar')){
+                $new_name = Storage::putFile('public/donatur/photos', $image);
+
+                if($donatur->gambar != NULL){
+                    Storage::delete('public/donatur/photos/'.$donatur->gambar);
+                }
+
+                $donatur->gambar = basename($new_name);
+            }
             // $donatur->email = $request->email;
             // if($request->password == "Reset Password"){
             //     $donatur->password = Hash::make($request->email);
@@ -115,7 +151,17 @@ class DonaturController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
+        $data = Donatur::findOrFail($id);
+        if(Storage::exists('public/donatur/pdf/'.$data->pdf) == 1){
+            Storage::delete('public/donatur/pdf/'.$data->pdf);
+        }
+
+        if(Storage::exists('public/donatur/photos/'.$data->gambar) == 1){
+            Storage::delete('public/donatur/photos/'.$data->gambar);
+        }
+
         if (Donatur::destroy($id)) {
             $data = 'Success';
         }else {

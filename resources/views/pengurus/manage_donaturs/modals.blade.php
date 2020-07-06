@@ -42,6 +42,16 @@
               <small class="errorEmail text-danger hidden"></small>
           </div>
           <div class="form-group">
+                <label for="pdf" class="col-form-label">PDF :</label> <br/>
+                <input type="file" class="form-control" name="pdf">
+                <small class="errorPdf text-danger hidden"></small>
+              </div>
+              <div class="form-group">
+                <label for="gambar" class="col-form-label">Upload Photo :</label> <br/>
+                <input type="file" id="gambar" class="form-control" name="gambar">
+                <small class="errorGambar text-danger hidden"></small>
+              </div>
+          <div class="form-group">
               <label for="password" class="col-form-label">Password (DEFAULT):</label>
               <input type="text" class="form-control" name="password" disabled value="PASSWORD DISAMAKAN DENGAN EMAIL">
               <small class="errorPassword text-danger">dapat diganti sendiri saat login donatur tersebut, dibagian profile</small>
@@ -96,6 +106,18 @@
               <small class="edit_errorAlamat text-danger hidden"></small>
           </div>
       </div>
+      <div class="form-group">
+                <div class="row">
+                  <div class="col s6">
+                      <a href="" class="btn btn-dark btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="gambar" class="col-form-label">Upload Bentuk Kategori <small class="text-muted">*kosongkan jika tidak akan diubah</small>:</label> <br/>
+                <input type="file" id="edit_gambar" name="gambar" />
+                <small class="edit_errorGambar text-danger hidden"></small>
+              </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" id="updateBtn" class="btn btn-warning" >Ubah</button>
@@ -124,12 +146,29 @@
             {data: 'nama_depan', name: 'nama_depan'},
             {data: 'nama_belakang', name: 'nama_belakang'},
             {data: 'no_hp', name: 'no_hp'},
+            {data: 'pdf', name: 'pdf', 
+              render: function( data, type, full, meta ) {
+                    if(data == null){
+                      return '<small class="text-muted">Belum upload</small>';
+                    }else{
+                      return "<a class='btn btn-rounded btn-dark btn-sm' href=\"{{Storage::url('public/donatur/pdf/')}}" + data + "\" target='_blank'>pdf</a>"; 
+                    }
+                  }},
+            {data: 'gambar', name: 'gambar', 
+              render: function( data, type, full, meta ) {
+                    if(data == null){
+                      return '<small class="text-muted">Belum upload</small>';
+                    }else{
+                      return "<img src=\"{{Storage::url('public/donatur/photos/')}}" + data + "\" width=\"50\" height=\"50\"/>"; 
+                    }
+                  }},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
     });
 
     // Add button to show modal dialog
     $('.tambahModal').click(function(){
+      $('.showgambar').attr('src', 'http://placehold.it/100x100');
       $('#storeBtn').html('Tambah');
       $('#tambahForm').trigger("reset");
     });
@@ -144,13 +183,18 @@
         $('.errorUmur').hide();
         $('.errorAlamat').hide();
         $('.errorEmail').hide();
+        $('.errorPdf').hide();
+        $('.errorGambar').hide();
         $(this).html('Sending..');
     
         $.ajax({
-          data: frm.serialize(),
+          // data: frm.serialize(),
+          data: new FormData($("#tambahForm")[0]),
           url: "{{ route('pengurus.donatur.store') }}",
           type: "POST",
           dataType: 'json',
+          processData: false,
+          contentType: false,
           success: function (data) {
             if (data.errors) {
                 if (data.errors.nama_depan) {
@@ -176,6 +220,14 @@
                 if (data.errors.email) {
                     $('.errorEmail').show();
                     $('.errorEmail').text(data.errors.email);
+                }
+                if (data.errors.penghasilan) {
+                  $('.errorPdf').show();
+                  $('.errorPdf').text(data.errors.pdf);
+                }
+                if (data.errors.penghasilan) {
+                  $('.errorGambar').show();
+                  $('.errorGambar').text(data.errors.gambar);
                 }
             }else {
               $('#tambahModal').modal('hide');
@@ -209,6 +261,8 @@
                 $('#edit_umur').val(data.umur);
                 $('#edit_alamat').val(data.alamat);
                 $('#edit_email').val(data.email);
+                $('#edit_showpdf').attr('href', '{{Storage::url("donatur/pdf/")}}'+data.pdf);
+                $('#edit_showgambar').attr('src', '{{Storage::url("donatur/photos/")}}'+data.gambar);
                 $('.edit_errorNama_depan').hide();
                 $('.edit_errorNama_belakang').hide();
                 $('.edit_errorNo_hp').hide();
@@ -229,12 +283,18 @@
         $('.edit_errorUmur').hide();
         $('.edit_errorAlamat').hide();
         $('.edit_errorEmail').hide();
+        $('.edit_errorPdf').hide();
+        $('.edit_errorGambar').hide();
         var url = "/pengurus/donatur/"+$('#edit_id').val();
         var frm = $('#editForm');
+        var formdata = new FormData($("#editForm")[0]);
+        formdata.append('_method', 'PUT');
+        $(this).html('Sending..');
 
         $.ajax({
-            data : frm.serialize(),
-            type :'PUT',
+            // data : frm.serialize(),
+            data : formdata,
+            type :'POST',
             url : url,
             dataType : 'json',
             success:function(data){
@@ -263,6 +323,14 @@
                 if (data.errors.email) {
                     $('.edit_errorEmail').show();
                     $('.edit_errorEmail').text(data.errors.email);
+                }
+                if (data.errors.pdf) {
+                  $('.edit_errorPdf').show();
+                  $('.edit_errorPdf').text(data.errors.pdf);
+                }
+                if (data.errors.gambar){
+                  $('.edit_errorGambar').show();
+                  $('.edit_errorGambar').text(data.errors.gambar);
                 }
               }else {
                 $('#editModal').modal('hide');
@@ -309,6 +377,37 @@
           }else { swal.close(); }
         });
     });
+
+     // SHOW IMAGE
+     function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.showgambar').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#edit_gambar").change(function () {
+        readURL(this);
+    });
+    $("#gambar").change(function () {
+        readURL(this);
+    });
+
+    // Datepicker style for date input
+$(".datepicker").datepicker({
+  format: "yyyy-mm-dd",
+  weekStart: 0,
+  calendarWeeks: true,
+  autoclose: true,
+  todayHighlight: true,
+  rtl: true,
+  orientation: "auto"
+});
 
   });
 </script>
