@@ -44,7 +44,7 @@ class ManagePengurusController extends Controller
             'jabatan'   => 'required',
             'email'     => 'required|email|unique:users',
             'pdf' => 'max:2048|mimes:pdf',
-            'gambar' => 'required|image|max:2048|mimes:jpeg,jpg,png,gif',
+            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif',
         ]);
 
         if($validator->fails()) {
@@ -150,15 +150,14 @@ class ManagePengurusController extends Controller
 
     public function destroy($id)
     {
-        $pengurus = Pengurus::find($id);
+        // $pengurus = Pengurus::find($id);
+        // if(Storage::exists('public/pengurus/pdf/'.$data->pdf) == 1){
+        //     Storage::delete('public/pengurus/pdf/'.$data->pdf);
+        // }
 
-        if(Storage::exists('public/pengurus/pdf/'.$data->pdf) == 1){
-            Storage::delete('public/pengurus/pdf/'.$data->pdf);
-        }
-
-        if(Storage::exists('public/pengurus/photos/'.$data->gambar) == 1){
-            Storage::delete('public/pengurus/photos/'.$data->gambar);
-        }
+        // if(Storage::exists('public/pengurus/photos/'.$data->gambar) == 1){
+        //     Storage::delete('public/pengurus/photos/'.$data->gambar);
+        // }
 
         if (Pengurus::destroy($id)) {
             $data = 'Success';
