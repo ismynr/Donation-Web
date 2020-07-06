@@ -42,7 +42,6 @@ class DonaturController extends Controller
         // pake modal dialog
     }
 
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -53,8 +52,7 @@ class DonaturController extends Controller
             'umur' => 'required',
             'email' => 'required',
             'pdf' => 'max:2048|mimes:pdf',
-            'gambar' => 'required|image|max:2048|mimes:jpeg,jpg,png,gif',
-
+            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif',
         ]);
 
         if($validator->fails()) {
@@ -75,7 +73,7 @@ class DonaturController extends Controller
             $donatur->alamat = $request->alamat;
             $donatur->umur = $request->umur;
             $donatur->email = $request->email;
-            // $donatur->password = Hash::make($request->email);
+            
             if($pdf = $request->file('pdf')){
                 $new_name = Storage::putFile('public/donatur/pdf', $pdf); 
                 $donatur->pdf = basename($new_name);

@@ -30,7 +30,7 @@ class AddGambarAndPdfToPengurusTable extends Migration
         Schema::table('pengurus', function (Blueprint $table) {
             //
             $table->dropColumn('gambar');
-            $table->string('pdf')->nullable();
+            $table->dropColumn('pdf');
         });
     }
 }

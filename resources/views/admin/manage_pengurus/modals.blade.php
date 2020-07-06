@@ -234,10 +234,13 @@
             $(this).html('Sending..');
 
             $.ajax({
-                data: frm.serialize(),
+                // data: frm.serialize(),
+                data: new FormData($("#tambahForm")[0]),
                 url: "{{ route('admin.pengurus.store') }}",
-                type: "POST",
+                method: "POST",
                 dataType: 'json',
+                processData: false,
+                contentType: false,
                 success: function (data) {
                     if (data.errors) {
                         if (data.errors.nip) {
@@ -318,12 +321,18 @@
             $('.edit_errorGambar').hide();
             var url = "/admin/pengurus/" + $('#edit_id').val();
             var frm = $('#editForm');
+            var formdata = new FormData($("#editForm")[0]);
+            formdata.append('_method', 'PUT');
+            $(this).html('Sending..');
 
             $.ajax({
-                data: frm.serialize(),
-                type: 'PUT',
+                // data: frm.serialize(),
+                data : formdata,
+                type: 'POST',
                 url: url,
                 dataType: 'json',
+                processData: false,
+                contentType: false,
                 success: function (data) {
                     if (data.errors) {
                         if (data.errors.nip) {
@@ -351,6 +360,7 @@
                             $('.edit_errorGambar').text(data.errors.gambar);
                         }
                     } else {
+                        $('#updateBtn').html('Ubah');
                         $('#editModal').modal('hide');
                         frm.trigger('reset');
                         swal('Success!', 'Data Updated Successfully', 'success');
@@ -358,6 +368,7 @@
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    $('#updateBtn').html('Ubah');
                     alert('Please Reload to read Ajax');
                 }
             });

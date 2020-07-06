@@ -35,8 +35,8 @@
 4. Show the uploaded image in Edit Page in every CRUD.
     -   Category **[OK]**
     -   Donasi **[OK]**
-    -   Pengurus
-    -   Donatur
+    -   Pengurus **[OK]**
+    -   Donatur **[OK]**
     -   Penerima **[OK]**
 #### B. PDF Upload
 1. PDF upload in Create Page in every CRUD. Only PDF are allowed.
@@ -45,8 +45,8 @@
 4. Show link of the uploaded PDF in Edit Page in every CRUD.
     -   Category **[OK]**
     -   Donasi **[OK]**
-    -   Pengurus
-    -   Donatur
+    -   Pengurus **[OK]**
+    -   Donatur **[OK]**
     -   Penerima **[OK]**
 <br>
 

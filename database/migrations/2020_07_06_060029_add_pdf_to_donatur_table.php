@@ -26,7 +26,7 @@ class AddPdfToDonaturTable extends Migration
     public function down()
     {
         Schema::table('donatur', function (Blueprint $table) {
-            $table->string('pdf')->nullable();
+            $table->dropColumn('pdf');
         });
     }
 }

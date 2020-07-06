@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Pengurus;
 use App\User;
 use DataTables;
@@ -114,6 +115,7 @@ class ManagePengurusController extends Controller
             $pengurus->nip = $request->nip;
             $pengurus->nama = $request->nama;
             $pengurus->jabatan = $request->jabatan;
+
             if($pdf = $request->file('pdf')){
                 // KALO UPLOAD PDF LAGI
                 $new_name = Storage::putFile('public/pengurus/pdf', $pdf);
@@ -150,14 +152,14 @@ class ManagePengurusController extends Controller
 
     public function destroy($id)
     {
-        // $pengurus = Pengurus::find($id);
-        // if(Storage::exists('public/pengurus/pdf/'.$data->pdf) == 1){
-        //     Storage::delete('public/pengurus/pdf/'.$data->pdf);
-        // }
+        $pengurus = Pengurus::find($id);
+        if(Storage::exists('public/pengurus/pdf/'.$pengurus->pdf) == 1){
+            Storage::delete('public/pengurus/pdf/'.$pengurus->pdf);
+        }
 
-        // if(Storage::exists('public/pengurus/photos/'.$data->gambar) == 1){
-        //     Storage::delete('public/pengurus/photos/'.$data->gambar);
-        // }
+        if(Storage::exists('public/pengurus/photos/'.$pengurus->gambar) == 1){
+            Storage::delete('public/pengurus/photos/'.$pengurus->gambar);
+        }
 
         if (Pengurus::destroy($id)) {
             $data = 'Success';

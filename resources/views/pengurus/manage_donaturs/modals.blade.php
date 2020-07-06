@@ -42,15 +42,15 @@
               <small class="errorEmail text-danger hidden"></small>
           </div>
           <div class="form-group">
-                <label for="pdf" class="col-form-label">PDF :</label> <br/>
-                <input type="file" class="form-control" name="pdf">
-                <small class="errorPdf text-danger hidden"></small>
-              </div>
-              <div class="form-group">
-                <label for="gambar" class="col-form-label">Upload Photo :</label> <br/>
-                <input type="file" id="gambar" class="form-control" name="gambar">
-                <small class="errorGambar text-danger hidden"></small>
-              </div>
+            <label for="pdf" class="col-form-label">PDF :</label> <br/>
+            <input type="file" class="form-control" name="pdf">
+            <small class="errorPdf text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <label for="gambar" class="col-form-label">Upload Photo :</label> <br/>
+            <input type="file" id="gambar" class="form-control" name="gambar">
+            <small class="errorGambar text-danger hidden"></small>
+          </div>
           <div class="form-group">
               <label for="password" class="col-form-label">Password (DEFAULT):</label>
               <input type="text" class="form-control" name="password" disabled value="PASSWORD DISAMAKAN DENGAN EMAIL">
@@ -105,19 +105,31 @@
               <textarea id="edit_alamat" name="alamat" class="form-control" cols="30" rows="10"></textarea>
               <small class="edit_errorAlamat text-danger hidden"></small>
           </div>
+          <div class="form-group">
+            <label for="pdf" class="col-form-label">PDF <small class="text-muted">*kosongkan kalo gak mau diganti</small>:</label> <br/>
+            <input type="file" id="edit_pdf" name="pdf" />
+            <small class="edit_errorPdf text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col s6">
+                  <a href="" class="btn btn-dark btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="gambar" class="col-form-label">Upload Bentuk Kategori <small class="text-muted">*kosongkan kalo nggak mau diganti</small>:</label> <br/>
+            <input type="file" id="edit_gambar" name="gambar" />
+            <small class="edit_errorGambar text-danger hidden"></small>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col s6">
+                  <img src="http://placehold.it/100x100" class="showgambar" id="edit_showgambar" style="max-width:200px;max-height:200px;float:left;" />
+              </div>
+            </div>
+          </div>
       </div>
-      <div class="form-group">
-                <div class="row">
-                  <div class="col s6">
-                      <a href="" class="btn btn-dark btn-sm btn-rounded" id="edit_showpdf" target="_blank">PDF Link</a>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label for="gambar" class="col-form-label">Upload Bentuk Kategori <small class="text-muted">*kosongkan jika tidak akan diubah</small>:</label> <br/>
-                <input type="file" id="edit_gambar" name="gambar" />
-                <small class="edit_errorGambar text-danger hidden"></small>
-              </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" id="updateBtn" class="btn btn-warning" >Ubah</button>
@@ -290,16 +302,17 @@
         var formdata = new FormData($("#editForm")[0]);
         formdata.append('_method', 'PUT');
         $(this).html('Sending..');
-
+        
         $.ajax({
             // data : frm.serialize(),
             data : formdata,
             type :'POST',
             url : url,
             dataType : 'json',
+            processData: false,
+            contentType: false,
             success:function(data){
               if (data.errors) {
-                console.log(data.errors.no_hp);
                 if (data.errors.nama_depan) {
                     $('.edit_errorNama_depan').show();
                     $('.edit_errorNama_depan').text(data.errors.nama_depan);
@@ -338,8 +351,10 @@
                 swal('Success!','Data Updated Successfully','success');
                 table.ajax.reload(null,false);
               }
+              $('#updateBtn').html('Ubah');
             },
             error: function (jqXHR, textStatus, errorThrown) {
+              $('#updateBtn').html('Ubah');
               alert('Please Reload to read Ajax');
             }
         });
@@ -397,17 +412,6 @@
     $("#gambar").change(function () {
         readURL(this);
     });
-
-    // Datepicker style for date input
-$(".datepicker").datepicker({
-  format: "yyyy-mm-dd",
-  weekStart: 0,
-  calendarWeeks: true,
-  autoclose: true,
-  todayHighlight: true,
-  rtl: true,
-  orientation: "auto"
-});
 
   });
 </script>
