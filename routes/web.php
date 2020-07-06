@@ -35,6 +35,11 @@ Route::get('/home', function () {
 Route::get('/contact', 'HomeController@contact');
 Auth::routes(['verify' => true]);
 
+// SOciality
+Route::get('auth/google', 'Auth\GoogleController@redirectToGoogle');
+Route::get('auth/google/callback', 'Auth\GoogleController@handleGoogleCallback');
+
+
 /**
  * 
  * Middleware Auth User Yang Belum Punya Role SETELAH REGISTRASI DAN VERIFIKASI

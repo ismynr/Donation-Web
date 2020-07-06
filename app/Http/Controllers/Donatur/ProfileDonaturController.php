@@ -78,7 +78,15 @@ class ProfileDonaturController extends Controller
                 $user->password = Hash::make($request->password);
                 $user->save();
                 return redirect()->route('donatur.profile.index')->withSuccess('Berhasil ubah password!');
-            } else {
+            }
+            else if (Hash::check("dummy", Auth::user()->password)){ 
+                //JIKA BELUM UBAH PASSWORD SAMA SEKALI KETIKA LOGIN/REG PAKE SOCIALITE
+                $user = User::findOrfail($id);
+                $user->password = Hash::make($request->password);
+                $user->save();
+                return redirect()->route('donatur.profile.index')->withSuccess('Berhasil ubah password!');
+            }
+            else {
                 return redirect()->route('donatur.profile.index')->withErrors('Password lama tidak sama!');
             }
         }

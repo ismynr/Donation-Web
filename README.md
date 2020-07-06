@@ -37,7 +37,7 @@
     -   Donasi **[OK]**
     -   Pengurus
     -   Donatur
-    -   Penerima
+    -   Penerima **[OK]**
 #### B. PDF Upload
 1. PDF upload in Create Page in every CRUD. Only PDF are allowed.
 2. PDF upload in Edit Page in every CRUD. Only PDF are allowed.
@@ -47,12 +47,12 @@
     -   Donasi **[OK]**
     -   Pengurus
     -   Donatur
-    -   Penerima
+    -   Penerima **[OK]**
 <br>
 
 ### 11th Homework
 #### Other Topic
--   Topik Sistem ("Social Login")
+-   Topik Sistem ("Social Login") Google **[OK]**
 <br>
 
 
