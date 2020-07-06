@@ -43,6 +43,8 @@ class ManagePengurusController extends Controller
             'nama'      => 'required|min:2',
             'jabatan'   => 'required',
             'email'     => 'required|email|unique:users',
+            'pdf' => 'max:2048|mimes:pdf',
+            'gambar' => 'required|image|max:2048|mimes:jpeg,jpg,png,gif',
         ]);
 
         if($validator->fails()) {
@@ -62,6 +64,16 @@ class ManagePengurusController extends Controller
             $pengurus->nip = $request->nip;
             $pengurus->nama = $request->nama;
             $pengurus->jabatan = $request->jabatan;
+
+            if($pdf = $request->file('pdf')){
+                $new_name = Storage::putFile('public/pengurus/pdf', $pdf); 
+                $pengurus->pdf = basename($new_name);
+            }
+
+            if($image = $request->file('gambar')){
+                $new_name = Storage::putFile('public/pengurus/photos', $image); 
+                $pengurus->gambar = basename($new_name);
+            }
             $pengurus->save();
 
             return response()->json(['success' => true]);
@@ -89,7 +101,10 @@ class ManagePengurusController extends Controller
             'nip' => 'required',
             'nama' => 'required',
             'jabatan' => 'required',
+            'pdf' => 'max:2048|mimes:pdf',
+            'gambar' => 'image|max:2048|mimes:jpeg,jpg,png,gif',
             'email' => 'email|required|max:255|unique:users,email,'. $get->id_user
+            
         ]);
         
         if($validator->fails()) {
@@ -99,6 +114,26 @@ class ManagePengurusController extends Controller
             $pengurus->nip = $request->nip;
             $pengurus->nama = $request->nama;
             $pengurus->jabatan = $request->jabatan;
+            if($pdf = $request->file('pdf')){
+                // KALO UPLOAD PDF LAGI
+                $new_name = Storage::putFile('public/pengurus/pdf', $pdf);
+
+                // FILE PDF SEBELUMNYA DI HAPUS
+                if($pengurus->pdf != NULL){
+                    Storage::delete('public/pengurus/pdf/'.$pengurus->pdf);
+                }
+
+                $pengurus->pdf = basename($new_name);
+            }
+            if($image = $request->file('gambar')){
+                $new_name = Storage::putFile('public/pengurus/photos', $image);
+
+                if($pengurus->gambar != NULL){
+                    Storage::delete('public/pengurus/photos/'.$pengurus->gambar);
+                }
+
+                $pengurus->gambar = basename($new_name);
+            }
             $pengurus->save();
             
             // UPDATE JUGA USER ACCOUNT PADA TABEL USER
@@ -116,6 +151,15 @@ class ManagePengurusController extends Controller
     public function destroy($id)
     {
         $pengurus = Pengurus::find($id);
+
+        if(Storage::exists('public/pengurus/pdf/'.$data->pdf) == 1){
+            Storage::delete('public/pengurus/pdf/'.$data->pdf);
+        }
+
+        if(Storage::exists('public/pengurus/photos/'.$data->gambar) == 1){
+            Storage::delete('public/pengurus/photos/'.$data->gambar);
+        }
+
         if (Pengurus::destroy($id)) {
             $data = 'Success';
         }else {

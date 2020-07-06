@@ -11,11 +11,11 @@ class Pengurus extends Model
 
     protected $table = 'pengurus';
     protected $primaryKey = 'id_pengurus';
-    protected $fillable = ['id_user', 'nip', 'nama', 'jabatan'];
+    protected $fillable = ['id_user', 'nip', 'nama', 'jabatan', 'pdf', 'gambar'];
 
     // LOG ACTIVITY SPATIE
     protected static $logName = 'pengurus';
-    protected static $logAttributes = ['id_user', 'nip', 'nama', 'jabatan'];
+    protected static $logAttributes = ['id_user', 'nip', 'nama', 'jabatan', 'pdf', 'gambar'];
     protected static $recordEvents = ['created', 'updated', 'deleted'];
     protected static $logOnlyDirty = true;
 
