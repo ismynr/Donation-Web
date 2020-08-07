@@ -14,7 +14,7 @@ class UpdateAddEnumRoleToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            DB::statement("ALTER TABLE `users` CHANGE `role` `role` ENUM('donatur', 'pengurus', 'admin') DEFAULT NULL");
+            $table->string('role')->nullable()->change();
         });
     }
 
@@ -26,7 +26,7 @@ class UpdateAddEnumRoleToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            DB::statement("ALTER TABLE `users` CHANGE `role` `role` ENUM('donatur', 'pengurus') DEFAULT NULL");
+            $table->string('role')->nullable()->change();
         });
     }
 }
